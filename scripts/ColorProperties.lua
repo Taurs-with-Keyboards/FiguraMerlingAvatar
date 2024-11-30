@@ -10,8 +10,8 @@ local c = {}
 -- Action variables
 c.hover     = vectors.hexToRGB("5555FF")
 c.active    = vectors.hexToRGB("55FFFF")
-c.primary   = "blue"
-c.secondary = "aqua"
+c.primary   = "#5555FF"
+c.secondary = "#55FFFF"
 
 -- Return variables
 return c
