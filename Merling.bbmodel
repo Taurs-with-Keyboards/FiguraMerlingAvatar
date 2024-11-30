@@ -772,7 +772,7 @@
 			"uuid": "2bce3feb-25bc-f13b-5b28-cdaaed7ca966"
 		},
 		{
-			"name": "Ear_Glow_Flat",
+			"name": "Ear_Glow_Flat_Mermod",
 			"box_uv": false,
 			"render_order": "default",
 			"locked": false,
@@ -816,7 +816,7 @@
 			"uuid": "12fb0b75-add5-c272-b94c-f054ce80a03c"
 		},
 		{
-			"name": "Ear_Glow_Flat",
+			"name": "Ear_Glow_Flat_Mermod",
 			"box_uv": false,
 			"render_order": "default",
 			"locked": false,
@@ -859,7 +859,7 @@
 			"uuid": "a8b572c0-3cfb-7fea-00f0-b06ee0d49a1f"
 		},
 		{
-			"name": "Segment_Glow",
+			"name": "Segment_Glow_Mermod",
 			"box_uv": false,
 			"render_order": "default",
 			"locked": false,
@@ -947,7 +947,7 @@
 			"uuid": "edd7e072-6596-f3be-5a2c-e91cf63c9e48"
 		},
 		{
-			"name": "Segment_Glow",
+			"name": "Segment_Glow_Mermod",
 			"box_uv": false,
 			"render_order": "default",
 			"locked": false,
@@ -1035,7 +1035,7 @@
 			"uuid": "d49ba810-b3c3-88bd-ac2d-41a82cd36827"
 		},
 		{
-			"name": "Segment_Glow",
+			"name": "Segment_Glow_Mermod",
 			"box_uv": false,
 			"render_order": "default",
 			"locked": false,
@@ -1123,7 +1123,7 @@
 			"uuid": "a058689c-a87d-6578-75d0-d28ee1a7a2a0"
 		},
 		{
-			"name": "Segment_Glow",
+			"name": "Segment_Glow_Mermod",
 			"box_uv": false,
 			"render_order": "default",
 			"locked": false,
@@ -1211,7 +1211,7 @@
 			"uuid": "031703b5-0ed6-ac02-d9f6-374423cf9c73"
 		},
 		{
-			"name": "Fluke_Glow_Flat",
+			"name": "Fluke_Glow_Flat_Mermod",
 			"box_uv": false,
 			"render_order": "default",
 			"locked": false,
@@ -1341,7 +1341,7 @@
 			"uuid": "6d27071e-6d33-1eae-1fd8-8805ec8b1396"
 		},
 		{
-			"name": "Ear_Flat",
+			"name": "Ear_Flat_Mermod",
 			"box_uv": false,
 			"render_order": "default",
 			"locked": false,
@@ -1386,7 +1386,7 @@
 			"uuid": "e756f2df-f33b-9198-9705-078b3b8f3483"
 		},
 		{
-			"name": "Ear_Flat",
+			"name": "Ear_Flat_Mermod",
 			"box_uv": false,
 			"render_order": "default",
 			"locked": false,
@@ -1604,7 +1604,7 @@
 			"uuid": "33fc311d-5832-cc27-e7e3-c35f9d5716f1"
 		},
 		{
-			"name": "Fin_Glow_Flat",
+			"name": "Fin_Glow_Flat_Mermod",
 			"box_uv": false,
 			"render_order": "default",
 			"locked": false,
@@ -1647,7 +1647,7 @@
 			"uuid": "c84d3858-102b-716d-680c-40dea3bf0886"
 		},
 		{
-			"name": "Fin_Glow_Flat",
+			"name": "Fin_Glow_Flat_Mermod",
 			"box_uv": false,
 			"render_order": "default",
 			"locked": false,
