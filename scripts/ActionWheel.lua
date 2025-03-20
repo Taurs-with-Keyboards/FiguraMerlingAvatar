@@ -1,7 +1,7 @@
 -- Disables code if not avatar host
 if not host:isHost() then return end
 
--- Required scripts
+-- Required script
 local itemCheck = require("lib.ItemCheck")
 
 local s, avatar = pcall(require, "scripts.Player")

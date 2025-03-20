@@ -72,14 +72,14 @@ local leftArm = squapi.arm:new(
 	parts.group.LeftArm,
 	1,     -- Strength (1)
 	false, -- Right Arm (false)
-	true   -- Keep Position (false)
+	true   -- Keep Position (true)
 )
 
 local rightArm = squapi.arm:new(
 	parts.group.RightArm,
 	1,    -- Strength (1)
 	true, -- Right Arm (true)
-	true  -- Keep Position (false)
+	true  -- Keep Position (true)
 )
 
 -- Arm strength variables
