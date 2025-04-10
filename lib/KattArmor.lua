@@ -7,7 +7,7 @@
 --                                                --
 --================================================--
 
---v4.2.5
+--v4.3.0
 
 ---@alias KattArmor.ArmorPartID
 ---| '"Helmet"'
@@ -394,11 +394,13 @@ end
 
 ---@class KattArmor.TrimPattern
 ---@field textures table<KattArmor.ArmorPart.Layer, Texture|nil>
+---@field textures_e table<KattArmor.ArmorPart.Layer, Texture|nil>
 ---
 ---@field new fun():KattArmor.TrimPattern
 local TrimPattern = Class()
 function TrimPattern:init()
   self.textures = {}
+  self.textures_e = {}
 end
 
 ---Sets the texture used for this trim.
@@ -425,15 +427,41 @@ function TrimPattern:setTextureLayer2(texture)
   return self
 end
 
+---Sets the texture used for this trim.
+---This texture will blend it's color with the ArmorTrimMaterial's color value.
+---A nil value will make the trim use vanilla's textures.
+---If you want to use vanilla's color pallates, do that yourself and assign the texture to each trim/material combo yourself.
+---@param texture Texture?
+---@return self
+function TrimPattern:setTextureEmissive(texture)
+  self.textures_e[1] = texture
+  forceUpdate()
+  return self
+end
+
+---Sets the texture used for this trim. This is the layer2 texture, meaning the leggings.
+---This texture will blend it's color with the ArmorTrimMaterial's color value.
+---A nil value will make the trim use vanilla's textures.
+---If you want to use vanilla's color pallates, do that yourself and assign the texture to each trim/material combo yourself.
+---@param texture Texture?
+---@return self
+function TrimPattern:setTextureEmissiveLayer2(texture)
+  self.textures_e[2] = texture
+  forceUpdate()
+  return self
+end
+
 ---@class KattArmor.TrimMaterial
 ---@field color Vector3
 ---@field textures table<KattArmor.TrimPatternID, table<KattArmor.ArmorPart.Layer|3|4, Texture|nil>>
+---@field textures_e table<KattArmor.TrimPatternID, table<KattArmor.ArmorPart.Layer, Texture|nil>>
 ---
 ---@field new fun():KattArmor.TrimMaterial
 local TrimMaterial = Class()
 function TrimMaterial:init()
   self.color = vec(1, 1, 1)
   self.textures = {}
+  self.textures_e = {}
 end
 
 ---Sets the color to augment the trim texture by when no explicit trim material texture is defined.
@@ -510,6 +538,42 @@ function TrimMaterial:setTextureDarkerLayer2(trim, texture)
   end
   if not self.textures[trim] then self.textures[trim] = {} end
   self.textures[trim][2 + 2] = texture
+  forceUpdate()
+  return self
+end
+
+---Sets the emissive texture that will be used when this material is used with the given trim.
+---This texture will not be modified by KattArmor at all.
+---Set to nil to use the trim's actual texture with a color change.
+---@param trim KattArmor.TrimPatternID
+---@param texture Texture
+---@return self
+function TrimMaterial:setTextureEmissive(trim, texture)
+  if texture == nil then
+    error(
+      "Expected a ResourceID, a Texture, or false. Recieved nil. Make sure the texture path is correct.",
+      2)
+  end
+  if not self.textures_e[trim] then self.textures_e[trim] = {} end
+  self.textures_e[trim][1] = texture
+  forceUpdate()
+  return self
+end
+
+---Sets the emissive texture that will be used when this material is used with the given trim.
+---This texture will not be modified by KattArmor at all.
+---Set to nil to use the trim's actual texture with a color change.
+---@param trim KattArmor.TrimPatternID
+---@param texture Texture
+---@return self
+function TrimMaterial:setTextureEmissiveLayer2(trim, texture)
+  if texture == nil then
+    error(
+      "Expected a ResourceID, a Texture, or false. Recieved nil. Make sure the texture path is correct.",
+      2)
+  end
+  if not self.textures_e[trim] then self.textures_e[trim] = {} end
+  self.textures_e[trim][2] = texture
   forceUpdate()
   return self
 end
@@ -620,27 +684,40 @@ function events.TICK()
             partData.overrideTrimNamespace or "minecraft", partData.overrideTrimPattern,
             partData.overrideTrimMaterial
       elseif item.tag and item.tag.Trim and item.tag.Trim.pattern and item.tag.Trim.material then
-        trimNamespace, trimPattern = item.tag.Trim.pattern:match("^(.+):(.+)$")
-        trimMaterial = item.tag.Trim.material:match("^.+:(.+)$")
+        if(item.tag.Trim.pattern:find(':', nil, true)) then
+          trimNamespace, trimPattern = item.tag.Trim.pattern:match("^(.+):(.+)$")
+        else
+          trimNamespace, trimPattern = 'minecraft', item.tag.Trim.pattern
+        end
+        if(item.tag.Trim.pattern:find(':', nil, true)) then
+          trimMaterial = item.tag.Trim.material:match("^.+:(.+)$")
+        else
+          trimMaterial =item.tag.Trim.material
+        end
       end
 
       local trim = (trimPattern and trimMaterial) and true or false
       local trimTexture, trimTextureType, trimColor
+      local trimTexture_e
       local trimUV = matrices.mat3()
       if trim then
         local trimPatternData, trimMaterialData =
             instance.TrimPatterns[trimPattern], instance.TrimMaterials[trimMaterial]
         local overrideTrimTexture = trimMaterialData.textures[trimPattern]
+        local overrideTrimTexture_e = trimMaterialData.textures_e[trimPattern]
         if overrideTrimTexture and overrideTrimTexture[partData.layer] then
           trimTextureType = "CUSTOM"
           if localMaterialID == trimMaterial and overrideTrimTexture[partData.layer + 2] then
             trimTexture = overrideTrimTexture[partData.layer + 2]
+            trimTexture_e = overrideTrimTexture_e[partData.layer + 2]
           else
             trimTexture = overrideTrimTexture[partData.layer]
+            trimTexture_e = overrideTrimTexture_e[partData.layer]
           end
         elseif trimPatternData.textures[partData.layer] then
           trimTextureType = "CUSTOM"
           trimTexture = trimPatternData.textures[partData.layer]
+          trimTexture_e = trimPatternData.textures_e[partData.layer]
           trimColor = trimMaterialData.color
           if localMaterialID == trimMaterial and trimColor then
             trimColor = trimColor * 0.6
@@ -671,6 +748,7 @@ function events.TICK()
         modelPart
             :setVisible(trim and visible)
             :setPrimaryTexture(trimTextureType, trimTexture)
+            :setSecondaryTexture(trimTexture_e and trimTextureType or nil, trimTexture_e)
             :setSecondaryRenderType(renderType)
             :setOverlay(damageOverlay, 15)
             :setUVMatrix(trimUV)

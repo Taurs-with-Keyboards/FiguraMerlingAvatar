@@ -152,9 +152,9 @@ function events.RENDER(delta, context)
 	
 	-- Force Current Positions to be targets
 	if not gradual then
-		smallLerp.currPos = smallLerp.target
-		for _, lerp in pairs(scale) do
-			lerp.currPos = lerp.target
+		smallLerp:reset(smallLerp.target)
+		for _, obj in pairs(scale) do
+			obj:reset(obj.target)
 		end
 	end
 	
