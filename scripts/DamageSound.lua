@@ -11,7 +11,7 @@ function events.ON_PLAY_SOUND(id, pos, vol, pitch, loop, cat, path)
 	
 	-- If sound contains ".hurt", play an additional hurt sound along side it
 	if id:find(".hurt") then
-		return sounds:playSound("entity.salmon.hurt", pos, 0.6, math.random()+0.5)
+		sounds:playSound("entity.salmon.hurt", pos, 0.6, math.random() + 0.5)
 	end
 	
 end
