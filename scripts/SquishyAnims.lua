@@ -173,11 +173,6 @@ end
 -- Host only instructions
 if not host:isHost() then return end
 
--- Required scripts
-local itemCheck = require("lib.ItemCheck")
-local s, c = pcall(require, "scripts.ColorProperties")
-if not s then c = {} end
-
 -- Sync on tick
 function events.TICK()
 	
@@ -187,21 +182,46 @@ function events.TICK()
 	
 end
 
--- Table setup
-local t = {}
+-- Required scripts
+local s, wheel, itemCheck, c = pcall(require, "scripts.ActionWheel")
+if not s then return end -- Kills script early if ActionWheel.lua isnt found
+pcall(require, "scripts.Anims") -- Tries to find script, not required
 
--- Action
-t.armsAct = action_wheel:newAction()
+-- Check for if page already exists
+local pageExists = action_wheel:getPage("Anims")
+
+-- Pages
+local parentPage = action_wheel:getPage("Main")
+local animsPage  = pageExists or action_wheel:newPage("Anims")
+
+-- Actions table setup
+local a = {}
+
+-- Actions
+if not pageExists then
+	a.pageAct = parentPage:newAction()
+		:item(itemCheck("jukebox"))
+		:onLeftClick(function() wheel:descend(animsPage) end)
+end
+
+a.armsAct = animsPage:newAction()
 	:item(itemCheck("red_dye"))
 	:toggleItem(itemCheck("rabbit_foot"))
 	:onToggle(pings.setSquapiArmsMove)
 	:toggled(armsMove)
 
--- Update action
+-- Update actions
 function events.RENDER(delta, context)
 	
 	if action_wheel:isEnabled() then
-		t.armsAct
+		if a.pageAct then
+			a.pageAct
+				:title(toJson(
+					{text = "Animation Settings", bold = true, color = c.primary}
+				))
+		end
+		
+		a.armsAct
 			:title(toJson(
 				{
 					"",
@@ -210,13 +230,10 @@ function events.RENDER(delta, context)
 				}
 			))
 		
-		for _, act in pairs(t) do
+		for _, act in pairs(a) do
 			act:hoverColor(c.hover):toggleColor(c.active)
 		end
 		
 	end
 	
 end
-
--- Return action
-return t

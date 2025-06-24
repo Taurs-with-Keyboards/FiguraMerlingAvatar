@@ -339,11 +339,6 @@ end
 -- Host only instructions
 if not host:isHost() then return end
 
--- Required scripts
-local itemCheck = require("lib.ItemCheck")
-local s, c = pcall(require, "scripts.ColorProperties")
-if not s then c = {} end
-
 -- Twirl keybind
 local twirlBind   = config:load("AnimTwirlKeybind") or "key.keyboard.keypad.6"
 local setTwirlKey = keybinds:newKeybind("Twirl Animation"):onPress(pings.animPlayTwirl):key(twirlBind)
@@ -377,32 +372,49 @@ function events.TICK()
 	
 end
 
--- Table setup
-local t = {}
+-- Required script
+local s, wheel, itemCheck, c = pcall(require, "scripts.ActionWheel")
+if not s then return end -- Kills script early if ActionWheel.lua isnt found
+
+-- Check for if page already exists
+local pageExists = action_wheel:getPage("Anims")
+
+-- Pages
+local parentPage = action_wheel:getPage("Main")
+local animsPage  = pageExists or action_wheel:newPage("Anims")
+
+-- Actions table setup
+local a = {}
 
 -- Actions
-t.sharkAct = action_wheel:newAction()
+if not pageExists then
+	a.pageAct = parentPage:newAction()
+		:item(itemCheck("jukebox"))
+		:onLeftClick(function() wheel:descend(animsPage) end)
+end
+
+a.sharkAct = animsPage:newAction()
 	:item(itemCheck("dolphin_spawn_egg"))
 	:toggleItem(itemCheck("guardian_spawn_egg"))
 	:onToggle(pings.setAnimShark)
 	:toggled(isShark)
 
-t.crawlAct = action_wheel:newAction()
+a.crawlAct = animsPage:newAction()
 	:item(itemCheck("armor_stand"))
 	:toggleItem(itemCheck("oak_boat"))
 	:onToggle(pings.setAnimCrawl)
 	:toggled(isCrawl)
 
-t.mountAct = action_wheel:newAction()
+a.mountAct = animsPage:newAction()
 	:item(itemCheck("saddle"))
 	:onLeftClick(pings.setAnimMountDir)
 	:onRightClick(pings.setAnimMountFlip)
 
-t.twirlAct = action_wheel:newAction()
+a.twirlAct = animsPage:newAction()
 	:item(itemCheck("cod"))
 	:onLeftClick(pings.animPlayTwirl)
 
-t.singAct = action_wheel:newAction()
+a.singAct = animsPage:newAction()
 	:item(itemCheck("music_disc_blocks"))
 	:toggleItem(itemCheck("music_disc_cat"))
 	:onToggle(pings.setAnimSing)
@@ -411,7 +423,14 @@ t.singAct = action_wheel:newAction()
 function events.RENDER(delta, context)
 	
 	if action_wheel:isEnabled() then
-		t.sharkAct
+		if a.pageAct then
+			a.pageAct
+				:title(toJson(
+					{text = "Animation Settings", bold = true, color = c.primary}
+				))
+		end
+		
+		a.sharkAct
 			:title(toJson(
 				{
 					"",
@@ -420,7 +439,7 @@ function events.RENDER(delta, context)
 				}
 			))
 		
-		t.crawlAct
+		a.crawlAct
 			:title(toJson(
 				{
 					"",
@@ -429,7 +448,7 @@ function events.RENDER(delta, context)
 				}
 			))
 		
-		t.mountAct
+		a.mountAct
 			:title(toJson(
 				{
 					"",
@@ -442,24 +461,21 @@ function events.RENDER(delta, context)
 				}
 			))
 		
-		t.twirlAct
+		a.twirlAct
 			:title(toJson(
 				{text = "Play Twirl animation", bold = true, color = c.primary}
 			))
 		
-		t.singAct
+		a.singAct
 			:title(toJson(
 				{text = "Play Singing animation", bold = true, color = c.primary}
 			))
 			:toggled(isSing)
 		
-		for _, act in pairs(t) do
+		for _, act in pairs(a) do
 			act:hoverColor(c.hover):toggleColor(c.active)
 		end
 		
 	end
 	
 end
-
--- Returns actions
-return t

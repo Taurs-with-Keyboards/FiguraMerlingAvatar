@@ -103,11 +103,6 @@ end
 -- Host only instructions
 if not host:isHost() then return end
 
--- Required scripts
-local itemCheck = require("lib.ItemCheck")
-local s, c = pcall(require, "scripts.ColorProperties")
-if not s then c = {} end
-
 -- Sync on tick
 function events.TICK()
 	
@@ -117,16 +112,28 @@ function events.TICK()
 	
 end
 
--- Table setup
-local t = {}
+-- Required script
+local s, wheel, itemCheck, c = pcall(require, "scripts.ActionWheel")
+if not s then return end -- Kills script early if ActionWheel.lua isnt found
+
+-- Pages
+local parentPage = action_wheel:getPage("Main")
+local playerPage = action_wheel:newPage("Player")
+
+-- Actions table setup
+local a = {}
 
 -- Actions
-t.vanillaSkinAct = action_wheel:newAction()
+a.pageAct = parentPage:newAction()
+	:item(itemCheck("armor_stand"))
+	:onLeftClick(function() wheel:descend(playerPage) end)
+
+a.vanillaSkinAct = playerPage:newAction()
 	:item(itemCheck("player_head{SkullOwner:"..avatar:getEntityName().."}"))
 	:onToggle(pings.setAvatarVanillaSkin)
 	:toggled(vanillaSkin)
 
-t.modelAct = action_wheel:newAction()
+a.modelAct = playerPage:newAction()
 	:item(itemCheck("player_head"))
 	:toggleItem(itemCheck("player_head{SkullOwner:MHF_Alex}"))
 	:onToggle(pings.setAvatarModelType)
@@ -136,7 +143,12 @@ t.modelAct = action_wheel:newAction()
 function events.RENDER(delta, context)
 	
 	if action_wheel:isEnabled() then
-		t.vanillaSkinAct
+		a.pageAct
+			:title(toJson(
+				{text = "Player Settings", bold = true, color = c.primary}
+			))
+		
+		a.vanillaSkinAct
 			:title(toJson(
 				{
 					"",
@@ -145,7 +157,7 @@ function events.RENDER(delta, context)
 				}
 			))
 		
-		t.modelAct
+		a.modelAct
 			:title(toJson(
 				{
 					"",
@@ -154,13 +166,10 @@ function events.RENDER(delta, context)
 				}
 			))
 		
-		for _, act in pairs(t) do
+		for _, act in pairs(a) do
 			act:hoverColor(c.hover):toggleColor(c.active)
 		end
 		
 	end
 	
 end
-
--- Return actions
-return t

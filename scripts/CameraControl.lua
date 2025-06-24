@@ -174,11 +174,6 @@ end
 -- Host only instructions
 if not host:isHost() then return end
 
--- Required scripts
-local itemCheck = require("lib.ItemCheck")
-local s, c = pcall(require, "scripts.ColorProperties")
-if not s then c = {} end
-
 -- Sync on tick
 function events.TICK()
 	
@@ -188,17 +183,30 @@ function events.TICK()
 	
 end
 
--- Table setup
-local t = {}
+-- Required scripts
+local s, wheel, itemCheck, c = pcall(require, "scripts.ActionWheel")
+if not s then return end -- Kills script early if ActionWheel.lua isnt found
+pcall(require, "scripts.Player") -- Tries to find script, not required
+
+-- Pages
+local parentPage = action_wheel:getPage("Player") or action_wheel:getPage("Main")
+local cameraPage = action_wheel:newPage("Camera")
+
+-- Actions table setup
+local a = {}
 
 -- Actions
-t.posAct = action_wheel:newAction()
+a.pageAct = parentPage:newAction()
+	:item(itemCheck("redstone"))
+	:onLeftClick(function() wheel:descend(cameraPage) end)
+	
+a.posAct = cameraPage:newAction()
 	:item(itemCheck("skeleton_skull"))
 	:toggleItem(itemCheck("player_head{SkullOwner:"..avatar:getEntityName().."}"))
 	:onToggle(pings.setCameraPos)
 	:toggled(camPos)
 
-t.eyeAct = action_wheel:newAction()
+a.eyeAct = cameraPage:newAction()
 	:item(itemCheck("ender_pearl"))
 	:toggleItem(itemCheck("ender_eye"))
 	:onToggle(pings.setCameraEye)
@@ -208,7 +216,12 @@ t.eyeAct = action_wheel:newAction()
 function events.RENDER(delta, context)
 	
 	if action_wheel:isEnabled() then
-		t.posAct
+		a.pageAct
+			:title(toJson(
+				{text = "Camera Settings", bold = true, color = c.primary}
+			))
+		
+		a.posAct
 			:title(toJson(
 				{
 					"",
@@ -218,7 +231,7 @@ function events.RENDER(delta, context)
 				}
 			))
 		
-		t.eyeAct
+		a.eyeAct
 			:title(toJson(
 				{
 					"",
@@ -229,13 +242,10 @@ function events.RENDER(delta, context)
 				}
 			))
 		
-		for _, act in pairs(t) do
+		for _, act in pairs(a) do
 			act:hoverColor(c.hover):toggleColor(c.active)
 		end
 		
 	end
 	
 end
-
--- Return actions
-return t

@@ -57,11 +57,6 @@ end
 -- Host only instructions
 if not host:isHost() then return end
 
--- Required scripts
-local itemCheck = require("lib.ItemCheck")
-local s, c = pcall(require, "scripts.ColorProperties")
-if not s then c = {} end
-
 -- Sync on tick
 function events.TICK()
 	
@@ -71,17 +66,30 @@ function events.TICK()
 	
 end
 
--- Table setup
-local t = {}
+-- Required scripts
+local s, wheel, itemCheck, c = pcall(require, "scripts.ActionWheel")
+if not s then return end -- Kills script early if ActionWheel.lua isnt found
+pcall(require, "scripts.Tail") -- Tries to find script, not required
+
+-- Pages
+local parentPage    = action_wheel:getPage("Tail") or action_wheel:getPage("Main")
+local whirlpoolPage = action_wheel:newPage("Whirlpool")
+
+-- Actions table setup
+local a = {}
 
 -- Actions
-t.bubbleAct = action_wheel:newAction()
+a.pageAct = parentPage:newAction()
+	:item(itemCheck("magma_block"))
+	:onLeftClick(function() wheel:descend(whirlpoolPage) end)
+
+a.bubbleAct = whirlpoolPage:newAction()
 	:item(itemCheck("soul_sand"))
 	:toggleItem(itemCheck("magma_block"))
 	:onToggle(pings.setWhirlpoolBubbles)
 	:toggled(bubbles)
 
-t.dolphinsGraceAct = action_wheel:newAction()
+a.dolphinsGraceAct = whirlpoolPage:newAction()
 	:item(itemCheck("egg"))
 	:toggleItem(itemCheck("dolphin_spawn_egg"))
 	:onToggle(pings.setWhirlpoolDolphinsGrace)
@@ -91,7 +99,12 @@ t.dolphinsGraceAct = action_wheel:newAction()
 function events.RENDER(delta, context)
 	
 	if action_wheel:isEnabled() then
-		t.bubbleAct
+		a.pageAct
+			:title(toJson(
+				{text = "Whirlpool Settings", bold = true, color = c.primary}
+			))
+		
+		a.bubbleAct
 			:title(toJson(
 				{
 					"",
@@ -100,7 +113,7 @@ function events.RENDER(delta, context)
 				}
 			))
 		
-		t.dolphinsGraceAct
+		a.dolphinsGraceAct
 			:title(toJson(
 				{
 					"",
@@ -109,13 +122,10 @@ function events.RENDER(delta, context)
 				}
 			))
 		
-		for _, act in pairs(t) do
+		for _, act in pairs(a) do
 			act:hoverColor(c.hover):toggleColor(c.active)
 		end
 		
 	end
 	
 end
-
--- Return actions
-return t
