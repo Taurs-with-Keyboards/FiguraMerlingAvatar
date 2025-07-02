@@ -33,10 +33,11 @@ local scale = {
 }
 
 -- Data sent to other scripts
+local initScale = math.lerp(smallLerp.currPos * scale.small.currPos, 1, scale.tail.currPos)
 local tailData = {
-	scale     = math.lerp(smallLerp.currPos * scale.small.currPos, 1, scale.tail.currPos),
+	scale     = initScale,
 	isLarge   = scale.tail.currPos >= legsForm,
-	isSmall   = scale.small.currPos >= legsForm and scale.tail.currPos <= legsForm,
+	isSmall   = initScale > 0.01 and scale.tail.currPos < legsForm,
 	legs      = scale.legs.currPos,
 	height    = math.max(math.lerp(smallLerp.currPos * scale.small.currPos, 1, scale.tail.currPos), scale.legs.currPos),
 	smallSize = smallLerp.currPos,
@@ -178,7 +179,7 @@ function events.RENDER(delta, context)
 	-- Update tail data
 	tailData.scale     = tailApply
 	tailData.isLarge   = scale.tail.currPos >= legsForm
-	tailData.isSmall   = scale.small.currPos >= legsForm and scale.tail.currPos <= legsForm
+	tailData.isSmall   = tailApply > 0.01 and scale.tail.currPos < legsForm
 	tailData.legs      = scale.legs.currPos
 	tailData.height    = math.max(tailApply, scale.legs.currPos)
 	tailData.smallSize = smallLerp.currPos
