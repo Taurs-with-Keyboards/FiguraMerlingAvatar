@@ -149,7 +149,7 @@ function events.TICK()
 end
 
 function events.RENDER(delta, context)
-
+	
 	-- Force Current Positions to be targets
 	if not gradual then
 		smallLerp.currPos = smallLerp.target
