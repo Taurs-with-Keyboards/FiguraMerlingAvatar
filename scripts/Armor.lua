@@ -118,10 +118,12 @@ local helmet     = config:load("ArmorHelmet")
 local chestplate = config:load("ArmorChestplate")
 local leggings   = config:load("ArmorLeggings")
 local boots      = config:load("ArmorBoots")
+local tail       = config:load("ArmorTail")
 if helmet     == nil then helmet     = true end
 if chestplate == nil then chestplate = true end
 if leggings   == nil then leggings   = true end
 if boots      == nil then boots      = true end
+if tail       == nil then tail       = true end
 
 -- Helmet parts
 local helmetGroups = {
@@ -153,6 +155,9 @@ local bootsGroups = {
 	
 }
 
+-- Tail parts
+local tailGroups = parts:createTable(function(part) return part:getName():find("ArmorTail") end)
+
 function events.RENDER(delta, context)
 	
 	-- Apply
@@ -172,6 +177,10 @@ function events.RENDER(delta, context)
 		part:visible(boots)
 	end
 	
+	for _, part in ipairs(tailGroups) do
+		part:visible(tail)
+	end
+	
 end
 
 -- All toggle
@@ -181,10 +190,12 @@ function pings.setArmorAll(boolean)
 	chestplate = boolean
 	leggings   = boolean
 	boots      = boolean
+	tail       = boolean
 	config:save("ArmorHelmet", helmet)
 	config:save("ArmorChestplate", chestplate)
 	config:save("ArmorLeggings", leggings)
 	config:save("ArmorBoots", boots)
+	config:save("ArmorTail", tail)
 	if player:isLoaded() then
 		sounds:playSound("item.armor.equip_generic", player:getPos(), 0.5)
 	end
@@ -235,13 +246,25 @@ function pings.setArmorBoots(boolean)
 	
 end
 
+-- Tail toggle
+function pings.setArmorTail(boolean)
+	
+	tail = boolean
+	config:save("ArmorTail", tail)
+	if player:isLoaded() then
+		sounds:playSound("item.armor.equip_generic", player:getPos(), 0.5)
+	end
+	
+end
+
 -- Sync variables
-function pings.syncArmor(a, b, c, d)
+function pings.syncArmor(a, b, c, d, e)
 	
 	helmet     = a
 	chestplate = b
 	leggings   = c
 	boots      = d
+	tail       = e
 	
 end
 
@@ -252,7 +275,7 @@ if not host:isHost() then return end
 function events.TICK()
 	
 	if world.getTime() % 200 == 0 then
-		pings.syncArmor(helmet, chestplate, leggings, boots)
+		pings.syncArmor(helmet, chestplate, leggings, boots, tail)
 	end
 	
 end
@@ -298,6 +321,11 @@ a.bootsAct = armorPage:newAction()
 	:item(itemCheck("iron_boots"))
 	:toggleItem(itemCheck("diamond_boots"))
 	:onToggle(pings.setArmorBoots)
+
+a.tailAct = armorPage:newAction()
+	:item(itemCheck("salmon"))
+	:toggleItem(itemCheck("cod"))
+	:onToggle(pings.setArmorTail)
 
 -- Update actions
 function events.RENDER(delta, context)
@@ -357,6 +385,16 @@ function events.RENDER(delta, context)
 				}
 			))
 			:toggled(boots)
+		
+		a.tailAct
+			:title(toJson(
+				{
+					"",
+					{text = "Toggle Tail Armor\n\n", bold = true, color = c.primary},
+					{text = "Toggles visibility of tail armor.", color = c.secondary}
+				}
+			))
+			:toggled(tail)
 		
 		for _, act in pairs(a) do
 			act:hoverColor(c.hover):toggleColor(c.active)

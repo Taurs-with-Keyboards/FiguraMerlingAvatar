@@ -2975,7 +2975,7 @@
 								"1d73cb2d-adfd-a761-d5f6-326077696f78",
 								"edd7e072-6596-f3be-5a2c-e91cf63c9e48",
 								{
-									"name": "Tail1ArmorLeggings",
+									"name": "Tail1ArmorTail",
 									"origin": [0, 0, 0],
 									"color": 0,
 									"uuid": "ed18f931-9c64-27c4-f07d-5c9128fe618f",
@@ -3039,7 +3039,7 @@
 											"children": ["c84d3858-102b-716d-680c-40dea3bf0886"]
 										},
 										{
-											"name": "Tail2ArmorLeggings",
+											"name": "Tail2ArmorTail",
 											"origin": [0, 0, 0],
 											"color": 0,
 											"uuid": "f90a75d6-f6f7-fa4d-591b-13635e29b06b",
@@ -3068,7 +3068,7 @@
 												"45b43f88-8c29-2ae0-de44-7e1070263ba9",
 												"a058689c-a87d-6578-75d0-d28ee1a7a2a0",
 												{
-													"name": "Tail3ArmorBoot",
+													"name": "Tail3ArmorTail",
 													"origin": [0, 0, 0],
 													"color": 0,
 													"uuid": "9d880c89-a512-798e-b111-96ce582e87de",
@@ -3097,7 +3097,7 @@
 														"a61a6d22-451e-a860-b235-ca0c8c8b6660",
 														"031703b5-0ed6-ac02-d9f6-374423cf9c73",
 														{
-															"name": "Tail4ArmorBoot",
+															"name": "Tail4ArmorTail",
 															"origin": [0, 0, 0],
 															"color": 0,
 															"uuid": "08eeaa7a-92e4-15f2-3244-fe6d08f652b6",
