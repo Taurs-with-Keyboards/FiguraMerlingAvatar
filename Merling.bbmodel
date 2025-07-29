@@ -4537,6 +4537,209 @@
 			"is_material": false
 		}
 	],
+	"collections": [
+		{
+			"uuid": "52c6dd58-7ba2-7373-8075-78b940a58022",
+			"name": "VanillaSkin",
+			"export_codec": "",
+			"export_path": "",
+			"children": [
+				"7358645c-ceef-4566-8f98-536ec44aac67",
+				"12d59542-de15-4114-abe8-54c41bc94b81",
+				"c6b595ec-e526-4b2b-a9c6-cf8674ac39a7",
+				"83b93389-d01b-4574-805a-56c1a9cfaf2c",
+				"30e4fc93-ccdd-4776-8a29-b26561eb0739",
+				"e3f0af9b-fadb-4db5-8b16-d84434c5a2cb",
+				"d0c315f6-e648-4abd-9449-51ffd38d4618",
+				"51eb2ac8-7bfb-488c-b8ac-06e01e448191",
+				"61fb2d76-b07f-4d1b-823e-7ef502cb5d48",
+				"4be53b92-5d26-44ee-b350-46bc5e0b348b",
+				"986b89c7-569f-4cba-8789-5e34c4bc92c4",
+				"a9428a99-4563-4091-b8c9-4ba5df0fa927",
+				"025dd27f-49c0-8ccf-bb97-30981fb40355",
+				"4c09743e-7e53-c18c-974b-13b1953d49bc",
+				"48c0e78b-c3a6-0885-7cc5-9735827d42c7",
+				"2bce3feb-25bc-f13b-5b28-cdaaed7ca966",
+				"a84ec2f0-5a23-fa27-9d40-d739a2079505",
+				"6d27071e-6d33-1eae-1fd8-8805ec8b1396",
+				"6e280720-60ef-ac1e-7b45-82baeb362044",
+				"9b341ec4-6c9b-5b98-3b59-762e47976542",
+				"22258bf4-94d9-77ee-4f7a-e9c471562221",
+				"e31b2007-61db-8b57-0a8d-d5493fef4cf8",
+				"7f7ccb33-485e-1aac-3a45-a0d8b90739a8",
+				"17dd52e1-5952-4cd7-1a6c-2d33f1494429",
+				"31c93d11-7e21-b38f-03ba-a7e39b238bf3",
+				"8be1adf5-b785-335f-6505-e87805e28df7",
+				"1b3a6862-2025-ef8c-9f93-9d75ad8ec2e6",
+				"75a52d4b-4164-8ded-f6d4-41fb5a9dcb0f"
+			],
+			"visibility": false
+		},
+		{
+			"uuid": "96443aeb-9f0f-c5ef-56e8-61abffb016e1",
+			"name": "GlowParts",
+			"export_codec": "",
+			"export_path": "",
+			"children": [
+				"12fb0b75-add5-c272-b94c-f054ce80a03c",
+				"a8b572c0-3cfb-7fea-00f0-b06ee0d49a1f",
+				"1d73cb2d-adfd-a761-d5f6-326077696f78",
+				"ecae252c-1665-e66d-3c7e-368e09e06955",
+				"45b43f88-8c29-2ae0-de44-7e1070263ba9",
+				"a61a6d22-451e-a860-b235-ca0c8c8b6660",
+				"95bca110-73d0-e14c-71c5-234ba7476418",
+				"c84d3858-102b-716d-680c-40dea3bf0886",
+				"cb29d03c-b6a1-d859-37a3-b1668e5accc6"
+			],
+			"visibility": false
+		},
+		{
+			"uuid": "4ad7aa80-075f-9f05-f51f-b01369ce07f0",
+			"name": "FlatParts",
+			"export_codec": "",
+			"export_path": "",
+			"children": [
+				"12fb0b75-add5-c272-b94c-f054ce80a03c",
+				"a8b572c0-3cfb-7fea-00f0-b06ee0d49a1f",
+				"95bca110-73d0-e14c-71c5-234ba7476418",
+				"e756f2df-f33b-9198-9705-078b3b8f3483",
+				"4f291da2-1db3-ca3b-52ca-3494485d8875",
+				"c84d3858-102b-716d-680c-40dea3bf0886",
+				"cb29d03c-b6a1-d859-37a3-b1668e5accc6"
+			],
+			"visibility": false
+		},
+		{
+			"uuid": "e86613e6-0ebb-8f0c-bb22-ad1096397230",
+			"name": "HatLayer",
+			"export_codec": "",
+			"export_path": "",
+			"children": ["12d59542-de15-4114-abe8-54c41bc94b81", "6d27071e-6d33-1eae-1fd8-8805ec8b1396", "9b341ec4-6c9b-5b98-3b59-762e47976542"],
+			"visibility": false
+		},
+		{
+			"uuid": "11ab80bf-d321-e912-20af-b73196bd37c0",
+			"name": "JacketLayer",
+			"export_codec": "",
+			"export_path": "",
+			"children": ["83b93389-d01b-4574-805a-56c1a9cfaf2c"],
+			"visibility": false
+		},
+		{
+			"uuid": "fe9cc1fc-2c42-69d7-30f9-78cf47c38344",
+			"name": "LeftSleeveLayer",
+			"export_codec": "",
+			"export_path": "",
+			"children": [
+				"e3f0af9b-fadb-4db5-8b16-d84434c5a2cb",
+				"4c09743e-7e53-c18c-974b-13b1953d49bc",
+				"e31b2007-61db-8b57-0a8d-d5493fef4cf8",
+				"17dd52e1-5952-4cd7-1a6c-2d33f1494429"
+			],
+			"visibility": false
+		},
+		{
+			"uuid": "7261fee7-85c7-57ee-6cbc-091774371dec",
+			"name": "RightSleeveLayer",
+			"export_codec": "",
+			"export_path": "",
+			"children": [
+				"51eb2ac8-7bfb-488c-b8ac-06e01e448191",
+				"2bce3feb-25bc-f13b-5b28-cdaaed7ca966",
+				"8be1adf5-b785-335f-6505-e87805e28df7",
+				"75a52d4b-4164-8ded-f6d4-41fb5a9dcb0f"
+			],
+			"visibility": false
+		},
+		{
+			"uuid": "773ab68d-cfbf-7b0a-c429-35b76a5a79e4",
+			"name": "LeftPantsLegLayer",
+			"export_codec": "",
+			"export_path": "",
+			"children": ["4be53b92-5d26-44ee-b350-46bc5e0b348b"],
+			"visibility": false
+		},
+		{
+			"uuid": "2f642db2-850c-3dfa-1d79-296797879cab",
+			"name": "RightPantsLegLayer",
+			"export_codec": "",
+			"export_path": "",
+			"children": ["a9428a99-4563-4091-b8c9-4ba5df0fa927"],
+			"visibility": false
+		},
+		{
+			"uuid": "cefa4b5f-f815-e374-e483-4835ad4554c0",
+			"name": "TailLayer",
+			"export_codec": "",
+			"export_path": "",
+			"children": [
+				"edd7e072-6596-f3be-5a2c-e91cf63c9e48",
+				"d49ba810-b3c3-88bd-ac2d-41a82cd36827",
+				"a058689c-a87d-6578-75d0-d28ee1a7a2a0",
+				"031703b5-0ed6-ac02-d9f6-374423cf9c73"
+			],
+			"visibility": false
+		},
+		{
+			"uuid": "1b1f7a79-2336-03d3-39ae-5982b686aa23",
+			"name": "Cape",
+			"export_codec": "",
+			"export_path": "",
+			"children": ["8b6d2a08-3ba4-44f3-7e44-9996bba73279"],
+			"visibility": false
+		},
+		{
+			"uuid": "60485b72-6136-6c84-1b60-9afefa155163",
+			"name": "ArmorHelmet",
+			"export_codec": "",
+			"export_path": "",
+			"children": ["9b3edf5b-0dcc-c94d-a939-8133cad50767", "5f3bfb8e-d1ef-511b-73ad-17417351fc9e"],
+			"visibility": false
+		},
+		{
+			"uuid": "7abbdd5a-70d5-4e50-d9d6-742567c67533",
+			"name": "ArmorChestplate",
+			"export_codec": "",
+			"export_path": "",
+			"children": [
+				"9f1abdb4-f5c5-419a-f4db-7e6f8694ba7e",
+				"918df6d5-f930-affe-0374-345949310892",
+				"e30ff765-825e-d53b-4926-2840e7ac5123",
+				"2d80ca01-5467-268c-0b8f-d4937e96a264",
+				"21ff49b3-be95-57dc-cdbd-ec319e4cc893"
+			],
+			"visibility": false
+		},
+		{
+			"uuid": "af81c104-aa6e-e50c-a807-f5a42161f125",
+			"name": "ArmorLeggings",
+			"export_codec": "",
+			"export_path": "",
+			"children": ["86449c39-3114-2d78-b80a-79ae6ae2c6c7", "24991984-c29e-184d-7bd4-74223148d127", "10b86b30-7291-61bd-1771-d5f6fe2dfd7d"],
+			"visibility": false
+		},
+		{
+			"uuid": "2cb4d5ff-18bf-ba39-b16a-1f71782c1c2e",
+			"name": "ArmorBoots",
+			"export_codec": "",
+			"export_path": "",
+			"children": ["a7f58ec1-0a5a-999f-fdb1-09480e9f7e02", "f517e902-c5f3-953e-8b03-86cc07c4529e"],
+			"visibility": false
+		},
+		{
+			"uuid": "5f0246e7-58c9-8a54-b381-d21e0c4d74d3",
+			"name": "ArmorTail",
+			"export_codec": "",
+			"export_path": "",
+			"children": [
+				"ed18f931-9c64-27c4-f07d-5c9128fe618f",
+				"f90a75d6-f6f7-fa4d-591b-13635e29b06b",
+				"9d880c89-a512-798e-b111-96ce582e87de",
+				"08eeaa7a-92e4-15f2-3244-fe6d08f652b6"
+			],
+			"visibility": false
+		}
+	],
 	"animations": [
 		{
 			"uuid": "764cfe01-bf5e-2fa4-efcb-7f26f4d16979",
