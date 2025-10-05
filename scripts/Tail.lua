@@ -45,13 +45,13 @@ local tailData = {
 }
 
 -- Check if a splash potion is broken near the player
-local splash = false
+local splashed = false
 function events.ON_PLAY_SOUND(id, pos, vol, pitch, loop, category, path)
 	
 	if player:isLoaded() then
 		local atPos    = pos < player:getPos() + 2 and pos > player:getPos() - 2
 		local splashID = id == "minecraft:entity.splash_potion.break" or id == "minecraft:entity.lingering_potion.break"
-		splash = atPos and splashID and path
+		splashed = atPos and splashID and path
 	end
 	
 end
@@ -76,9 +76,9 @@ function events.TICK()
 	local water = under or player:isInWater()
 	
 	-- Check for if player touches any liquid
-	local wet = water or player:isWet() or ((drinkingL or drinkingR) and player:getActiveItemTime() > 20) or splash
-	if wet then
-		splash = false
+	local wet = water or player:isWet() or ((drinkingL or drinkingR) and player:getActiveItemTime() > 20) or splashed
+	if splashed then
+		splashed = false
 	end
 	
 	-- Water state table
