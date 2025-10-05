@@ -67,13 +67,13 @@ end
 function events.TICK()
 	
 	-- Check for if player has gone underwater
-	local under = player:isUnderwater() or player:isInLava()
+	local under = player:isUnderwater() or world.getBlockState(player:getPos() + vec(0, player:getEyeHeight(), 0)).id == "minecraft:lava"
 	
 	-- Check for if player is in liquid
-	local water = under or player:isInWater()
+	local water = player:isInWater() or player:isInLava()
 	
 	-- Check for if player touches any liquid
-	local wet = water or player:isWet() or (player:getActiveItem():getUseAction() == "DRINK" and player:getActiveItemTime() > 20) or splashed
+	local wet = player:isWet() or (player:getActiveItem():getUseAction() == "DRINK" and player:getActiveItemTime() > 20) or splashed or player:isInLava()
 	
 	-- Water state table
 	local waterState = {
