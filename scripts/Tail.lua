@@ -48,10 +48,18 @@ local tailData = {
 local splashed = false
 function events.ON_PLAY_SOUND(id, pos, vol, pitch, loop, category, path)
 	
-	if player:isLoaded() then
-		local atPos    = pos < player:getPos() + 2 and pos > player:getPos() - 2
-		local splashID = id == "minecraft:entity.splash_potion.break" or id == "minecraft:entity.lingering_potion.break"
-		splashed = atPos and splashID and path
+	-- Don't trigger if the sound was played by Figura
+	if not path then return end
+	
+	-- Don't do anything if the user isn't loaded
+	if not player:isLoaded() then return end
+	
+	-- Make sure the sound is happening near the player
+	if (player:getPos() - pos):length() > 2 then return end
+	
+	-- If sound contains "potion.break", and the user isnt already splashed, consider the user splashed
+	if id:find("potion.break") and not splashed then
+		splashed = true
 	end
 	
 end
@@ -77,9 +85,6 @@ function events.TICK()
 	
 	-- Check for if player touches any liquid
 	local wet = water or player:isWet() or ((drinkingL or drinkingR) and player:getActiveItemTime() > 20) or splashed
-	if splashed then
-		splashed = false
-	end
 	
 	-- Water state table
 	local waterState = {
@@ -145,6 +150,11 @@ function events.TICK()
 		end
 	end
 	wasInAir = not ground()
+	
+	-- Disable splashed after check
+	if splashed then
+		splashed = false
+	end
 	
 end
 
