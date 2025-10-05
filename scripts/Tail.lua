@@ -66,17 +66,6 @@ end
 
 function events.TICK()
 	
-	-- Arm variables
-	local handedness  = player:isLeftHanded()
-	local activeness  = player:getActiveHand()
-	local leftActive  = not handedness and "OFF_HAND" or "MAIN_HAND"
-	local rightActive = handedness and "OFF_HAND" or "MAIN_HAND"
-	local leftItem    = player:getHeldItem(not handedness)
-	local rightItem   = player:getHeldItem(handedness)
-	local using       = player:isUsingItem()
-	local drinkingL   = activeness == leftActive and using and leftItem:getUseAction() == "DRINK"
-	local drinkingR   = activeness == rightActive and using and rightItem:getUseAction() == "DRINK"
-	
 	-- Check for if player has gone underwater
 	local under = player:isUnderwater() or player:isInLava()
 	
@@ -84,7 +73,7 @@ function events.TICK()
 	local water = under or player:isInWater()
 	
 	-- Check for if player touches any liquid
-	local wet = water or player:isWet() or ((drinkingL or drinkingR) and player:getActiveItemTime() > 20) or splashed
+	local wet = water or player:isWet() or (player:getActiveItem():getUseAction() == "DRINK" and player:getActiveItemTime() > 20) or splashed
 	
 	-- Water state table
 	local waterState = {
