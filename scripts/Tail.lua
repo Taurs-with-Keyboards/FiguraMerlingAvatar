@@ -33,7 +33,7 @@ local scale = {
 -- Data sent to other scripts
 local tailData = {
 	isLarge = tailTimer >  (dryTimer * smallSize),
-	isSmall = tailTimer <= (dryTimer * smallSize) and scale.tail.currPos > 0.01,
+	isSmall = tailTimer <= (dryTimer * smallSize) and scale.tail.currTick > 0.01,
 	dry     = dryTimer,
 	scale   = scale.tail.currPos,
 	legs    = scale.legs.currPos
@@ -127,6 +127,11 @@ function events.TICK()
 		splashed = false
 	end
 	
+	-- Update tail data
+	tailData.isLarge = tailTimer >  (dryTimer * smallSize)
+	tailData.isSmall = tailTimer <= (dryTimer * smallSize) and scale.tail.currTick > 0.01
+	tailData.dry     = dryTimer
+	
 end
 
 function events.RENDER(delta, context)
@@ -148,11 +153,8 @@ function events.RENDER(delta, context)
 	parts.group.RightEar:scale(earsApply)
 	
 	-- Update tail data
-	tailData.isLarge = tailTimer >  (dryTimer * smallSize)
-	tailData.isSmall = tailTimer <= (dryTimer * smallSize) and tailApply > 0.01
-	tailData.dry     = dryTimer
-	tailData.scale   = tailApply
-	tailData.legs    = legsApply
+	tailData.scale = tailApply
+	tailData.legs  = legsApply
 	
 end
 
