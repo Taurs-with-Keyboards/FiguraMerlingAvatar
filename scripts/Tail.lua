@@ -110,23 +110,10 @@ function events.TICK()
 	
 	-- Targets
 	smallLerp.target = smallSize
-	if gradual then
-		
-		-- Gradual lerp
-		scale.tail.target  = tailTimer / modDryTimer
-		scale.legs.target  = tailTimer / modDryTimer <= legsForm and 1 or 0
-		scale.ears.target  = earsTimer / modDryTimer
-		scale.small.target = small and 1 or 0
-		
-	else
-		
-		-- Instant lerp
-		scale.tail.target  = tailTimer ~= 0 and 1 or 0
-		scale.legs.target  = tailTimer == 0 and 1 or 0
-		scale.ears.target  = earsTimer ~= 0 and 1 or 0
-		scale.small.target = small and 1 or 0
-		
-	end
+	scale.tail.target = gradual and tailTimer / math.max(dryTimer, 1) or tailTimer ~= 0 and 1 or 0
+	scale.ears.target = gradual and earsTimer / math.max(dryTimer, 1) or earsTimer ~= 0 and 1 or 0
+	scale.legs.target = scale.tail.target <= legsForm and 1 or 0
+	scale.small.target = small and 1 or 0
 	
 	-- Play sound if conditions are met
 	if fallSound and wasInAir and ground() and scale.legs.target ~= 1 and not player:getVehicle() and not player:isInWater() and not effects.cF then
