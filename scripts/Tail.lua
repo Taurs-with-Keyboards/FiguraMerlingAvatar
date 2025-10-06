@@ -147,8 +147,6 @@ function events.RENDER(delta, context)
 	-- Apply ears
 	parts.group.LeftEar:scale(earsApply)
 	parts.group.RightEar:scale(earsApply)
-	parts.group.LeftEarSkull:scale(earsApply)
-	parts.group.RightEarSkull:scale(earsApply)
 	
 	-- Update tail data
 	tailData.isLarge   = scale.tail.currPos >= legsForm
