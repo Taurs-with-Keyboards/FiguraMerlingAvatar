@@ -66,21 +66,34 @@ end
 
 -- Water state table
 local waterTypes = {
-	function()
-		return false
-	end,
-	function()
-		return player:isUnderwater() or world.getBlockState(player:getPos() + vec(0, player:getEyeHeight(), 0)).id == "minecraft:lava"
-	end,
-	function()
-		return player:isInWater() or player:isInLava()
-	end,
-	function()
-		return player:isWet() or (player:getActiveItem():getUseAction() == "DRINK" and player:getActiveItemTime() > 20) or splashed or player:isInLava()
-	end,
-	function()
-		return true
-	end
+	{
+		check = function()
+			return false
+		end
+	},
+	{
+		dry = true,
+		check = function()
+			return player:isUnderwater() or world.getBlockState(player:getPos() + vec(0, player:getEyeHeight(), 0)).id == "minecraft:lava"
+		end
+	},
+	{
+		dry = true,
+		check = function()
+			return player:isInWater() or player:isInLava()
+		end
+	},
+	{
+		dry = true,
+		check = function()
+			return player:isWet() or (player:getActiveItem():getUseAction() == "DRINK" and player:getActiveItemTime() > 20) or splashed or player:isInLava()
+		end
+	},
+	{
+		check = function()
+			return true
+		end
+	}
 }
 
 function events.TICK()
@@ -91,23 +104,9 @@ function events.TICK()
 	-- Zero check
 	local modDryTimer = math.max(dryTimer, 1)
 	
-	-- Adjust tail timer based on state
-	if waterTypes[tailType]() then
-		tailTimer = modDryTimer
-	elseif tailType == 1 then
-		tailTimer = 0
-	else
-		tailTimer = math.clamp(tailTimer - 1 * dryRate, 0, modDryTimer)
-	end
-	
-	-- Adjust ears timer based on state
-	if waterTypes[earsType]() then
-		earsTimer = modDryTimer
-	elseif earsType == 1 then
-		earsTimer = 0
-	else
-		earsTimer = math.clamp(earsTimer - 1 * dryRate, 0, modDryTimer)
-	end
+	-- Timers
+	tailTimer = waterTypes[tailType].check() and dryTimer or waterTypes[tailType].dry and math.clamp(tailTimer - dryRate, 0, dryTimer) or 0
+	earsTimer = waterTypes[earsType].check() and dryTimer or waterTypes[earsType].dry and math.clamp(earsTimer - dryRate, 0, dryTimer) or 0
 	
 	-- Targets
 	smallLerp.target = smallSize
