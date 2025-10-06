@@ -64,25 +64,26 @@ function events.ON_PLAY_SOUND(id, pos, vol, pitch, loop, category, path)
 	
 end
 
+-- Water state table
+local waterTypes = {
+	function()
+		return false
+	end,
+	function()
+		return player:isUnderwater() or world.getBlockState(player:getPos() + vec(0, player:getEyeHeight(), 0)).id == "minecraft:lava"
+	end,
+	function()
+		return player:isInWater() or player:isInLava()
+	end,
+	function()
+		return player:isWet() or (player:getActiveItem():getUseAction() == "DRINK" and player:getActiveItemTime() > 20) or splashed or player:isInLava()
+	end,
+	function()
+		return true
+	end
+}
+
 function events.TICK()
-	
-	-- Check for if player has gone underwater
-	local under = player:isUnderwater() or world.getBlockState(player:getPos() + vec(0, player:getEyeHeight(), 0)).id == "minecraft:lava"
-	
-	-- Check for if player is in liquid
-	local water = player:isInWater() or player:isInLava()
-	
-	-- Check for if player touches any liquid
-	local wet = player:isWet() or (player:getActiveItem():getUseAction() == "DRINK" and player:getActiveItemTime() > 20) or splashed or player:isInLava()
-	
-	-- Water state table
-	local waterState = {
-		false,
-		under,
-		water,
-		wet,
-		true
-	}
 	
 	-- Control how fast drying occurs
 	local dryRate = player:getItem(1).id == "minecraft:sponge" and 10 or 1
@@ -91,7 +92,7 @@ function events.TICK()
 	local modDryTimer = math.max(dryTimer, 1)
 	
 	-- Adjust tail timer based on state
-	if waterState[tailType] then
+	if waterTypes[tailType]() then
 		tailTimer = modDryTimer
 	elseif tailType == 1 then
 		tailTimer = 0
@@ -100,7 +101,7 @@ function events.TICK()
 	end
 	
 	-- Adjust ears timer based on state
-	if waterState[earsType] then
+	if waterTypes[earsType]() then
 		earsTimer = modDryTimer
 	elseif earsType == 1 then
 		earsTimer = 0
