@@ -30,8 +30,8 @@ v.headY = 0
 
 v.shark = isShark and 1 or 0
 
-v.tail   = 1 - tail.legs
-v.height = 1 - tail.height
+v.tail = 1
+v.legs = 1
 
 -- Variables
 local waterTimer = 0
@@ -230,12 +230,12 @@ function events.RENDER(delta, context)
 	
 	v.shark = shark.currPos
 	
-	v.tail   = 1 - tail.legs
-	v.height = 1 - tail.height
+	v.tail = 1 - tail.scale
+	v.legs = 1 - tail.legs
 	
 	-- Animation blending
-	anims.small:blend(tail.smallSize * 0.2 + 1)
-	anims.smallSwim:blend(tail.smallSize * 0.2 + 1)
+	anims.small:blend(tail.scale * 0.2 + 1)
+	anims.smallSwim:blend(tail.scale * 0.2 + 1)
 	anims.mountUp:blend(mountFlipLerp.currPos)
 	anims.mountDown:blend(mountFlipLerp.currPos)
 	

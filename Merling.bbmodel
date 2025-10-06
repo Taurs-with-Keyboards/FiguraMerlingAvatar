@@ -4762,9 +4762,9 @@
 							"channel": "rotation",
 							"data_points": [
 								{
-									"x": "q(...) +\n(v.pitch+(Math.sin(q.anim_time*180)*v.strength*(1-v.shark)))*v.tail",
+									"x": "q(...) +\n(v.pitch+(Math.sin(q.anim_time*180)*v.strength*(1-v.shark)))*v.legs",
 									"y": "0",
-									"z": "q(...) +\n(Math.sin(q.anim_time*180)*v.strength*v.shark)*v.tail"
+									"z": "q(...) +\n(Math.sin(q.anim_time*180)*v.strength*v.shark)*v.legs"
 								}
 							],
 							"uuid": "9341e6ce-60ec-1324-be50-d342808edb2d",
@@ -5093,7 +5093,7 @@
 							"data_points": [
 								{
 									"x": "0",
-									"y": "q(...) +\n-(v.height*12)-math.abs(Math.sin(q.anim_time*180-45)*(v.strength-1)*1.5)",
+									"y": "q(...) +\n-(v.tail*12)-math.abs(Math.sin(q.anim_time*180-45)*(v.strength-1)*1.5)",
 									"z": "0"
 								}
 							],
@@ -5502,6 +5502,26 @@
 								}
 							],
 							"uuid": "0b8118c7-678a-0503-1f47-054e5579d72d",
+							"time": 0,
+							"color": -1,
+							"interpolation": "linear"
+						}
+					]
+				},
+				"0f515496-944f-44d2-a01a-05a72e2ff49b": {
+					"name": "Player",
+					"type": "bone",
+					"keyframes": [
+						{
+							"channel": "position",
+							"data_points": [
+								{
+									"x": "0",
+									"y": "q(...) +\n-(v.legs*12)",
+									"z": "0"
+								}
+							],
+							"uuid": "45a6c0ef-3f95-a9b0-a85f-39fd59138fbf",
 							"time": 0,
 							"color": -1,
 							"interpolation": "linear"
