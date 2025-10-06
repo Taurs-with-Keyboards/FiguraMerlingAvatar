@@ -136,14 +136,6 @@ end
 
 function events.RENDER(delta, context)
 	
-	-- Force Current Positions to be targets
-	if not gradual then
-		smallLerp:reset(smallLerp.target)
-		for _, obj in pairs(scale) do
-			obj:reset(obj.target)
-		end
-	end
-	
 	-- Variables
 	local tailApply = math.lerp(smallLerp.currPos * scale.small.currPos, 1, scale.tail.currPos)
 	local legsApply = scale.legs.currPos
