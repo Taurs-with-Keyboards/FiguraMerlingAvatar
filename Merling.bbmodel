@@ -5,7 +5,7 @@
 		"box_uv": false
 	},
 	"visible_box": [1, 1, 0],
-	"variable_placeholders": "v.strength = slider(\"Strength\", 0.05, 1,  2)\nv.pitch    = slider(\"Pitch\",    0.5, -20, 20)\nv.yaw      = slider(\"Yaw\",      1,   -45, 45)\nv.roll     = slider(\"Roll\",     0.5, -20, 20)\nv.headY    = slider(\"HeadY\",    1,   -50, 50)\nv.shark    = toggle(\"Shark\")\nv.tail     = toggle(\"Tail\")",
+	"variable_placeholders": "v.strength = slider(\"Strength\", 0.05, 1,  2)\nv.pitch    = slider(\"Pitch\",    0.5, -20, 20)\nv.yaw      = slider(\"Yaw\",      1,   -45, 45)\nv.roll     = slider(\"Roll\",     0.5, -20, 20)\nv.headY    = slider(\"HeadY\",    1,   -50, 50)\nv.shark    = toggle(\"Shark\")\nv.tail     = toggle(\"Tail\")\nv.legs     = toggle(\"Legs\")",
 	"variable_placeholder_buttons": [
 		{
 			"type": "slider",
@@ -63,6 +63,12 @@
 			"id": "Tail",
 			"value": 0,
 			"variable": "variable.tail"
+		},
+		{
+			"type": "toggle",
+			"id": "Legs",
+			"value": 0,
+			"variable": "variable.legs"
 		}
 	],
 	"timeline_setups": [],
@@ -4762,9 +4768,9 @@
 							"channel": "rotation",
 							"data_points": [
 								{
-									"x": "q(...) +\n(v.pitch+(Math.sin(q.anim_time*180)*v.strength*(1-v.shark)))*v.legs",
+									"x": "q(...) +\n(v.pitch+(Math.sin(q.anim_time*180)*v.strength*(1-v.shark)))*v.tail",
 									"y": "0",
-									"z": "q(...) +\n(Math.sin(q.anim_time*180)*v.strength*v.shark)*v.legs"
+									"z": "q(...) +\n(Math.sin(q.anim_time*180)*v.strength*v.shark)*v.tail"
 								}
 							],
 							"uuid": "9341e6ce-60ec-1324-be50-d342808edb2d",
@@ -5093,7 +5099,7 @@
 							"data_points": [
 								{
 									"x": "0",
-									"y": "q(...) +\n-(v.tail*12)-math.abs(Math.sin(q.anim_time*180-45)*(v.strength-1)*1.5)",
+									"y": "q(...) +\n(v.tail-1)*12-math.abs(Math.sin(q.anim_time*180-45)*(v.strength-1)*1.5)",
 									"z": "0"
 								}
 							],
@@ -5517,7 +5523,7 @@
 							"data_points": [
 								{
 									"x": "0",
-									"y": "q(...) +\n-(v.legs*12)",
+									"y": "q(...) +\n(v.legs-1)*12",
 									"z": "0"
 								}
 							],
@@ -7030,5 +7036,5 @@
 			}
 		}
 	],
-	"animation_variable_placeholders": "v.strength = slider(\"Strength\", 0.05, 1,  2)\nv.pitch    = slider(\"Pitch\",    0.5, -20, 20)\nv.yaw      = slider(\"Yaw\",      1,   -45, 45)\nv.roll     = slider(\"Roll\",     0.5, -20, 20)\nv.headY    = slider(\"HeadY\",    1,   -50, 50)\nv.shark    = toggle(\"Shark\")\nv.tail     = toggle(\"Tail\")"
+	"animation_variable_placeholders": "v.strength = slider(\"Strength\", 0.05, 1,  2)\nv.pitch    = slider(\"Pitch\",    0.5, -20, 20)\nv.yaw      = slider(\"Yaw\",      1,   -45, 45)\nv.roll     = slider(\"Roll\",     0.5, -20, 20)\nv.headY    = slider(\"HeadY\",    1,   -50, 50)\nv.shark    = toggle(\"Shark\")\nv.tail     = toggle(\"Tail\")\nv.legs     = toggle(\"Legs\")"
 }

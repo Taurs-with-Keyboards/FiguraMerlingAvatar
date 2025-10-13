@@ -230,8 +230,8 @@ function events.RENDER(delta, context)
 	
 	v.shark = shark.currPos
 	
-	v.tail = 1 - tail.scale
-	v.legs = 1 - tail.legs
+	v.tail = tail.scale
+	v.legs = tail.legs
 	
 	-- Animation blending
 	anims.small:blend(tail.scale * 0.2 + 1)
