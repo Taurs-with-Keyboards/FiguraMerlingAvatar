@@ -212,7 +212,7 @@ function events.TICK()
 	end
 	
 	-- Determins when to stop twirl animaton
-	canTwirl = largeTail and not onGround and (waterTimer ~= 0 or effects.cF) and not pose.sleep
+	canTwirl = (waterTimer ~= 0 or effects.cF) and not (onGround or pose.sleep)
 	if not canTwirl then
 		anims.twirl:stop()
 	end
