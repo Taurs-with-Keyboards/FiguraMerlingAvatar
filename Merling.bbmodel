@@ -3638,7 +3638,7 @@
 	],
 	"textures": [
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\skin.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\skin.png",
 			"name": "skin.png",
 			"folder": "",
 			"namespace": "",
@@ -3667,7 +3667,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAApBJREFUeF7tWztLA0EQvoCgEGsTiPhAwcbOJr12WmlhYWVlr1b+gFRqoZVVKkutLLUXwc5GUHxgIBFLBa1OJrmDzbi3O+u6SHJf2rndmftudl7fphBZfmc3T7HpkfreoXGHk/puwabDJA+t32ocGVCdHtXaeHn3EhEAlVJZK2+0mtFfALA0O661k2wj/Vk6Vta3Y5t+AGBzT3gAjgBiAIJgX6fB+eaeMc+XbzaMcfLo6sAoH1h9M8oXixWjPLT+AgFQLY3o83zrNSIDJspFrfyx+RERAMXJMa384+E5IgAGKzNa+VfjNiIALspb2nRMtpH+44VhrXzt/D0m/cM7O1r5e60Wk/6hqX2t/PN+MwYAEg/YnOt4wGmj8yGXE6/dv86JB+QeAMSAfg+CpjwUOg39exrkL8/7b97v29rL0P27r338fX/kR7X74/2+pL8P3T362gcAGAJaD1Cf6fsjwHsBHvR4rc9rex7EXIOma6/gal9WGZx+5K5S+JLV/rzW57V9WsunvQRfz8+bbT/+vG1/2360HgBkNELwgAQBHAG1G0QMQBDsngBJoiylQWSBZKSGNOg4Q5TODLM8TOKhqAMkdYBagbmWmj1fCmMewBCgfjvl4zn/LuHb1fU6cH35fF/7RPOA3AOAeYCCQC7mASk3x7k4zr1xro24NZXbc+XyJNydaX+JfaI6AAAk7Cw8gNHREhfDEVD4fcQAxwsNCIKCGxzIAoYjJolRSIOSdjj3dQDmAQoCvvx7r63XssO+7XD6/wLf+wW/Xe9iPwAIPRLzvV8Qen2bGwwZBH3nCaHXtwHwTYM+c3sTsySZ+/tWigAAHoAjgBiAIIgs4DkURRrMuCAhzeO+APp4MOqAvJfC38z1ql4UO+HHAAAAAElFTkSuQmCC"
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\tail.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\tail.png",
 			"name": "tail.png",
 			"folder": "",
 			"namespace": "",
@@ -3696,7 +3696,7 @@
 			"source": "data:image/png;base64,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"
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\tail_e.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\tail_e.png",
 			"name": "tail_e.png",
 			"folder": "",
 			"namespace": "",
@@ -3725,7 +3725,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAACACAYAAAC7gW9qAAAAAXNSR0IArs4c6QAAAudJREFUeF7tWtFNRDEM4zZiI1a5VdiIjUAP6T1Vpa3jNCfuEvODuDRp7ThJC9zein/diuN/EwFSQHEGVALFBaAmqBJQCRRnQCVQXACaAioBlUBxBlQCxQWgKaASUAkUZ0AlUFwAmgIqAZVAcQZUAsUFoCmgElAJFGdAJVBcAJoCKgGVQHEGVAKsAN7vH99f988pccg+2s/jMzs3G4tSgDW4dV0LwuPTk+CJYSaADc6uP8AcPsf3lcJmCvL4HT4mAjxgTkAsGIYIL2EtiZAAL/hzkx3/GcAI4Of5lgTsHD6yvttzRJ0JEhC90W68yKybSmD3wBEdui2jNp6nr8zG5rAERuD7z9ifUVM8M8zeS/r1LDl/CPCAnzU8SywL4J4cFuRqj5cggBmNFkKnPcCasVl/2PW3XG+je9OlgKjDR8VZZT1yIjwlAVaA1nWwB+xkLdLXC8jrd70FIkHMxp11j9VjZ3fkjWL/lgCa6at7PQPMuk9/ATrHXp/pncxfV+EdAEy2mbUjYKu7wA4RNysBzOhjwbYXm53zeEakCIhgPCIGoxq2Jy3HYMThI2K8HAGoo7OkWNdbntlMLzD1AATW+hpcgSxNwEHg6IlrySQ7nXoF0QpAh2rtFuXszPBVc0PnpC5CZzBr0Nl6r8zZNz6zfqiAtiOz4Pt+gPytpDKgmLVmApig7dqnJ2A1f2fNiSVjVuf/nf0Dx/A1OCOFBT5SAvpsZw+P7/A3Qo/KzGpCeA4f4SMCmIa1yzhqiLvxPf7DvwtENb/Rvf1RsT3grybodc7gB/8/IAPIFQYRkD3DCJ8UgBjKbpcCsmcY4ZMCEEPZ7VJA9gwjfFIAYii7XQrInmGETwpADGW3SwHZM4zwSQGIoex2KSB7hhE+KQAxlN0uBWTPMMInBSCGstulgOwZRvikAMRQdrsUkD3DCJ8UgBjKbpcCsmcY4ZMCEEPZ7VJA9gwjfFIAYii7XQrInmGETwpADGW3l1fAD7QY2K5wMUuLAAAAAElFTkSuQmCC"
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\eyes_e.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\eyes_e.png",
 			"name": "eyes_e.png",
 			"folder": "",
 			"namespace": "",
@@ -3754,7 +3754,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAAXNSR0IArs4c6QAAAC1JREFUKFNjZCAAGKmnwLQn4//pkhlgE5HZcCsMGuL/X2hYCOYjs6noBly+AQAn1BAJiFjUGgAAAABJRU5ErkJggg=="
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\misc\\cape.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\misc\\cape.png",
 			"name": "cape.png",
 			"folder": "",
 			"namespace": "",
@@ -3783,7 +3783,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAAFBJREFUaEPt1QERADAMArHi33SFfOagHBm7+Fv8/hOABsQTQCBeAJ8gAgjEE0AgXgArgAAC8QQQiBfACiCAQDwBBOIFsAIIIBBPAIF4AazAAzJOACHu+VYgAAAAAElFTkSuQmCC"
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\leatherArmor.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\leatherArmor.png",
 			"name": "leatherArmor.png",
 			"folder": "",
 			"namespace": "",
@@ -3812,7 +3812,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAArxJREFUaEPtWD1PAkEQ3WuMoSEhFGBHKIxiQwyVseMfUFPzm6ip+Qd0xoqIDWgoCJ1YEBIaYmwwb5J3Wddd9+44lZy3DefOx868nTe7a6AsYzAY7He7nUgKhUKowTnXPHW73W5g86vPcQ3Tf6/X89r6fMeRWxdDcNfNpnqez1WxWAz9lUolNZvN5G/I397f5Xu5XIoe5OPxWEVJgmu8vL6G/lerlYoCXpwEfbpWAPr9/v725kYhuO12G/pAkggSo1qtfpGdVSrq7v4+EgBYo9VqCXi1Wk18AtyjAQDBbTYbSZIBnp6cqIfHRwm20WiInAN6F+fnIo+SBCoAtqAVaYDvKNXj29U4cicFGFySPmADQE/Y10N8awOwKCBHASJgYK5FzXl9x+LYQJe0Ao3gh1WG3kEKYN7Uq9frIicd1+t1apUiAKChYaCpmU0OZQ5us+GhyWEHTBsGTj34I4V4eoA2eqLsAWygXNumR3/4TbNZCgBoaByLxSJMEMnoHZ7B49dlo3d19g8mZnIeQDJ5gMUGG0UvVQoQcXN3iDpLVAfAtIFMn9P55+ruOAnK5bKAALA6nY61Jw2HQ2mYKH2MNBtlgCB0jqFcyU8sZqsAyG02nNP5iuRQVa6gsX7aSeng+74/UQC7AJRRmnqJswJQpqQI5bTBQuA0B49IXp7SKllfQnHlX04BnsnkJxLkbRDf+nXY5KoOCgPh5eloAXAhRn5CTo76jh/bWf8Xl5s4VfDtw4P8pMM0m0+cIH9S91dfXj+ZSFLfOQBJkcuKXV4BWdnJpHnkFYCjDseb/izmBYdXVJssK0diMBqN9u12O5hMJnInN6+yLhnmk5bdMdkFT9Pp/vLqKuCLi9de/A8AwyXD/DElkjQWeQ3+awokRS4rdpko40M2IwfgEPSyYJtXQBZ28ZAc8go4BL0s2H4Abv8SPyN3hWcAAAAASUVORK5CYII="
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\chainmailArmor.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\chainmailArmor.png",
 			"name": "chainmailArmor.png",
 			"folder": "",
 			"namespace": "",
@@ -3841,7 +3841,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAAS1JREFUaEPtWG0KwyAMnffrDSbsAoWdZdALDNwNej+HW4VR2iUxxgab/RHWfL2Xp6Z1l41feIXor96Vrlsx1//txcb41rRxe8FKwWc/TJEaSNgk4CzgU5NMAa3OAK6q1v6YLYaxKT7oqIBSMVQfyB4DELL5bAEoUY3nKQ/nZpFTwDNEf/MuSK3LlSpBNNRdzPOvAmqDz3NEjvtDAjQPYK9lDDiMjZseUxzvY/WVIlnK7IABRbFpdgak/U8prJVt01ugFShKnr9doY6qVHtKoVK2oCwpe1mqSMm4IAGSyTXENgI0dOHIGkwBR7KvIbcpYJ7nWNKJYRi6II8+CS4vOCWkafRhvQ1qBEStqfg7ADWRVvsu9jGHXCOAw14PvqaAHrrIwWAK4LDXg+/pFfAGW59kTrrQVXoAAAAASUVORK5CYII="
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\ironArmor.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\ironArmor.png",
 			"name": "ironArmor.png",
 			"folder": "",
 			"namespace": "",
@@ -3870,7 +3870,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAArpJREFUaEPtWMGKwjAQTUFQUPCgIOhN7/oFCnrSL/amoF+gR0FvCoIeBAUFweUFXpnNJtqspSvd5mLbmUlm3ryZJAbKMmaz2eNyuWhJsVgMNfjN9Z26vV4vsM0rv3ENc/7RaPTS9tXcPnLrYnCu2+2q6XSqKpVKOF+hUFD7/V6/t1otdT6f9fN2u9V6kG82GxUlCK6xXC7D+U+nk4oCnk+Ar3StAIzH40e73VaHw0Edj8dwDgQJJzHK5fIPWbVaVQgoCgBYo9lsavAajYaeE+B+DABw7nq96iDpYKlUUuv1Wjtbq9W0nAN6/X5fzefzSEGAAbBFWbEM8BwFvFdZ9ZE7S4DO/aYP2LIoA6aDsv5Np5/1INjFxZSAjrkCpmM2h6LaEESUDcZut9O/ZBmeZX8x9er1utZnOd5ut9iYogFAw8NYrVZhk8M3vGOA+mx4aHLIgGkDgIbDYWgDO5ZQLpfTVEcgCALv7CMInLoERurBDkBRB79xNksNABFndhAgujyaoBy2LD2zYf/gzkHGkPr3+/3bLsMGG0Uv1hJAQ+OAsxJ1szYZjGkDPflN2rm6O3YCSe/BYODclThfPp9XLj3T1yjvgekE6SrrkxORAaQz61JSnLqsV2ydoLaru2N92CTd/enntxKA02gwoCjLQtaopDvltIGMtSrrlaDFRdkoWfXR+bELuOpTZlsuIPdxCQp1eHj6WABcaIGaqDcehZnpZ1Q193qA+ReHGy8GPFNmfVLnr+rUJyBf3URvXr7OJaGfAZAEyp+8RsaAT85OEr5lDMDejUOK3PLkPd0l+9SDjS9rgsVi8cBZ3bxzYyKe422yOC8kvk7HqR9MJpMHLjO4mjJoeaFxyTqdTirKR1MfJzzbP0O8pdlkaTkVpiKL75REBsA76KXBNmNAGrL4TgwZA95BLw22/54BX1ya2zBcn1PMAAAAAElFTkSuQmCC"
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\goldenArmor.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\goldenArmor.png",
 			"name": "goldenArmor.png",
 			"folder": "",
 			"namespace": "",
@@ -3899,7 +3899,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAAvlJREFUaEPtWLFuE0EQ3XOBBFZEA8iFTUIKQCFIiAqaFFEENOYDoKAOLT9Aj2ihoqDhA0gDCFGkCVVAIopiipBgFxHQWFGCROGgN3fvPD7f2nvnM7GO2+Z8tzOzM2/ezO7aMzFj5/W1o/1WSWamqp1Qgt9s3yk7c/ezF2dXf+MaUftXH64P1R1mO8l87GJw7nz9qfn99oE5NXOha69SM7urm/Jeq98ypXZLfh9+XPXlKjWz8WrLuATBNbzG49D+7td94wJekgCHycYC8OXZ9aO55SVTaqyZw51voQ0ECScxpi9O9c11Lt00m8/fOwGANebvXfbBu7EgNgHuxAAA58xeU4Kkg53TVdNceecDsDAn8xyQO3n7pfm+8sgpCDAAuigrlgF+u7BnWFaTzFtLgM6l6QNxWdQB08G4/qLBiK6tfcoKKI+O2QKms64NUKMf1UHZYGx8OJAnWSYvqr/0yS2W/V4TlOP29rnMmCIAoOFheO0XYZObrn8ypn1fvoP6bHhocshSVAfBXll+IjbCEZTQzz9nhOrzi2UJAu9SRgCkUvPF95pdYJSc6KEcAxk8smyWAgARZ3YQoHT5xppOaGyWBumwf3DnIMtI87MnfvXsMmywLnJZNUsfADS0YMDZHtR7IegyJKIjGVXftJqtu8tOENAbZWGra8hpe1nVv7BeO0F6hgCoLq/rlHRmXWqK01HWK7ZOl+CyDCqSs4GvPSUAp9FgQNGwLFSNarpznjqYC2tV1SubW1aUTRKci2zfLmCrT51tbVjv4xoUyvDwNLEA2FBCaczO/gibFDM9iKrRvR5gHsfhxiXzlBl48Rhn80ni5Dhl/+nNa5yBpLVdAJAWubzoFQzISybTxlEwwLZ3E1F9P+e+jrnjOrqmzbRNzzt4U5WLBk5s0b+/ePqLmy/faeWCPXIZQoDMLk9/uMDojPN+wAvTpB5tkzKkL4sABMHGBUiw8kJ/gJULGifNupYvABgFvTzoFgzIQxZHiaFgwCjo5UH3v2fAX8rPyTDH4KNRAAAAAElFTkSuQmCC"
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\diamondArmor.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\diamondArmor.png",
 			"name": "diamondArmor.png",
 			"folder": "",
 			"namespace": "",
@@ -3928,7 +3928,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAAwdJREFUaEPtWElrFEEUrsYFSSIEgpdoXNG4EGa8CJJB0Ysb+C+8iBeP3kWP3vwhghovgjIieJkEN6Jo0CwgEgnYCRKXlu/h177p6equ6emZDE3XpbvrLfXe95aqas/EjOr04+C37wtl09BQyME52zx5p6tnvTi9eo5rRPW/rF1OlU3T3Q49djEYd79SM+c+fTS7t/9n2bd1wDz78F70Xz921Lz48VPenyyvCh/oT2caxsUJrnHl21xo79L8onEBrx0H03hjAZio3wtun6yZuytfzefvQagDTsJIjNGxnS20q8M7zI3ndScAsMapynEB7/TIoOgEuH0DAIybW18TJ2ngiW1bzJ3Xb8TYyQMHhc4Bvkd79ptLM3UnJ5ABkEVZsQzw7pI9aVFth24tARqXpQ/ERVE7TAO142l9hTLsQ3kB5dEwm8PRhV0N1foog7LBmH87K09mGd51f4nyjR0ZF36Wo7fwLrdMEQDQ8DBu+V/CJteonDHX/AWZvzAwaB6urco7mhwiF5VBZKYmz4sODpbQ5pUlSXU4AifwjQFH4TgGeAmM5oMcgCIPnnk2SwGAiDM6cPDmRFWaoB5xUUqSYf/gzsGsYOr/Gh5t2mXYYF348mqWAgAaGgeM1ag3IfCvU2MuKhOd03K27o6dgOmN6NvqGnxaX171D52eNoLpSQB0l9d1ynRmXeoUp6GsV2ydLs7l6VQ0aEnfTSUAo9FgkKIsC12jOt1JpwxorFVdryybvFK2HedceFt2AVt96mhrxXof16CQh4envgXAhhJKI9h1KGxSjHRSqkb3eoC5EYcbl8iTJ/Hi0c3m046R3eTt6c2rm45k1V0CkBW5osiVGVCUSGb1Q06Ctl9ZSbSsC/abnLcYrAeNP77c9vSZHc7jdmejbdTRNW8AvYvLswGOqzz340amz/o22oOR8UL0j6YS0NdifS8A6lHaq72HiwGATin+G4g79ibR8k7LXupriSL/18fVeBKtl0bnuVYh0rgTQEoAOkGvCLJlBhQhip34UGZAJ+gVQfYvg5YOP5cxDNIAAAAASUVORK5CYII="
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\netheriteArmor.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\netheriteArmor.png",
 			"name": "netheriteArmor.png",
 			"folder": "",
 			"namespace": "",
@@ -3957,7 +3957,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAAsdJREFUaEPtWEtrFEEQ7gHBxFdwXdAQkkjQrCDi42AwOeSgF0/+Vk9ezCGHROLBByK4UUIehCisK3loIggrX8M3lJ3u6eplTIZl+jKb6arqqq++r7Y3mfGsB61WD68vDjfNzOyc+bz6yXQ7383+YSe3nhxv2c8XGiP2edDdtc+NrbZ5025nvrjyHc948vjZP/E1vrHYKfveRG9MXu9dGjqbA7DT2TGbq2sWgL2j32bs8pg5N3zGntMcnzCjzVHz4e2K/fvX4R+z+G4pCgDPAACMv/1j23zZWI/6phQYsy0EAM5M8OP71zYWAMACQFi37z60ALxceJ7va4qYvzfXA4h37s9YADpbm2rwYkWl7HsBYHIIJBNkh9EpMmRiesoCsLK8lDNEAwAkABlJCWnlk1JgzNYLAJMLaZxBMSMazSvm5vStHADs+XT89NF8b+j8iDn6uWs7je5DPpwdAAIswNLYvXi1WIpUMiaGg2VySAJJyQTxGTZM0vVhQbKrLOxb96udKViYJfwMBmFhxrh7RXaaORPrPvYzSXdSHE9SWwbhsMI7DsF+fMgA6ct47p58L88tjQGgO7shO0CKQt9YclDJzvTjQ3+egRgcgjJ2kV1pDAhJoIjOIQlANr65Adn4OgbwrzauWR9IJHQH0NppKO/aZCEGuDKQ9A8xgBQlEJwpeB/qGC9EsQuQ1i4VBO8McHXHoD6dUscxn7I0m1pgzD7IgH5nALvPg8mCsjQbKyh1P/hdSt1hFnBIFekUNvSREoj5pCZctn3hZULOB+g+plOCIL/vNT5lF5USr5TbVMqBVbOtAahaR046n5oBJ4141c6rGeB2pOjK+b+uo6fJCnsTlAnIHyduYpofLqdZTD9n23+ISEd583MDyr2q3u1TQTjGAG2Aqt/wtHXUQ1CL1KDa1QwY1M5q66oZoEVqUO1qBgxqZ7V1/QVD4QE/oJqsaAAAAABJRU5ErkJggg=="
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\leatherOverlay.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\leatherOverlay.png",
 			"name": "leatherOverlay.png",
 			"folder": "",
 			"namespace": "",
@@ -3986,7 +3986,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAANBJREFUaEPtmLENgzAURD9SCkdiAEoGSMkUlAyaSRgiI9DxC0uO7CoiNsX/Fce5M9YV9+78kdxJZS3TmMKjdiKiUeS9frr66fW+Vo1kAEP//HOjcZdNCeA+DciJH9ctGjC/hhRCaF5oqBmQ7/uvU1Ut2zMALTJXHJww09z6/yEAKzkUHRuAkqTVBxtgJYeiYwNQkrT6YAOs5FB0bABKklYfbICVHIquNCC/CbQeOc7OECAQAEKKHg8cgh56CFo2ACFFjwc2wEMPQcsGIKTo8fAF6WE+IZBixT0AAAAASUVORK5CYII="
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\boltTrim.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\boltTrim.png",
 			"name": "boltTrim.png",
 			"folder": "",
 			"namespace": "",
@@ -4015,7 +4015,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAAFBJREFUaEPt1QERADAMArHi33SFfOagHBm7+Fv8/hOABsQTQCBeAJ8gAgjEE0AgXgArgAAC8QQQiBfACiCAQDwBBOIFsAIIIBBPAIF4AazAAzJOACHu+VYgAAAAAElFTkSuQmCC"
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\coastTrim.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\coastTrim.png",
 			"name": "coastTrim.png",
 			"folder": "",
 			"namespace": "",
@@ -4044,7 +4044,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAAORJREFUaEPtV8EJBCEMXDuxFEuxlJRiKSnFTvaIkOOE2/UjIcRZEBYNzmRmfCRdh3/p8P4vCIAEHK4AnoBVAJj5Fqyc8xey9z7BP50x86W1pZRxRylli3lJif0jJ0AKrP9vDUitLr1P6ncS3m3YFhV3k7K8DwJYqu0RCwnw6IolJyTAUm2PWEiAR1csOSEBlmp7xEICZBjSAUcGGZ2yiOiutQ7TZP93IpN6Igoh3tRE713EGHutNREgRJNvT29q8CkNHt/uLk7hHV4JBQFWCkU/RwKiO7zqDwlYKRT9HAmI7vCqvw9Ga0whztO0UQAAAABJRU5ErkJggg=="
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\duneTrim.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\duneTrim.png",
 			"name": "duneTrim.png",
 			"folder": "",
 			"namespace": "",
@@ -4073,7 +4073,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAARNJREFUaEPtWNEJxSAMrJs4iqM4mqNkFDfp4+DlEcUKLYVEX4R+1LQmubvE2nAMBhGdtdYj5xykuZRyxhiPlFIzP1pjlblhIrVWJHrbtkrSMs7bSc7AcQAWRGCoAPQA1HpfBmAfvWGrHsDJMnlEhMT5agBiAL4g/PjGPcaKjXObbv60+gJvbbwAszna7nh7xLOwy3dwv5UC+j3/6ttAIo9nuBQkSJZ7xrQEpDpG7D6VnaX3vAdYYkMjFleABuqWfLoCLLGhEYsrQAN1Sz5dAZbY0IjFFQDU8c2PH6B8mGEmcIiZ2TQYe9tnkzQnDCc9IL3t7UC01vMS0ELeil9XgBUmtOJwBWghb8WvK8AKE1px/L0CPoiDmiEU3mgJAAAAAElFTkSuQmCC"
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\eyeTrim.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\eyeTrim.png",
 			"name": "eyeTrim.png",
 			"folder": "",
 			"namespace": "",
@@ -4102,7 +4102,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAAP9JREFUaEPtWAEOwyAIrD/xKT7Fp/gUn+JT/EkXyGhc0znXLMiQJk1tAwHuDiN12+KXW7z+zQAwBSyOgLVAznmvtR468N7jGp5wl1LwPYSwgR3ZfusTYxQJdjepUsoeQkCbdt3rmjs+M7uwCwCog5hr172E7/hMBaDXAsQ+JQjsfmqBdz5/2QIzmeGKLXJj4ioe4hgAnGhLjGUKkMgKZ06mAE60JcYyBUhkhTOnQwG1VjzmtsPPcyJUrRIHhXvv3dW0R9+uwDmf+TlZ+2UsLJzm/JTSC9spJQAH/wtoKfgMnmp5jyjFABhBSbONKUAzuyO1mQJGUNJsYwrQzO5IbQ9yLoQhbDrofwAAAABJRU5ErkJggg=="
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\flowTrim.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\flowTrim.png",
 			"name": "flowTrim.png",
 			"folder": "",
 			"namespace": "",
@@ -4131,7 +4131,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAAFBJREFUaEPt1QERADAMArHi33SFfOagHBm7+Fv8/hOABsQTQCBeAJ8gAgjEE0AgXgArgAAC8QQQiBfACiCAQDwBBOIFsAIIIBBPAIF4AazAAzJOACHu+VYgAAAAAElFTkSuQmCC"
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\hostTrim.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\hostTrim.png",
 			"name": "hostTrim.png",
 			"folder": "",
 			"namespace": "",
@@ -4160,7 +4160,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAARhJREFUaEPtWIEJxCAMrJs4SkZxFEfpKI6STXwi5Mn7Wvgi1vgRSsG0xrtcr0F3NEaMMdM0IpaLhve+XDRijK71nsa5JhAioAfyKmYEKGSgqYDzPHMI4eeYQvxHFyR97wDwEU8pZfKEHjkqCWDDY6NjEFcE8DNskBK4NuPcxs3vqs8IuMvcLu85MjYJhpsd731THYj4bpJqEmrT5Djl6MWeJvILJBPCRMhOkLtDuvf+ELUxcgephoCnKzI7v5ngbMZXy2cKWK0is/djCpjN+Gr5TAGrVWT2fkwBknFqg2ULvGr7OlIljo6/JGg+7annKWlKqeQGgG1OhewTGCknjWuZAjRWbeSeTQEj2dS4lilAY9VG7vnvFfAC8HB8IRDmrrEAAAAASUVORK5CYII="
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\raiserTrim.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\raiserTrim.png",
 			"name": "raiserTrim.png",
 			"folder": "",
 			"namespace": "",
@@ -4189,7 +4189,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAAOhJREFUaEPtl40JxCAMhXWTjuIoGSWjZBRHySYeCh5WvFKKpPFMQSitPy/vfaXEu80vv3n9zgwwAjZ3wD6BzQFwHhFTNeE4DteMIR3MnJjZ1dGvDSGc1sUYy3wAUEnbT1FElHrRo2c9QbngakJ7r5U0lalImmUGSLqt8SwjQGMqkpqMAEm3NZ5lBGhMRVKTESDptsazSjOEiJck1Dm5F8hFaG1snhhcCgeARERDE+q7thG60xQ9EfPGmm/Ro5Tv0PGG6JlnnlL/15SvDLO/wEycVtzLCFgxtZmajYCZbq64lxGwYmozNX8AJ+dYIXGbQbYAAAAASUVORK5CYII="
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\ribTrim.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\ribTrim.png",
 			"name": "ribTrim.png",
 			"folder": "",
 			"namespace": "",
@@ -4218,7 +4218,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAAOxJREFUaEPtl+EJxCAMhesmjuIojpJRHCWjuIlHBEsrx3FKLKS+/ilYk8b3vhaeOza/3ObnPyAACNhcgcc+gRhjyTlXub339Z5Sur1f9sj6P/v62lkfHxNgdsDVde7qzC932iC9SzM1owQIEcxczQohFKkHAUpoqBJwdarNp+2Y0rnPNvgHaCtqrR8IsOaY9rwgQFtRa/1AgDXHtOcFAdqKWuvniKgws4SMGkNbyJDQI6GjPSOiV9LyykONUHiGoW8Rs0XlPr7KulYcHRl2xV4QsEJVSz1BgCW3VswKAlaoaqknCLDk1opZtyfgAzhhbSEaZTN9AAAAAElFTkSuQmCC"
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\sentryTrim.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\sentryTrim.png",
 			"name": "sentryTrim.png",
 			"folder": "",
 			"namespace": "",
@@ -4247,7 +4247,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAARVJREFUaEPtV+0NhCAMxU0chVEchVEchVHY5C5t8hJEvLwfp2gtiRFMU/o+wHQKLx/Ty/EHJ8AdMIiBnPOnlBKWZVEXtuuryhp2BNZ1VQJSSlpDuzZPAACOUh777xwgSsCWRyowMayCo5TvEiDFzPMcYoyTKCPvGgi+9VTDt5zzBnuMMSAnS8qVcQoUG0qhMuRsggSZy6iJqePqYkFYSklz4nz3yLwS5K+9Di/Bns3/af3bE3CXAs+uY9hv8GxgbH4ngGXKapw7wKqyLC53AMuU1Th3gFVlWVw7B5RStE9vGyE24dPilABpXtC1CXh5pOHBHE3N08Ax9fodwLBkOcYdYFldBps7gGHJcow7wLK6DLbXO+ALtamLIXZeekQAAAAASUVORK5CYII="
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\shaperTrim.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\shaperTrim.png",
 			"name": "shaperTrim.png",
 			"folder": "",
 			"namespace": "",
@@ -4276,7 +4276,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAAPNJREFUaEPtl+EJxCAMhesmjuIojpJRHMVRsolHjovQokcrJQZNfxU0xvflGdQdm39uc/2HATAHbE7AjsDmBrAm6HLOhV3gva+G8N43jwci1vmIeDJQCKEZQzl6Y7Md2O0BLJRFMpweGBKSUipXKBQXY1Tba9RuTMoZBkCKtNY85gCtlZHalzlAirTWPOYArZWR2pc54Eqar8D/rrxS1ZHIUx1ADxa6t7NwAkH3eq2PmLfgOHrA0GK9BwuPEwwA+AIDgML/b21k1jqPegAJ/wF4FDdL3J28ywi5I7Y1xwCMklslzhywSiVHdZgDRsmtEre9Az7xCD8hbs3HegAAAABJRU5ErkJggg=="
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\silenceTrim.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\silenceTrim.png",
 			"name": "silenceTrim.png",
 			"folder": "",
 			"namespace": "",
@@ -4305,7 +4305,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAAjVJREFUaEPtWImRhCAQ1EwMhVAIhVAIhVDMxKueoqmRA71dXRc9turKU77pnp4WGYfKz1q7oMkYIz1CCHL13o/DMCzTNMn9PM+4H6Zpkv7zPOMiz+7wKwYKMASWg0AbwIcQimONMUutrUVCOgGlrOwpQEu/pJCaem6jAATqnBOpq1qX+nbOJQ8oABUfKHkAPCX6B8pH+sFX4nyyHv3GGCPKxJhYbqnkUGLox3FHSV0ZmM7sDgHJ9PSYLeNkmybVWrsqQRADkvlH02UsNNmzwEumMLme0HvPLCIDqwBrbXoO3SdmMc3BjAKgtfaXAphtXNGHiqEi4/XUN4wQQBlR7gyglCH1quMrT4aTRBCgyyafAySQgBLB3nspOw3+qMy3xo8IiLWHjgSP+kQQJAgAmV324cToizkASNcyaxzjcrCscR3cVaD1miNNhQ/jRiZlAO3RsISsXC00MxqTJlSTWKtbzvkN8MmtCZJACVI/32rDxkcTpRmuPf+krF+ZW15pLAHtvlHmueGsFMBaj9vkUW2H8+3xqcb1CsC9vtXAcmn+VapxEyXrVkjci+nS9s3M0LEJ5lt1+klGmpXmJ0Gv3gJXLdTqOl0BrWbmqri6Aq5iutV1RAFbx1i6rfVd3Tskp28BftBwz06w2CXyQJRnfXc799siRr7eAJAgnXPyP+9BgDqBqZ74vMN+C2PkWyAGQkOs3efxPsJAHwHiiJI6AUfYe8LYroAnZPEIhq6AI+w9Yey/V8AP9uCZMMls3I4AAAAASUVORK5CYII="
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\snoutTrim.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\snoutTrim.png",
 			"name": "snoutTrim.png",
 			"folder": "",
 			"namespace": "",
@@ -4334,7 +4334,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAAQFJREFUaEPtmO0NxCAIhnUTRnEUR+0obNIL5myMbb2EwF24vv2j8QPh5bFpyenhT354/AkCgICFAsy8E1GjpPfHsX8Qb3kFrAXYtm0vpeS5FSHv5sZxWTfut0jARwHGQzoN2oNnilYCX62Vc8UHSwrxEtSgp9mjpcZ734HTHZ4yPqO3WtsR9cDVQwxcAQ9VI9kEAZGy5eErCPBQNZJNEBApWx6+ggAPVSPZPBEwfvpGCkTr60kA+dFh5lRr/en1uKoZaINc7WvFCQmYiKTq09b2/ti+q0LHvBQmPBzqNr9VgXINwlMgK9sQwErJqHZAQNTMWfkNAqyUjGoHBETNnJXfL87i8iEQ8GIvAAAAAElFTkSuQmCC"
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\spireTrim.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\spireTrim.png",
 			"name": "spireTrim.png",
 			"folder": "",
 			"namespace": "",
@@ -4363,7 +4363,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAAP1JREFUaEPtV9sJxCAQNJ1YiqVYiqVYiqXYicfIbdBE7kMOXHQCkkRd3XlENpc5/LoOx29IAB1wOAP8BA43QH8IxhiLtdag4bLWdg7JORf055xr896/HIQ5GPvGv9bQRngHIIRQQgi1D0BGBEhfO7cF1caN1lBHAFSXpKCcEJBSutUWNXF3zlWCQIA4ReLlXea0a4zcooEMHoIaVFiZAx2wkn0Ne9MBGlRYmQMdsJJ9DXvTARpUWJlDdQBKVpSvKIulZJXnX2MrE//X3jfoFigWBxFP8PLfoLWunyGFZ8AMazvF0AE7qTmDhQ6YYW2nGDpgJzVnsNABM6ztFPMBX2V2IdmSVMcAAAAASUVORK5CYII="
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\tideTrim.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\tideTrim.png",
 			"name": "tideTrim.png",
 			"folder": "",
 			"namespace": "",
@@ -4392,7 +4392,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAATNJREFUaEPtV4sRwyAIjZs4SkZxFEfJKI7iJvbolZxaPyW9BGPIXS+JYIDHE6haCpdzLqzrqqiykv7oa8UgvfdBa02WjR5syT9ykC1wBIAbIkA+5636cMP4FwUBaa1337337+dWEQQ5dU/te9ygJQyIs1vKdE/OHcwR+zsA1tpgrU0Aidd68iPGR9izB7xtWzDGJADEaz35CMEc8UGOQI4anPNfiuCoRY3KAgXUxk1Q2aELwP3zSxgCQxDIUQc7Bu7Hd+wQ8Xt+vKiOnqVfnAPQGLDBOYdtsdoaz3Luiu82AbjCAW4bAgB3BrjtCwO4M8BtXxjAnQFu+8IAnATz6S+e+iBLo05y/zLoiwG1/wIA1B1GWyogcgSoiM2mLwyYLaPUeIQBVMRm0xcGzJZRajyPZ8ALQ/28IcznvhAAAAAASUVORK5CYII="
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\vexTrim.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\vexTrim.png",
 			"name": "vexTrim.png",
 			"folder": "",
 			"namespace": "",
@@ -4421,7 +4421,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAATVJREFUaEPtV4sNgyAQxU0YhVEchVFuFEZhE5tnSmKt+oL2KsEjaWpyB9z7HOjgHj6Gh+N3RoA5gDCQUppyzm4cRxW35Jzn9UMIKuszgemm/yAARXrvaS0MzJk43RQKiYiLMdLcMwWAYO992wRoWlREZgKabQE4QNOiMcYphNAuAdoWBQFwgNYhy9pyAMCtpNKXS4sWN6Al9sbaymX9uyxOCYACS0AAjgFblmfE8Yz/lNIc35rzJu1jT+Thp3WIMoAsvnuyl95ckgDwR0AwZ2vDVsGj1sOrrZAA4FBRRFSuQqaSZrw7QLVkGQG1jPWWbw7oTdFaPOaANWN428O1d9eraa2CV/O/HKD9/X+14F/PNwLWjN79dfZrhdl6dggyhnqPmwN6V5jhMwcwhnqPmwN6V5jhewFmUZwhInLBlAAAAABJRU5ErkJggg=="
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\wardTrim.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\wardTrim.png",
 			"name": "wardTrim.png",
 			"folder": "",
 			"namespace": "",
@@ -4450,7 +4450,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAAP5JREFUaEPtWMkNxCAMDJ1QCqVQCqVQCqW4E1ZGQXJ2xVpy/OBwXig+sGcG5MRdhz/u8P4vA8AUcDgCdgRyznUkAu/9wwQArF7Qp/thfM8RY5wS7CmLYlFWdHAppUqZxjVlkO5F31M1jNYY23OnlKYEuxWFx0Aq0TexikSKUzUASik1hCBi6E2suGrFwNY0ANQuYyrnf5dgt90XnQg8xT7EqZYtXNzxV6ABoIXkqnlMAasyp1W3KUALyVXzmAJWZU6rboezPE5/dLK7p8O2x8gm/XbQKlwrz88R6P8HdmmQA8ruAA6h3e2mgN0Z5vozBXAI7W43BezOMNff8Qr4AKTZUSG2WARZAAAAAElFTkSuQmCC"
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\wayfinderTrim.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\wayfinderTrim.png",
 			"name": "wayfinderTrim.png",
 			"folder": "",
 			"namespace": "",
@@ -4479,7 +4479,7 @@
 			"source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAASpJREFUaEPtWNERgyAM1U0YxVEYhVEYxVHYxN7LmZ5a7dFcFQjxh1NMyHt5xMg4nFwxxsU5RzPTNI0YU0pLSgnj4L2nZxquUyAg4Arkt7kWCfmZgBDCEkLoVwFdENCilKUxk5Sxr9lBboGDEmCDYgmbVgunmr0sVsA/9jR8sBL4k7mq462wXGVJgUjtKMCjnHOcQfLoCVZ78jPPMxHhnNv1DtxL5Ph9+p2PLcAgAA6Bc31ABo9zTwd7x3qXNYA7P87eMbt3BFPCpxXBEqzXtKYpoKZslIjFFFCC9ZrWNAXUlI0SsZgCSrBe05rU36Pd5R8iPu7a3uOd7WGopnPB3e/q9lCDATPYs7maMimNxWqAlDktdqYALZmU4jAFSJnTYmcK0JJJKY7uFfACswusIQI7DBUAAAAASUVORK5CYII="
 		},
 		{
-			"path": "D:\\Total\\OneDrive\\Documents\\Misc Docs\\Video Game Assets\\Modding Assets\\Minecraft Assets\\Figura Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\wildTrim.png",
+			"path": "D:\\Total\\Documents\\Figura\\Instance Avatars\\avatars\\GitHubRepos\\FiguraMerlingAvatar\\textures\\armor\\trims\\wildTrim.png",
 			"name": "wildTrim.png",
 			"folder": "",
 			"namespace": "",
