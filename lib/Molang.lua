@@ -1,11 +1,12 @@
 -- Molang to Lua conversions
-Math = {}
-Math.sin = function(a)
-	return math.sin(math.rad(a))
-end
-Math.cos = function(a)
-	return math.cos(math.rad(a))
-end
+Math = {
+	sin = function(a)
+		return math.sin(math.rad(a))
+	end,
+	cos = function(a)
+		return math.cos(math.rad(a))
+	end
+}
 
 -- Allow q.anim_time to be interpreted as anim:getTime()
 q = {}
