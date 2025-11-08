@@ -199,7 +199,7 @@ local a = {}
 a.pageAct = parentPage:newAction()
 	:item(itemCheck("redstone"))
 	:onLeftClick(function() wheel:descend(cameraPage) end)
-	
+
 a.posAct = cameraPage:newAction()
 	:item(itemCheck("skeleton_skull"))
 	:toggleItem(itemCheck("player_head{SkullOwner:"..avatar:getEntityName().."}"))
