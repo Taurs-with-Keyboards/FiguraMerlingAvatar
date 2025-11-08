@@ -6,7 +6,7 @@
 -- │ └─┐ └─────┘└─────┘ ┌─┘ │ --
 -- └───┘                └───┘ --
 ---@module  "Animation Blending Library" <GSAnimBlend>
----@version v2.2.1
+---@version v2.4.0
 ---@see     GrandpaScout @ https://github.com/GrandpaScout
 -- Adds prewrite-like animation blending to the rewrite.
 -- Also includes the ability to modify how the blending works per-animation with blending callbacks.
@@ -19,7 +19,7 @@
 -- function, method, and field in this library.
 
 local ID = "GSAnimBlend"
-local VER = "2.2.1"
+local VER = "2.4.0"
 local FIG = {"0.1.0-rc.14", "0.1.5"}
 
 -- Safe version comparison --
@@ -65,7 +65,6 @@ local s, this = pcall(function()
   local m_1s2pi = m_pi * 0.5
   local m_2s3pi = m_pi / 1.5
   local m_4s9pi = m_pi / 2.25
-  local t_remove = table.remove
   -- Localize Figura globals
   local animations = animations
   local figuraMetatables = figuraMetatables
@@ -198,21 +197,80 @@ local s, this = pcall(function()
 
   -----=================================== PREPARE ANIMATIONS ===================================-----
 
+  ---Creates an animation data table for any user-created object.  
+  ---It is your responsibility to keep the object updated if necessary.
+  ---
+  ---If `proxy` is set, that table will be used to store the data.  
+  ---* It will not have its metatable modified.
+  ---* Its `__index` method (if it exists) will be triggered for each key that has a default value to see.
+  ---* Its `__newindex` method (if it exists) will be triggered for each missing key that gets a default value.
+  ---* It will be returned by this function.
+  ---
+  ---Do not provide a proxy if you do not intend to actually use it. If no proxy is provided, a more efficient method of
+  ---generating the data will be used.
+  ---@param obj table | userdata
+  ---@param proxy? table
+  ---@return Lib.GS.AnimBlend.AnimData
+  function this.newAnimData(obj, proxy)
+    if proxy then
+      animData[obj] = proxy
+      if proxy["EZAnims$hasBlendTime"] == nil then proxy["EZAnims$hasBlendTime"] = false end
+      if proxy.blendTimeIn == nil then proxy.blendTimeIn = 0 end
+      if proxy.blendTimeOut == nil then proxy.blendTimeOut = 0 end
+      if proxy.blend == nil then proxy.blend = obj.getBlend and obj:getBlend() or 0 end
+      if proxy.blendSane == nil then proxy.blendSane = makeSane(proxy.blend, 0) end
+      if proxy.length == nil then proxy.length = obj.getLength and makeSane(obj:getLength(), false) or 0 end
+      if proxy.triggerId == nil then proxy.triggerId = -1 end
+      if proxy.callbacks == nil then proxy.callbacks = {} end
+      if proxy.callbacksCache == nil then proxy.callbacksCache = {priority_0 = 1, use_default = true} end
+      if proxy.model == nil then proxy.model = "<UNKNOWN>" end
+      -- if proxy.startFunc == nil then proxy.startFunc = nil end
+      -- if proxy.startSource == nil then proxy.startSource = nil end
+      -- if proxy.endFunc == nil then proxy.endFunc = nil end
+      -- if proxy.endSource == nil then proxy.endSource = nil end
+      return proxy
+    end
+
+    local data = {
+      ["EZAnims$hasBlendTime"] = false,
+      blendTimeIn = 0,
+      blendTimeOut = 0,
+      triggerId = -1,
+      callbacks = {},
+      callbacksCache = {priority_0 = 1, use_default = true},
+      model = "<UNKNOWN>"
+    }
+
+    if type(obj) == "Animation" then
+      local blend = obj:getBlend()
+      data.blend = blend
+      data.blendSane = makeSane(blend, 0)
+      data.length = makeSane(obj:getLength(), false)
+    else
+      local blend = obj.getBlend and obj:getBlend()
+      data.blend = blend or 0
+      data.blendSane = blend and makeSane(blend, 0) or 0
+      data.length = obj.getLength and makeSane(obj:getLength(), false) or 0
+    end
+
+    animData[obj] = data
+    return data
+  end
+  local newAnimData = this.newAnimData
+
   local animPause
   local blendCommand = [[getmetatable(_ENV).GSLib_triggerBlend[%d](%s, ...)]]
 
   _ENVMT.GSLib_triggerBlend = {}
 
+  ---@type {mdl: string, name: string, code: {time: number, src: string}[]?}[]?
   local anim_nbt = avatar:getNBT().animations
   if anim_nbt then
     for i, nbt in ipairs(anim_nbt) do
-      ---@type Animation
       local anim = animations[nbt.mdl][nbt.name]
-      local blend = anim:getBlend()
       local len = anim:getLength()
-      local lenSane = makeSane(len, false)
 
-      ---@type function?, function?
+      ---@type fun(...: any)?, fun(...: any)?
       local start_func, end_func
       ---@type string?, string?
       local start_src, end_src
@@ -229,32 +287,24 @@ local s, this = pcall(function()
         end
       end
 
-      animData[anim] = {
-        blendTimeIn = 0,
-        blendTimeOut = 0,
-        blend = blend,
-        blendSane = makeSane(blend, 0),
-        length = lenSane,
-        triggerId = i,
-        callbacks = {},
-        callbacksCache = {priority_0 = 1, use_default = true},
-        model = nbt.mdl,
-        startFunc = start_func,
-        startSource = start_src,
-        endFunc = end_func,
-        endSource = end_src
-      }
+      local data = newAnimData(anim)
+      data.triggerId = i
+      data.model = nbt.mdl
+      data.startFunc = start_func
+      data.startSource = start_src
+      data.endFunc = end_func
+      data.endSource = end_src
 
       _ENVMT.GSLib_triggerBlend[i] = function(at_start, ...)
         if
           anim:getLoop() == "ONCE"
-          and (animData[...].blendTimeOut > 0)
+          and (data.blendTimeOut > 0)
           and (at_start == nil or (anim:getSpeed() < 0) == at_start)
         then
           animPause(anim)
           anim:stop()
         end
-        local data = animData[anim]
+
         if at_start == false then
           if data.endFunc then data.endFunc(...) end
         elseif data.startFunc then
@@ -262,6 +312,7 @@ local s, this = pcall(function()
         end
       end
 
+      local lenSane = makeSane(len, false)
       if lenSane == 0 then
         anim:newCode(0, blendCommand:format(i, "nil"))
       else
@@ -307,6 +358,7 @@ local s, this = pcall(function()
   local animRestart = ext_Animation.restart
   local animBlend = ext_Animation.blend
   local animLength = ext_Animation.length
+  local animTime = ext_Animation.time
   local animGetPlayState = ext_Animation.getPlayState
   local animGetBlend = ext_Animation.getBlend
   local animGetTime = ext_Animation.getTime
@@ -345,6 +397,20 @@ local s, this = pcall(function()
 
   -----===================================== SET UP LIBRARY =====================================-----
 
+  ---Library-defined Animation method overrides will be disabled for any Animation in this set.
+  ---
+  ---Note: This only disables *overrides*. New methods defined by this library will not be disabled.
+  ---@type {[Animation]?: true}
+  local mt_bypass = {
+    check = function(self, obj) return self[obj] and self[obj] > 0 or false end,
+    push = function(self, obj) self[obj] = (self[obj] or 0) + 1 end,
+    pop = function(self, obj) self[obj] = self[obj] > 1 and (self[obj] - 1) or nil end,
+  }
+
+  local function isAnimationObject(obj)
+    if obj["GSAnimBlend$isAnimationObject"] ~= true or not animData[obj] then error() end
+  end
+
   ---Causes a blending event to happen and returns the blending state for that event.  
   ---If a blending event could not happen for some reason, nothing will be returned.
   ---
@@ -361,13 +427,16 @@ local s, this = pcall(function()
   ---@param starting? boolean
   ---@return Lib.GS.AnimBlend.BlendState?
   function this.blend(anim, time, from, to, starting)
+    local isanimobj = type(anim) ~= "Animation" and pcall(isAnimationObject, anim)
     if this.safe then
-      assert(chk.badarg(1, "blend", anim, "Animation"))
+      if not isanimobj then assert(chk.badarg(1, "blend", anim, "Animation")) end
       assert(chk.badarg(2, "blend", time, "number", true))
       assert(chk.badarg(3, "blend", from, "number", true))
       assert(chk.badarg(4, "blend", to, "number", true))
       if not from and not to then error("one of arguments #3 or #4 must be a number", 2) end
     end
+
+    mt_bypass:push(anim)
 
     local data = animData[anim]
     local blendSane = data.blendSane
@@ -377,11 +446,8 @@ local s, this = pcall(function()
     end
 
     if not player:isLoaded() then
-      if starting then
-        animPlay(anim)
-      else
-        animStop(anim)
-      end
+      anim:setPlaying(starting)
+      mt_bypass:pop(anim)
       return nil
     end
 
@@ -420,17 +486,18 @@ local s, this = pcall(function()
 
     blending[anim] = true
 
-    animBlend(anim, from or blendSane)
+    anim:setBlend(from or blendSane)
     if starting then
-      animPlay(anim)
+      anim:play()
       if anim:getSpeed() < 0 then
         anim:setTime(anim:getLength() - anim:getOffset())
       else
         anim:setTime(anim:getOffset())
       end
     end
-    animPause(anim)
+    anim:pause()
 
+    mt_bypass:pop(anim)
     return data.state
   end
 
@@ -445,11 +512,14 @@ local s, this = pcall(function()
   ---@param anim Animation
   ---@param starting? boolean
   function this.stopBlend(anim, starting)
-    if this.safe then
+    local isanimobj = type(anim) ~= "Animation" and pcall(isAnimationObject, anim)
+    if this.safe and not isanimobj then
       assert(chk.badarg(1, "stopBlend", anim, "Animation"))
     end
 
     if blending[anim] then
+      mt_bypass:push(anim)
+
       local data = animData[anim]
       local state = data.state
       local cbs = state.callbackState
@@ -458,13 +528,14 @@ local s, this = pcall(function()
       cbs.done = true
       for _, cb in ipairs(state.callbacks) do cb(cbs, data) end
       blending[anim] = nil
-      animBlend(anim, data.blend)
+      anim:setBlend(data.blend)
 
       if starting ~= nil then
-        (starting and animPlay or animStop)(anim)
+        anim:setPlaying(starting)
       else
-        (state.starting and animPlay or animStop)(anim)
+        anim:setPlaying(state.starting)
       end
+      mt_bypass:pop(anim)
     end
   end
 
@@ -489,7 +560,7 @@ local s, this = pcall(function()
   ---Does the bare minimum of setting the blend weight of the animation to match the blend progress.
   ---@param state Lib.GS.AnimBlend.CallbackState
   function callbackFunction.base(state)
-    animBlend(state.anim, m_lerp(state.from, state.to, state.progress))
+    state.anim:setBlend(m_lerp(state.from, state.to, state.progress))
   end
 
   ---Given a list of parts, this will generate a blending callback that will blend between the vanilla
@@ -536,10 +607,17 @@ local s, this = pcall(function()
     return function(state)
       if state.done then
         local id = "GSAnimBlend:BlendVanillaCleanup_" .. math.random(0, 0xFFFF)
-        events.POST_RENDER:register(function(_, ctx)
-          if not allowed_contexts[ctx] then return end
+        local events_render = events.RENDER
+        local events_postworldrender = events.POST_WORLD_RENDER
+
+        local function callback()
           for _, part in ipairs(partscopy) do part:offsetRot() end
-          events.POST_RENDER:remove(id)
+          events_render:remove(id)
+        end
+
+        events_postworldrender:register(function()
+          events_render:register(callback, id)
+          events_postworldrender:remove(id)
         end, id)
       else
         local pct = state.starting and 1 - state.progress or state.progress
@@ -552,7 +630,7 @@ local s, this = pcall(function()
           for _, p in ipairs(v) do p:offsetRot(rot) end
         end
 
-        animBlend(state.anim, m_lerp(state.from, state.to, state.progress))
+        state.anim:setBlend(m_lerp(state.from, state.to, state.progress))
       end
     end
   end
@@ -582,7 +660,7 @@ local s, this = pcall(function()
           ready = false
           anim:play()
         end
-        animBlend(state.anim, m_lerp(state.from, state.to, state.progress))
+        state.anim:setBlend(m_lerp(state.from, state.to, state.progress))
       end
     end
   end
@@ -613,7 +691,7 @@ local s, this = pcall(function()
           ready = false
           for _, anim in ipairs(anims) do anim:stop() end
         end
-        animBlend(state.anim, m_lerp(state.from, state.to, state.progress))
+        state.anim:setBlend(m_lerp(state.from, state.to, state.progress))
       end
     end
   end
@@ -1263,6 +1341,7 @@ local s, this = pcall(function()
 
         -- Paused blends don't do anything anyways so this isn't an issue.
         if not state.paused then
+          mt_bypass:push(anim)
           local cbs = state.callbackState
           cbs.time = cbs.max
           cbs.rawProgress = 1
@@ -1272,8 +1351,9 @@ local s, this = pcall(function()
           -- Do final callback.
           for _, cb in ipairs(state.callbacks) do cb(cbs, data) end
           blending[anim] = nil
-          animPlaying(cbs.anim, state.starting)
-          animBlend(cbs.anim, data.blend)
+          anim:setPlaying(state.starting)
+          anim:setBlend(data.blend)
+          mt_bypass:pop(anim)
         end
       end
     end
@@ -1304,8 +1384,9 @@ local s, this = pcall(function()
             cbs.to = state.to
           end
 
+          mt_bypass:push(anim)
           -- When a blend stops, update all info to signal it has stopped.
-          if (state.time >= cbs.max) or (animGetPlayState(anim) == "STOPPED") then
+          if (state.time >= cbs.max) or (anim:getPlayState() == "STOPPED") then
             cbs.time = cbs.max
             cbs.rawProgress = 1
             cbs.progress = state.curve(1)
@@ -1314,14 +1395,15 @@ local s, this = pcall(function()
             -- Do final callback.
             for _, cb in ipairs(state.callbacks) do cb(cbs, data) end
             blending[anim] = nil
-            animPlaying(cbs.anim, state.starting)
-            animBlend(cbs.anim, data.blend)
+            anim:setPlaying(state.starting)
+            anim:setBlend(data.blend)
           else
             cbs.time = state.time
             cbs.rawProgress = cbs.time / cbs.max
             cbs.progress = state.curve(cbs.rawProgress)
             for _, cb in ipairs(state.callbacks) do cb(cbs, data) end
           end
+          mt_bypass:pop(anim)
         end
       end
     end
@@ -1522,8 +1604,10 @@ local s, this = pcall(function()
       assert(chk.badnum(3, "setBlendTime", time_out, true))
     end
 
-    animData[self].blendTimeIn = m_max(time_in, 0)
-    animData[self].blendTimeOut = m_max(time_out or time_in, 0)
+    local data = animData[self]
+    data["EZAnims$hasBlendTime"] = true
+    data.blendTimeIn = m_max(time_in, 0)
+    data.blendTimeOut = m_max(time_out or time_in, 0)
     return self
   end
 
@@ -1644,6 +1728,16 @@ local s, this = pcall(function()
     return state and self:play(instant) or self:stop(instant)
   end
 
+  function animationMethods:setTime(time)
+    if this.safe then
+      assert(chk.badarg(1, "setTime", self, "Animation"))
+      assert(chk.badarg(2, "setTime", time, "number"))
+    end
+
+    if blending[self] then animData[self].state.delay = 0 end
+    return animTime(self, time)
+  end
+
 
   ---===== CHAINED =====---
 
@@ -1658,6 +1752,11 @@ local s, this = pcall(function()
   ---===== METAMETHODS =====---
 
   function animation_mt:__index(key)
+    if mt_bypass:check(self) then
+      local value = _animationIndex(self, key)
+      if value ~= nil then return value end
+    end
+
     if animationGetters[key] then
       return animationGetters[key](self)
     elseif animationMethods[key] then
