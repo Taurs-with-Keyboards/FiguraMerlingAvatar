@@ -25,9 +25,9 @@ local wasInAir  = false
 
 -- Lerp variables
 local scale = {
-	tail = lerp:new(0.2, tailType == 5 and 1 or 0),
-	legs = lerp:new(0.2, tailType ~= 5 and 1 or 0),
-	ears = lerp:new(0.2, earsType == 5 and 1 or 0)
+	tail = lerp:new(tailType == 5 and 1 or 0),
+	legs = lerp:new(tailType ~= 5 and 1 or 0),
+	ears = lerp:new(earsType == 5 and 1 or 0)
 }
 
 -- Data sent to other scripts

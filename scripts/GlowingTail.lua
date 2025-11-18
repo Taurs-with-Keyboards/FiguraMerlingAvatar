@@ -20,7 +20,7 @@ for i, part in ipairs(glowingParts) do
 		part   = part,
 		splash = false,
 		timer  = 0,
-		glow   = lerp:new(0.2, toggle and 1 or 0)
+		glow   = lerp:new(toggle and 1 or 0)
 	}
 	
 end

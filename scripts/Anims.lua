@@ -58,13 +58,13 @@ local function calculateParentRot(m)
 end
 
 -- Lerps
-local strength = lerp:new(1)
-local pitch = lerp:new(0.1)
-local yaw   = lerp:new(1)
-local roll  = lerp:new(0.1)
+local strength = lerp:new(1, 1)
+local pitch = lerp:new(0, 0.1)
+local yaw   = lerp:new(0, 1)
+local roll  = lerp:new(0, 0.1)
 
-local shark = lerp:new(0.25, isShark and 1 or 0)
-local mountFlipLerp = lerp:new(0.2, mountFlip and 1 or 0)
+local shark = lerp:new(isShark and 1 or 0, 0.25)
+local mountFlipLerp = lerp:new(mountFlip and 1 or 0)
 
 -- Spawns notes around a model part
 local function notes(part, blocks)

@@ -17,8 +17,8 @@ config:name("Merling")
 local armsMove = config:load("SquapiArmsMove") or false
 
 -- Lerp tables
-local leftArmLerp  = lerp:new(0.5, armsMove and 1 or 0)
-local rightArmLerp = lerp:new(0.5, armsMove and 1 or 0)
+local leftArmLerp  = lerp:new(armsMove and 1 or 0, 0.5)
+local rightArmLerp = lerp:new(armsMove and 1 or 0, 0.5)
 
 -- Squishy ears
 local ears = squapi.ear:new(
