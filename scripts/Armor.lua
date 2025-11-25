@@ -40,77 +40,34 @@ merlingArmor.Materials.netherite
 	:setTexture(textures["textures.armor.netheriteArmor"] or textures["Merling.netheriteArmor"])
 
 -- Trims
--- Bolt
-merlingArmor.TrimPatterns.bolt
-	:setTexture(textures["textures.armor.trims.boltTrim"] or textures["Merling.boltTrim"])
+local trims = {
+	"bolt",
+	"coast",
+	"dune",
+	"eye",
+	"flow",
+	"host",
+	"raiser",
+	"rib",
+	"sentry",
+	"shaper",
+	"silence",
+	"snout",
+	"spire",
+	"tide",
+	"vex",
+	"ward",
+	"wayfinder",
+	"wild"
+}
 
--- Coast
-merlingArmor.TrimPatterns.coast
-	:setTexture(textures["textures.armor.trims.coastTrim"] or textures["Merling.coastTrim"])
-
--- Dune
-merlingArmor.TrimPatterns.dune
-	:setTexture(textures["textures.armor.trims.duneTrim"] or textures["Merling.duneTrim"])
-
--- Eye
-merlingArmor.TrimPatterns.eye
-	:setTexture(textures["textures.armor.trims.eyeTrim"] or textures["Merling.eyeTrim"])
-
--- Flow
-merlingArmor.TrimPatterns.flow
-	:setTexture(textures["textures.armor.trims.flowTrim"] or textures["Merling.flowTrim"])
-
--- Host
-merlingArmor.TrimPatterns.host
-	:setTexture(textures["textures.armor.trims.hostTrim"] or textures["Merling.hostTrim"])
-
--- Raiser
-merlingArmor.TrimPatterns.raiser
-	:setTexture(textures["textures.armor.trims.raiserTrim"] or textures["Merling.raiserTrim"])
-
--- Rib
-merlingArmor.TrimPatterns.rib
-	:setTexture(textures["textures.armor.trims.ribTrim"] or textures["Merling.ribTrim"])
-
--- Sentry
-merlingArmor.TrimPatterns.sentry
-	:setTexture(textures["textures.armor.trims.sentryTrim"] or textures["Merling.sentryTrim"])
-
--- Shaper
-merlingArmor.TrimPatterns.shaper
-	:setTexture(textures["textures.armor.trims.shaperTrim"] or textures["Merling.shaperTrim"])
-
--- Silence
-merlingArmor.TrimPatterns.silence
-	:setTexture(textures["textures.armor.trims.silenceTrim"] or textures["Merling.silenceTrim"])
-
--- Snout
-merlingArmor.TrimPatterns.snout
-	:setTexture(textures["textures.armor.trims.snoutTrim"] or textures["Merling.snoutTrim"])
-
--- Spire
-merlingArmor.TrimPatterns.spire
-	:setTexture(textures["textures.armor.trims.spireTrim"] or textures["Merling.spireTrim"])
-
--- Tide
-merlingArmor.TrimPatterns.tide
-	:setTexture(textures["textures.armor.trims.tideTrim"] or textures["Merling.tideTrim"])
-
--- Vex
-merlingArmor.TrimPatterns.vex
-	:setTexture(textures["textures.armor.trims.vexTrim"] or textures["Merling.vexTrim"])
-
--- Ward
-merlingArmor.TrimPatterns.ward
-	:setTexture(textures["textures.armor.trims.wardTrim"] or textures["Merling.wardTrim"])
-
--- Wayfinder
-merlingArmor.TrimPatterns.wayfinder
-	:setTexture(textures["textures.armor.trims.wayfinderTrim"] or textures["Merling.wayfinderTrim"])
-
--- Wild
-merlingArmor.TrimPatterns.wild
-	:setTexture(textures["textures.armor.trims.wildTrim"] or textures["Merling.wildTrim"])
+-- Apply trims
+for _, trim in ipairs(trims) do
+	local tex = textures["textures.armor.trims."..trim.."Trim"] or textures["Merling."..trim.."Trim"] or false
+	if tex then
+		merlingArmor.TrimPatterns[trim]:setTexture(tex)
+	end
+end
 
 -- Config setup
 config:name("Merling")
