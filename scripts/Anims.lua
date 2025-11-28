@@ -88,10 +88,10 @@ end
 
 function events.TICK()
 	
-	-- Player variables
-	local vel      = player:getVelocity()
-	local dir      = player:getLookDir()
-	local bodyYaw  = player:getBodyYaw()
+	-- Variables
+	local vel = player:getVelocity()
+	local bodyYaw = player:getBodyYaw()
+	local dir = vec(math.sin(math.rad(-bodyYaw)), 0, math.cos(math.rad(-bodyYaw)))
 	local onGround = ground()
 	
 	-- Timer settings
@@ -107,9 +107,9 @@ function events.TICK()
 	local groundAnim = (onGround or waterTimer == 0) and not (pose.swim or pose.elytra or pose.crawl or pose.climb or pose.spin or pose.sleep or player:getVehicle() or effects.cF)
 	
 	-- Directional velocity
-	local fbVel = player:getVelocity():dot((dir.x_z):normalize())
-	local lrVel = player:getVelocity():cross(dir.x_z:normalize()).y
-	local udVel = player:getVelocity().y
+	local fbVel = vel:dot((dir.x_z):normalized())
+	local lrVel = vel:crossed(dir.x_z:normalized()).y
+	local udVel = vel.y
 	local diagCancel = math.abs(lrVel) - math.abs(fbVel)
 	
 	-- Static yaw
@@ -119,7 +119,7 @@ function events.TICK()
 	
 	-- Speed control
 	local speed     = player:getVehicle() and 1 or math.min(vel:length() * 3, 3) + 1
-	local landSpeed = math.clamp(fbVel < -0.05 and math.min(fbVel, math.abs(lrVel)) * 6 - 0.5 or math.max(fbVel, math.abs(lrVel)) * 6 + 0.5, -6, 6)
+	local landSpeed = math.clamp(fbVel * 6 + (fbVel < -0.05 and -0.5 or 0.5), -6, 6)
 	
 	-- Animation speeds
 	anims.swim:speed(speed)
