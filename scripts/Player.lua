@@ -52,6 +52,13 @@ function events.RENDER(delta, context)
 		part:visible(slimShape)
 	end
 	
+	-- First person arms toggle
+	local firstPerson = context == "FIRST_PERSON"
+	parts.group.LeftArm:visible(not firstPerson)
+	parts.group.RightArm:visible(not firstPerson)
+	parts.group.LeftArmFP:visible(firstPerson)
+	parts.group.RightArmFP:visible(firstPerson)
+	
 	-- Skin textures
 	local skinType = vanillaSkin and "SKIN" or "PRIMARY"
 	for _, part in ipairs(skinParts) do

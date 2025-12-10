@@ -17,6 +17,7 @@ local isShark   = config:load("AnimShark") or false
 local isCrawl   = config:load("AnimCrawl") or false
 local mountDir  = config:load("AnimMountDir") or false
 local mountFlip = config:load("AnimMountFlip") or false
+local armsMove  = config:load("ArmsMove") or false
 
 -- Table setup
 v = {}
@@ -37,6 +38,17 @@ v.legs = 1
 local waterTimer = 0
 local canTwirl = false
 local isSing   = false
+
+-- Arms setup
+local leftArmLerp  = lerp:new(armsMove and 1 or 0, 0.5)
+local rightArmLerp = lerp:new(armsMove and 1 or 0, 0.5)
+
+-- Gets the origin rotation of a part, clamped
+local function getOriginRot(part, delta)
+	
+	return (vanilla_model[part]:getOriginRot(delta) + 180) % 360 - 180
+	
+end
 
 -- Parrot pivots
 local parrots = {
@@ -217,6 +229,27 @@ function events.TICK()
 		anims.twirl:stop()
 	end
 	
+	-- Arm variables
+	local handedness = player:isLeftHanded()
+	local mainL = not handedness and "OFF_HAND" or "MAIN_HAND"
+	local mainR = handedness and "OFF_HAND" or "MAIN_HAND"
+	local swingL = player:getSwingArm() == mainL
+	local swingR = player:getSwingArm() == mainR
+	local using = player:isUsingItem()
+	local active = player:getActiveHand()
+	local itemL = player:getHeldItem(not handedness)
+	local itemR = player:getHeldItem(handedness)
+	local usingL = using and active == mainL and itemL:getUseAction()
+	local usingR = using and active == mainR and itemR:getUseAction()
+	local bow = (usingL or usingR or ""):find("BOW") or (itemL:getTag().Charged or itemR:getTag().Charged) == 1
+	
+	-- Arms movement override
+	local armShouldMove = (not (player:isUnderwater() or player:isInLava()) and not effects.cF) or smallTail or anims.crawl:isPlaying()
+	
+	-- Arms movement targets
+	leftArmLerp.target  = (armsMove or armShouldMove or swingL or usingL or bow) and 0 or -1
+	rightArmLerp.target = (armsMove or armShouldMove or swingR or usingR or bow) and 0 or -1
+	
 end
 
 function events.RENDER(delta, context)
@@ -226,7 +259,7 @@ function events.RENDER(delta, context)
 	v.pitch = pitch.currPos
 	v.yaw   = yaw.currPos
 	v.roll  = roll.currPos
-	v.headY = (vanilla_model.HEAD:getOriginRot().y + 180) % 360 - 180
+	v.headY = (getOriginRot("HEAD", delta).y + 180) % 360 - 180
 	
 	v.shark = shark.currPos
 	
@@ -239,13 +272,21 @@ function events.RENDER(delta, context)
 	anims.mountUp:blend(mountFlipLerp.currPos)
 	anims.mountDown:blend(mountFlipLerp.currPos)
 	
+	-- Arm idle rotation
+	local idleTimer = world.getTime(delta)
+	local idleRot   = vec(math.deg(math.sin(idleTimer * 0.067) * 0.05), 0, math.deg(math.cos(idleTimer * 0.09) * 0.05 + 0.05))
+	
+	-- Apply arm rotations
+	parts.group.LeftArm:offsetRot((getOriginRot("LEFT_ARM", delta) + idleRot) * leftArmLerp.currPos)
+	parts.group.RightArm:offsetRot((getOriginRot("RIGHT_ARM", delta) - idleRot) * rightArmLerp.currPos)
+	
 	-- Parrot rot offset
 	for _, parrot in pairs(parrots) do
-		parrot:rot(-calculateParentRot(parrot:getParent()) - vanilla_model.BODY:getOriginRot())
+		parrot:rot(-calculateParentRot(parrot:getParent()) - getOriginRot("BODY", delta))
 	end
 	
 	-- Spyglass rotations
-	local headRot = vanilla_model.HEAD:getOriginRot()
+	local headRot = getOriginRot("HEAD", delta)
 	headRot.x = math.clamp(headRot.x, -90, 30)
 	parts.group.Spyglass:offsetRot(headRot)
 		:pos(pose.crouch and vec(0, -4, 0) or nil)
@@ -321,19 +362,37 @@ function pings.setAnimSing(boolean)
 	
 end
 
+-- Arm movement toggle
+function pings.setAnimsArmsMove(boolean)
+	
+	armsMove = boolean
+	config:save("ArmsMove", armsMove)
+	
+end
+
 -- Sync variables
-function pings.syncAnims(a, b, c, d, e)
+function pings.syncAnims(a, b, c, d, e, f)
 	
 	isShark   = a
 	isCrawl   = b
 	mountDir  = c
 	mountFlip = d
 	isSing    = e
+	armsMove  = f
 	
 end
 
 -- Host only instructions
 if not host:isHost() then return end
+
+-- Sync on tick
+function events.TICK()
+	
+	if world.getTime() % 200 == 0 then
+		pings.syncAnims(isShark, isCrawl, mountDir, mountFlip, isSing, armsMove)
+	end
+	
+end
 
 -- Twirl keybind
 local twirlBind   = config:load("AnimTwirlKeybind") or "key.keyboard.keypad.6"
@@ -355,15 +414,6 @@ function events.TICK()
 	if singKey ~= singBind then
 		singBind = singKey
 		config:save("AnimSingKeybind", singKey)
-	end
-	
-end
-
--- Sync on tick
-function events.TICK()
-	
-	if world.getTime() % 200 == 0 then
-		pings.syncAnims(isShark, isCrawl, mountDir, mountFlip, isSing)
 	end
 	
 end
@@ -414,6 +464,12 @@ a.singAct = animsPage:newAction()
 	:item(itemCheck("music_disc_blocks"))
 	:toggleItem(itemCheck("music_disc_cat"))
 	:onToggle(pings.setAnimSing)
+
+a.armsAct = animsPage:newAction()
+	:item(itemCheck("red_dye"))
+	:toggleItem(itemCheck("rabbit_foot"))
+	:onToggle(pings.setAnimsArmsMove)
+	:toggled(armsMove)
 
 -- Update actions
 function events.RENDER(delta, context)
@@ -467,6 +523,15 @@ function events.RENDER(delta, context)
 				{text = "Play Singing animation", bold = true, color = c.primary}
 			))
 			:toggled(isSing)
+		
+		a.armsAct
+			:title(toJson(
+				{
+					"",
+					{text = "Arm Movement Toggle\n\n", bold = true, color = c.primary},
+					{text = "Toggles the movement swing movement of the arms.\nActions are not effected.", color = c.secondary}
+				}
+			))
 		
 		for _, act in pairs(a) do
 			act:hoverColor(c.hover):toggleColor(c.active)
