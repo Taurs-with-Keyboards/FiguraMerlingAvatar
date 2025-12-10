@@ -164,10 +164,9 @@ function pings.setCameraEye(boolean)
 end
 
 -- Sync variables
-function pings.syncCamera(a, b)
+function pings.syncCamera(...)
 	
-	camPos = a
-	eyePos = b
+	camPos, eyePos = ...
 	
 end
 

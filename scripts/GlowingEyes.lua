@@ -109,17 +109,23 @@ function pings.setEyesWater(boolean)
 end
 
 -- Sync variables
-function pings.syncEyes(a, b, c, d)
+function pings.syncEyes(...)
 	
-	toggle      = a
-	power       = b
-	nightVision = c
-	water       = d
+	toggle, power, nightVision, water = ...
 	
 end
 
 -- Host only instructions
 if not host:isHost() then return end
+
+-- Sync on tick
+function events.TICK()
+	
+	if world.getTime() % 200 == 0 then
+		pings.syncEyes(toggle, power, nightVision, water)
+	end
+	
+end
 
 -- Glow eyes keybind
 local toggleBind   = config:load("EyesToggleKeybind") or "key.keyboard.keypad.5"
@@ -132,15 +138,6 @@ function events.TICK()
 	if key ~= toggleBind then
 		toggleBind = key
 		config:save("EyesToggleKeybind", key)
-	end
-	
-end
-
--- Sync on tick
-function events.TICK()
-	
-	if world.getTime() % 200 == 0 then
-		pings.syncEyes(toggle, power, nightVision, water)
 	end
 	
 end

@@ -197,17 +197,23 @@ function pings.setGlowUnique(boolean)
 end
 
 -- Sync variables
-function pings.syncGlow(a, b, c, d)
+function pings.syncGlow(...)
 	
-	toggle  = a
-	dynamic = b
-	water   = c
-	unique  = d
+	toggle, dynamic, water, unique = ...
 	
 end
 
 -- Host only instructions
 if not host:isHost() then return end
+
+-- Sync on tick
+function events.TICK()
+	
+	if world.getTime() % 200 == 0 then
+		pings.syncGlow(toggle, dynamic, water, unique)
+	end
+	
+end
 
 -- Glow keybind
 local toggleBind   = config:load("GlowToggleKeybind") or "key.keyboard.keypad.4"
@@ -220,15 +226,6 @@ function events.TICK()
 	if key ~= toggleBind then
 		toggleBind = key
 		config:save("GlowToggleKeybind", key)
-	end
-	
-end
-
--- Sync on tick
-function events.TICK()
-	
-	if world.getTime() % 200 == 0 then
-		pings.syncGlow(toggle, dynamic, water, unique)
 	end
 	
 end

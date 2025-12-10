@@ -238,21 +238,23 @@ function pings.setTailFallSound(boolean)
 end
 
 -- Sync variables
-function pings.syncTail(a, b, c, d, e, f, g, h)
+function pings.syncTail(...)
 	
-	tailType  = a
-	earsType  = b
-	small     = c
-	smallSize = d
-	dryTimer  = e
-	legsForm  = f
-	gradual   = g
-	fallSound = h
+	tailType, earsType, small, smallSize, dryTimer, legsForm, gradual, fallSound = ...
 	
 end
 
 -- Host only instructions, return tail data
 if not host:isHost() then return tailData end
+
+-- Sync on tick
+function events.TICK()
+	
+	if world.getTime() % 200 == 0 then
+		pings.syncTail(tailType, earsType, small, smallSize, dryTimer, legsForm, gradual, fallSound)
+	end
+	
+end
 
 -- Tail Keybind
 local tailBind   = config:load("TailTypeKeybind") or "key.keyboard.keypad.1"
@@ -283,15 +285,6 @@ function events.TICK()
 	if smallKey ~= smallBind then
 		smallBind = smallKey
 		config:save("TailSmallKeybind", smallKey)
-	end
-	
-end
-
--- Sync on tick
-function events.TICK()
-	
-	if world.getTime() % 200 == 0 then
-		pings.syncTail(tailType, earsType, small, smallSize, dryTimer, legsForm, gradual, fallSound)
 	end
 	
 end

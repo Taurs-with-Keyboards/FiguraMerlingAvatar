@@ -371,14 +371,9 @@ function pings.setAnimsArmsMove(boolean)
 end
 
 -- Sync variables
-function pings.syncAnims(a, b, c, d, e, f)
+function pings.syncAnims(...)
 	
-	isShark   = a
-	isCrawl   = b
-	mountDir  = c
-	mountFlip = d
-	isSing    = e
-	armsMove  = f
+	isShark, isCrawl, mountDir, mountFlip, isSing, armsMove = ...
 	
 end
 
