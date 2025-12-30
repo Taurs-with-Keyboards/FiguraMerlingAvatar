@@ -8,16 +8,25 @@
 --         \ \__\ \ \_______\   \ \__\ \ \__\ \__\ \_______\
 --          \|__|  \|_______|    \|__|  \|__|\|__|\|_______|
 --
--- Version: 1.2.3
+-- Version: 1.2.4
 
 -- Create API
 local lerpAPI = {}
 
+-- Lerps table
+local lerps = {}
+
 -- Interal lerp data
 local lerpInternal = {}
 
--- Lerps table
-local lerps = {}
+-- Meta table setup
+local lerpMeta = {
+	__index = lerpInternal,
+	__newindex = function(t, key, value)
+		rawset(type(value) ~= "function" and t or lerpInternal, key, value)
+	end,
+	__type = "LerpObject"
+}
 
 -- Create a lerp object
 function lerpAPI:new(pos, stiff, damp, mass)
@@ -36,7 +45,7 @@ function lerpAPI:new(pos, stiff, damp, mass)
 			mass     = mass or 1,
 			enabled  = true
 		},
-		{ __index = lerpInternal }
+		lerpMeta
 	)
 	
 	-- Checks if mass is set to 0
@@ -47,19 +56,6 @@ function lerpAPI:new(pos, stiff, damp, mass)
 	
 	-- Return object
 	return obj
-	
-end
-
--- Flips velocity and "Bounces" position off of provided value
--- Great for creating limits to lerp when using spring lerping
-function lerpInternal:bounce(val)
-	
-	-- Apply
-	self.currTick = val
-	self.vel = -self.vel
-	
-	-- Return object
-	return self
 	
 end
 
@@ -82,7 +78,7 @@ events.TICK:register(function()
 			
 		end
 	end
-end, "tickLerp")
+end, "lerpTick")
 
 -- Iterate through the lerps to smooth the lerp each frame
 events.RENDER:register(function(delta, context)
@@ -94,7 +90,7 @@ events.RENDER:register(function(delta, context)
 			
 		end
 	end
-end, "renderLerp")
+end, "lerpRender")
 
 -- Sets enabled
 function lerpInternal:setEnabled(bool)
@@ -198,6 +194,19 @@ function lerpInternal:reset(pos)
 	self.target   = pos
 	self.currPos  = pos
 	self.vel      = 0
+	
+	-- Return object
+	return self
+	
+end
+
+-- Flips velocity and "Bounces" position off of provided value
+-- Great for creating limits to lerp when using spring lerping
+function lerpInternal:bounce(val)
+	
+	-- Apply
+	self.currTick = val
+	self.vel = -self.vel
 	
 	-- Return object
 	return self
