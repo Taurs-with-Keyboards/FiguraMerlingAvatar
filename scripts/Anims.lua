@@ -112,6 +112,11 @@ function events.TICK()
 		onGround = onGround or player:isOnGround()
 	end
 
+	local isRidingChainConveyor = false
+	if player.isRidingChainConveyor ~= nil then
+		isRidingChainConveyor = player:isRidingChainConveyor()
+	end
+
 	-- Timer settings
 	if player:isInWater() or player:isInLava() then
 		waterTimer = 20
@@ -143,7 +148,7 @@ function events.TICK()
 	-- Animation variables
 	local largeTail  = tail.isLarge
 	local smallTail  = tail.isSmall
-	local groundAnim = (onGround or waterTimer == 0) and not (pose.swim or pose.elytra or pose.crawl or pose.climb or pose.spin or pose.sleep or player:getVehicle() or effects.cF or groundTimer == 0)
+	local groundAnim = (onGround or waterTimer == 0) and not (pose.swim or pose.elytra or pose.crawl or pose.climb or pose.spin or pose.sleep or player:getVehicle() or effects.cF or isRidingChainConveyor or groundTimer == 0)
 
 	-- Directional velocity
 	local fbVel = vel:dot((dir.x_z):normalized())
@@ -192,7 +197,7 @@ function events.TICK()
 		-- Assumed climbing
 		pitch.target = 0
 		
-	elseif (pose.swim or waterTimer == 0 and groundTimer > 0) and not effects.cF then
+	elseif (pose.swim or waterTimer == 0 and groundTimer > 0) and not (effects.cF or isRidingChainConveyor) then
 		
 		-- While "swimming" or outside of water
 		pitch.target = math.clamp(-udVel * 40 * -(math.abs(player:getLookDir().y * 2) - 1), -20, 20)
@@ -232,7 +237,7 @@ function events.TICK()
 	mountFlipLerp.target = mountFlip.curr and 1 or -1
 	
 	-- Animation states
-	local swim      = ((not onGround and waterTimer ~= 0) or (smallTail or pose.climb or pose.swim or pose.crawl or pose.elytra or player:getVehicle()) or effects.cF or groundTimer == 0) and not pose.sleep
+	local swim      = ((not onGround and waterTimer ~= 0) or (smallTail or pose.climb or pose.swim or pose.crawl or pose.elytra or player:getVehicle()) or effects.cF or isRidingChainConveyor or groundTimer == 0) and not pose.sleep
 	local stand     = largeTail and not isCrawl.curr and groundAnim
 	local crawl     = largeTail and     isCrawl.curr and groundAnim
 	local small     = smallTail and not (pose.swim or pose.crawl or pose.elytra)
@@ -261,7 +266,7 @@ function events.TICK()
 	end
 	
 	-- Determins when to stop twirl animaton
-	canTwirl = not ((largeTail and onGround) or pose.sleep or groundTimer > 0)
+	canTwirl = isRidingChainConveyor or not ((largeTail and onGround) or pose.sleep or groundTimer > 0)
 	if not canTwirl then
 		anims.twirl:stop()
 	end
