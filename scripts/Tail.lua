@@ -290,7 +290,7 @@ function events.TICK()
 end
 
 -- Required script
-local s, wheel, itemCheck, c = pcall(require, "scripts.ActionWheel")
+local s, wheel, c = pcall(require, "scripts.ActionWheel")
 if not s then return tailData end -- Kills script early if ActionWheel.lua isnt found
 
 -- Pages
@@ -303,7 +303,7 @@ local a = {}
 
 -- Actions
 a.tailPageAct = parentPage:newAction()
-	:item(itemCheck("tropical_fish"))
+	:item("tropical_fish")
 	:onLeftClick(function() wheel:descend(tailPage) end)
 
 a.tailAct = tailPage:newAction()
@@ -317,12 +317,12 @@ a.earsAct = tailPage:newAction()
 	:onScroll(pings.setTailEarsType)
 
 a.smallAct = tailPage:newAction()
-	:item(itemCheck("small_amethyst_bud"))
+	:item("small_amethyst_bud")
 	:onToggle(pings.setTailSmall)
 	:onScroll(setSmallSize)
 
 a.dryPageAct = tailPage:newAction()
-	:item(itemCheck("sponge"))
+	:item("sponge")
 	:onLeftClick(function() wheel:descend(dryPage) end)
 
 a.dryAct = dryPage:newAction()
@@ -330,17 +330,17 @@ a.dryAct = dryPage:newAction()
 	:onLeftClick(function() dryTimer = 400 config:save("TailDryTimer", dryTimer) end)
 
 a.legsAct = dryPage:newAction()
-	:item(itemCheck("rabbit_foot"))
+	:item("rabbit_foot")
 	:onScroll(setLegsForm)
 
 a.gradualAct = dryPage:newAction()
-	:item(itemCheck("sugar"))
-	:toggleItem(itemCheck("fermented_spider_eye"))
+	:item("sugar")
+	:toggleItem("fermented_spider_eye")
 	:onToggle(pings.setTailGradual)
 
 a.soundAct = dryPage:newAction()
-	:item(itemCheck("bucket"))
-	:toggleItem(itemCheck("water_bucket"))
+	:item("bucket")
+	:toggleItem("water_bucket")
 	:onToggle(pings.setTailFallSound)
 	:toggled(fallSound)
 
@@ -409,7 +409,7 @@ function events.RENDER(delta, context)
 				}
 			))
 			:color(vectors.hexToRGB(actionSetup.color))
-			:item(itemCheck(actionSetup.item.."{CustomPotionColor:"..tostring(0x0094FF).."}"))
+			:item(actionSetup.item.."{CustomPotionColor:"..tostring(0x0094FF).."}")
 		
 		local actionSetup = waterInfo[earsType]
 		a.earsAct
@@ -425,7 +425,7 @@ function events.RENDER(delta, context)
 				}
 			))
 			:color(vectors.hexToRGB(actionSetup.color))
-			:item(itemCheck(actionSetup.item.."{CustomPotionColor:"..tostring(0x0094FF).."}"))
+			:item(actionSetup.item.."{CustomPotionColor:"..tostring(0x0094FF).."}")
 		
 		a.smallAct
 			:title(toJson(
@@ -438,11 +438,9 @@ function events.RENDER(delta, context)
 				}
 			))
 			:toggleItem(
-				itemCheck(
-					smallSize > 0.75 and "amethyst_cluster" or
-					smallSize > 0.5 and "large_amethyst_bud" or
-					"medium_amethyst_bud"
-				)
+				smallSize > 0.75 and "amethyst_cluster" or
+				smallSize > 0.5 and "large_amethyst_bud" or
+				"medium_amethyst_bud"
 			)
 			:toggled(small)
 		
@@ -482,7 +480,7 @@ function events.RENDER(delta, context)
 					{text = "Hint: Holding a dry sponge will increase drying rate by x10!", color = "gray"}
 				}
 			))
-			:item(itemCheck((timers.tail ~= 0 or timers.ears ~= 0) and "wet_sponge" or "sponge"))
+			:item((timers.tail ~= 0 or timers.ears ~= 0) and "wet_sponge" or "sponge")
 		
 		a.legsAct
 			:title(toJson(

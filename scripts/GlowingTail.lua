@@ -231,7 +231,7 @@ function events.TICK()
 end
 
 -- Required script
-local s, wheel, itemCheck, c = pcall(require, "scripts.ActionWheel")
+local s, wheel, c = pcall(require, "scripts.ActionWheel")
 if not s then return end -- Kills script early if ActionWheel.lua isnt found
 
 -- Pages
@@ -243,28 +243,28 @@ local a = {}
 
 -- Actions
 a.pageAct = parentPage:newAction()
-	:item(itemCheck("glow_ink_sac"))
+	:item("glow_ink_sac")
 	:onLeftClick(function() wheel:descend(glowPage) end)
 
 a.toggleAct = glowPage:newAction()
-	:item(itemCheck("ink_sac"))
-	:toggleItem(itemCheck("glow_ink_sac"))
+	:item("ink_sac")
+	:toggleItem("glow_ink_sac")
 	:onToggle(pings.setGlowToggle)
 
 a.dynamicAct = glowPage:newAction()
-	:item(itemCheck("light"))
+	:item("light")
 	:onToggle(pings.setGlowDynamic)
 	:toggled(dynamic)
 
 a.waterAct = glowPage:newAction()
-	:item(itemCheck("bucket"))
-	:toggleItem(itemCheck("water_bucket"))
+	:item("bucket")
+	:toggleItem("water_bucket")
 	:onToggle(pings.setGlowWater)
 	:toggled(water)
 
 a.uniqueAct = glowPage:newAction()
-	:item(itemCheck("prismarine_shard"))
-	:toggleItem(itemCheck("prismarine_crystals"))
+	:item("prismarine_shard")
+	:toggleItem("prismarine_crystals")
 	:onToggle(pings.setGlowUnique)
 	:toggled(unique)
 
@@ -297,7 +297,7 @@ function events.RENDER(delta, context)
 					{text = "Toggles glowing based on lightlevel.\nThe darker the location, the brighter your tail glows.", color = c.secondary}
 				}
 			))
-			:toggleItem(itemCheck("light{BlockStateTag:{level:"..math.map(world.getLightLevel(player:getPos()), 0, 15, 15, 0).."}}"))
+			:toggleItem("light{BlockStateTag:{level:"..math.map(world.getLightLevel(player:getPos()), 0, 15, 15, 0).."}}")
 		
 		a.waterAct
 			:title(toJson(

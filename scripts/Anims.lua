@@ -414,7 +414,7 @@ function events.TICK()
 end
 
 -- Required script
-local s, wheel, itemCheck, c = pcall(require, "scripts.ActionWheel")
+local s, wheel, c = pcall(require, "scripts.ActionWheel")
 if not s then return end -- Kills script early if ActionWheel.lua isnt found
 
 -- Check for if page already exists
@@ -430,39 +430,39 @@ local a = {}
 -- Actions
 if not pageExists then
 	a.pageAct = parentPage:newAction()
-		:item(itemCheck("jukebox"))
+		:item("jukebox")
 		:onLeftClick(function() wheel:descend(animsPage) end)
 end
 
 a.sharkAct = animsPage:newAction()
-	:item(itemCheck("dolphin_spawn_egg"))
-	:toggleItem(itemCheck("guardian_spawn_egg"))
+	:item("dolphin_spawn_egg")
+	:toggleItem("guardian_spawn_egg")
 	:onToggle(pings.setAnimShark)
 	:toggled(isShark)
 
 a.crawlAct = animsPage:newAction()
-	:item(itemCheck("armor_stand"))
-	:toggleItem(itemCheck("oak_boat"))
+	:item("armor_stand")
+	:toggleItem("oak_boat")
 	:onToggle(pings.setAnimCrawl)
 	:toggled(isCrawl)
 
 a.mountAct = animsPage:newAction()
-	:item(itemCheck("saddle"))
+	:item("saddle")
 	:onLeftClick(pings.setAnimMountDir)
 	:onRightClick(pings.setAnimMountFlip)
 
 a.twirlAct = animsPage:newAction()
-	:item(itemCheck("cod"))
+	:item("cod")
 	:onLeftClick(pings.animPlayTwirl)
 
 a.singAct = animsPage:newAction()
-	:item(itemCheck("music_disc_blocks"))
-	:toggleItem(itemCheck("music_disc_cat"))
+	:item("music_disc_blocks")
+	:toggleItem("music_disc_cat")
 	:onToggle(pings.setAnimSing)
 
 a.armsAct = animsPage:newAction()
-	:item(itemCheck("red_dye"))
-	:toggleItem(itemCheck("rabbit_foot"))
+	:item("red_dye")
+	:toggleItem("rabbit_foot")
 	:onToggle(pings.setAnimsArmsMove)
 	:toggled(armsMove)
 

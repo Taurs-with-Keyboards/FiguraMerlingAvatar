@@ -119,7 +119,7 @@ function events.TICK()
 end
 
 -- Required script
-local s, wheel, itemCheck, c = pcall(require, "scripts.ActionWheel")
+local s, wheel, c = pcall(require, "scripts.ActionWheel")
 if not s then return end -- Kills script early if ActionWheel.lua isnt found
 
 -- Pages
@@ -131,17 +131,17 @@ local a = {}
 
 -- Actions
 a.pageAct = parentPage:newAction()
-	:item(itemCheck("armor_stand"))
+	:item("armor_stand")
 	:onLeftClick(function() wheel:descend(playerPage) end)
 
 a.vanillaSkinAct = playerPage:newAction()
-	:item(itemCheck("player_head{SkullOwner:"..avatar:getEntityName().."}"))
+	:item("player_head{SkullOwner:"..avatar:getEntityName().."}")
 	:onToggle(pings.setAvatarVanillaSkin)
 	:toggled(vanillaSkin)
 
 a.modelAct = playerPage:newAction()
-	:item(itemCheck("player_head"))
-	:toggleItem(itemCheck("player_head{SkullOwner:MHF_Alex}"))
+	:item("player_head")
+	:toggleItem("player_head{SkullOwner:MHF_Alex}")
 	:onToggle(pings.setAvatarModelType)
 	:toggled(slim)
 

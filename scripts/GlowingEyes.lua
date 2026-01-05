@@ -143,7 +143,7 @@ function events.TICK()
 end
 
 -- Required scripts
-local s, wheel, itemCheck, c = pcall(require, "scripts.ActionWheel")
+local s, wheel, c = pcall(require, "scripts.ActionWheel")
 if not s then return end -- Kills script early if ActionWheel.lua isnt found
 pcall(require, "scripts.GlowingTail") -- Tries to find script, not required
 
@@ -156,29 +156,29 @@ local a = {}
 
 -- Actions
 a.pageAct = parentPage:newAction()
-	:item(itemCheck("ender_eye"))
+	:item("ender_eye")
 	:onLeftClick(function() wheel:descend(glowEyesPage) end)
 
 a.toggleAct = glowEyesPage:newAction()
-	:item(itemCheck("ender_pearl"))
-	:toggleItem(itemCheck("ender_eye"))
+	:item("ender_pearl")
+	:toggleItem("ender_eye")
 	:onToggle(pings.setEyesToggle)
 
 a.powerAct = glowEyesPage:newAction()
-	:item(itemCheck("cod"))
-	:toggleItem(itemCheck("tropical_fish"))
+	:item("cod")
+	:toggleItem("tropical_fish")
 	:onToggle(pings.setEyesPower)
 	:toggled(power)
 
 a.nightVisionAct = glowEyesPage:newAction()
-	:item(itemCheck("glass_bottle"))
-	:toggleItem(itemCheck("potion{CustomPotionColor:" .. tostring(0x96C54F) .. "}"))
+	:item("glass_bottle")
+	:toggleItem("potion{CustomPotionColor:" .. tostring(0x96C54F) .. "}")
 	:onToggle(pings.setEyesNightVision)
 	:toggled(nightVision)
 
 a.waterAct = glowEyesPage:newAction()
-	:item(itemCheck("bucket"))
-	:toggleItem(itemCheck("water_bucket"))
+	:item("bucket")
+	:toggleItem("water_bucket")
 	:onToggle(pings.setEyesWater)
 	:toggled(water)
 

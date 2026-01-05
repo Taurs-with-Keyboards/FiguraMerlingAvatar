@@ -34,12 +34,37 @@ function t:reset()
 	
 end
 
--- Checks if an item exists (provieded by lib)
-local i = require("lib.ItemCheck")
+-- Wrap item functions in the action API in the itemCheck lib function
+local itemCheck = require("lib.ItemCheck")
+local oldActionIndex = figuraMetatables.Action.__index
+local adjFuncs = {}
+local adjKeys = {
+	"setItem",
+	"setToggleItem",
+	"setHoverItem"
+}
 
--- Provides color inputs (provided by script)
-local s, c = pcall(require, "scripts.ColorProperties")
-if not s then c = {} end
+-- Create functions to override API
+for _, k in ipairs(adjKeys) do
+	
+	-- Get old function
+	local oldFunc = oldActionIndex(nil, k)
+	
+	-- Create wrapper around function
+	adjFuncs[k] = function(self, ...)
+		local item = itemCheck(...)
+		return oldFunc(self, item)
+	end
+	
+	-- Copy new function to alias
+	adjFuncs[k:gsub("^set(%u)", string.lower)] = adjFuncs[k]
+	
+end
+
+-- Apply to API
+function figuraMetatables.Action.__index(self, key)
+	return adjFuncs[key] or oldActionIndex(self, key)
+end
 
 -- Action back to previous page
 local backAct = action_wheel:newAction()
@@ -47,7 +72,7 @@ local backAct = action_wheel:newAction()
 		{text = "Go Back?", bold = true, color = "red"}
 	))
 	:hoverColor(vectors.hexToRGB("FF5555"))
-	:item(i("barrier"))
+	:item("barrier")
 	:onLeftClick(function() t:ascend() end)
 	:onRightClick(function() t:reset() end)
 
@@ -62,5 +87,9 @@ function events.ENTITY_INIT()
 	
 end
 
+-- Provides color inputs (provided by script)
+local s, c = pcall(require, "scripts.ColorProperties")
+if not s then c = {} end
+
 -- Return tables and functions
-return t, i, c
+return t, c

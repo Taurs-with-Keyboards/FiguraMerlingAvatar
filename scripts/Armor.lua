@@ -234,7 +234,7 @@ function events.TICK()
 end
 
 -- Required scripts
-local s, wheel, itemCheck, c = pcall(require, "scripts.ActionWheel")
+local s, wheel, c = pcall(require, "scripts.ActionWheel")
 if not s then return end -- Kills script early if ActionWheel.lua isnt found
 pcall(require, "scripts.Player") -- Tries to find script, not required
 
@@ -247,37 +247,37 @@ local a = {}
 
 -- Actions
 a.pageAct = parentPage:newAction()
-	:item(itemCheck("iron_chestplate"))
+	:item("iron_chestplate")
 	:onLeftClick(function() wheel:descend(armorPage) end)
 
 a.allAct = armorPage:newAction()
-	:item(itemCheck("armor_stand"))
-	:toggleItem(itemCheck("netherite_chestplate"))
+	:item("armor_stand")
+	:toggleItem("netherite_chestplate")
 	:onToggle(pings.setArmorAll)
 
 a.helmetAct = armorPage:newAction()
-	:item(itemCheck("iron_helmet"))
-	:toggleItem(itemCheck("diamond_helmet"))
+	:item("iron_helmet")
+	:toggleItem("diamond_helmet")
 	:onToggle(pings.setArmorHelmet)
 
 a.chestplateAct = armorPage:newAction()
-	:item(itemCheck("iron_chestplate"))
-	:toggleItem(itemCheck("diamond_chestplate"))
+	:item("iron_chestplate")
+	:toggleItem("diamond_chestplate")
 	:onToggle(pings.setArmorChestplate)
 
 a.leggingsAct = armorPage:newAction()
-	:item(itemCheck("iron_leggings"))
-	:toggleItem(itemCheck("diamond_leggings"))
+	:item("iron_leggings")
+	:toggleItem("diamond_leggings")
 	:onToggle(pings.setArmorLeggings)
 
 a.bootsAct = armorPage:newAction()
-	:item(itemCheck("iron_boots"))
-	:toggleItem(itemCheck("diamond_boots"))
+	:item("iron_boots")
+	:toggleItem("diamond_boots")
 	:onToggle(pings.setArmorBoots)
 
 a.tailAct = armorPage:newAction()
-	:item(itemCheck("salmon"))
-	:toggleItem(itemCheck("cod"))
+	:item("salmon")
+	:toggleItem("cod")
 	:onToggle(pings.setArmorTail)
 
 -- Update actions

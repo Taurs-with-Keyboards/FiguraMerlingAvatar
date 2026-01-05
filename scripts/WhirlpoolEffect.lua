@@ -66,7 +66,7 @@ function events.TICK()
 end
 
 -- Required scripts
-local s, wheel, itemCheck, c = pcall(require, "scripts.ActionWheel")
+local s, wheel, c = pcall(require, "scripts.ActionWheel")
 if not s then return end -- Kills script early if ActionWheel.lua isnt found
 pcall(require, "scripts.Tail") -- Tries to find script, not required
 
@@ -79,18 +79,18 @@ local a = {}
 
 -- Actions
 a.pageAct = parentPage:newAction()
-	:item(itemCheck("magma_block"))
+	:item("magma_block")
 	:onLeftClick(function() wheel:descend(whirlpoolPage) end)
 
 a.bubbleAct = whirlpoolPage:newAction()
-	:item(itemCheck("soul_sand"))
-	:toggleItem(itemCheck("magma_block"))
+	:item("soul_sand")
+	:toggleItem("magma_block")
 	:onToggle(pings.setWhirlpoolBubbles)
 	:toggled(bubbles)
 
 a.dolphinsGraceAct = whirlpoolPage:newAction()
-	:item(itemCheck("egg"))
-	:toggleItem(itemCheck("dolphin_spawn_egg"))
+	:item("egg")
+	:toggleItem("dolphin_spawn_egg")
 	:onToggle(pings.setWhirlpoolDolphinsGrace)
 	:toggled(dolphinsGrace)
 
