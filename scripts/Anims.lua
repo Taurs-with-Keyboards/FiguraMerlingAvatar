@@ -2,6 +2,7 @@
 require("lib.GSAnimBlend")
 require("lib.Molang")
 local parts   = require("lib.PartsAPI")
+local sync    = require("lib.LetThatSyncFig")
 local lerp    = require("lib.LerpAPI")
 local ground  = require("lib.GroundCheck")
 local tail    = require("scripts.Tail")
@@ -11,13 +12,13 @@ local effects = require("scripts.SyncedVariables")
 -- Animations setup
 local anims = animations.Merling
 
--- Config setup
-config:name("Merling")
-local isShark   = config:load("AnimShark") or false
-local isCrawl   = config:load("AnimCrawl") or false
-local mountDir  = config:load("AnimMountDir") or false
-local mountFlip = config:load("AnimMountFlip") or false
-local armsMove  = config:load("ArmsMove") or false
+-- Synced variables setup
+local isShark = sync.add(config:load("AnimShark"), false)
+local isCrawl = sync.add(config:load("AnimCrawl"), false)
+local mountDir = sync.add(config:load("AnimMountDir"), false)
+local mountFlip = sync.add(config:load("AnimMountFlip"), false)
+local armsMove = sync.add(config:load("ArmsMove"), false)
+local isSing = sync.add(false)
 
 -- Table setup
 v = {}
@@ -29,7 +30,7 @@ v.yaw   = 0
 v.roll  = 0
 v.headY = 0
 
-v.shark = isShark and 1 or 0
+v.shark = sync[isShark] and 1 or 0
 
 v.tail = 1
 v.legs = 1
@@ -37,11 +38,10 @@ v.legs = 1
 -- Variables
 local waterTimer = 0
 local canTwirl = false
-local isSing   = false
 
 -- Arms setup
-local leftArmLerp  = lerp:new(armsMove and 1 or 0, 0.5)
-local rightArmLerp = lerp:new(armsMove and 1 or 0, 0.5)
+local leftArmLerp  = lerp:new(sync[armsMove] and 1 or 0, 0.5)
+local rightArmLerp = lerp:new(sync[armsMove] and 1 or 0, 0.5)
 
 -- Gets the origin rotation of a part, clamped
 local function getOriginRot(part, delta)
@@ -75,8 +75,8 @@ local pitch = lerp:new(0, 0.1)
 local yaw   = lerp:new(0, 1)
 local roll  = lerp:new(0, 0.1)
 
-local shark = lerp:new(isShark and 1 or 0, 0.25)
-local mountFlipLerp = lerp:new(mountFlip and 1 or 0)
+local shark = lerp:new(sync[isShark] and 1 or 0, 0.25)
+local mountFlipLerp = lerp:new(sync[mountFlip] and 1 or 0)
 
 -- Spawns notes around a model part
 local function notes(part, blocks)
@@ -114,8 +114,8 @@ function events.TICK()
 	end
 	
 	-- Animation variables
-	local largeTail  = tail.isLarge
-	local smallTail  = tail.isSmall
+	local largeTail = tail.isLarge
+	local smallTail = tail.isSmall
 	local groundAnim = (onGround or waterTimer == 0) and not (pose.swim or pose.elytra or pose.crawl or pose.climb or pose.spin or pose.sleep or player:getVehicle() or effects.cF)
 	
 	-- Directional velocity
@@ -189,22 +189,22 @@ function events.TICK()
 	end
 	
 	-- Shark control
-	shark.target = isShark and 1 or 0
+	shark.target = sync[isShark] and 1 or 0
 	
 	-- Mount rot target
-	mountFlipLerp.target = mountFlip and 1 or -1
+	mountFlipLerp.target = sync[mountFlip] and 1 or -1
 	
 	-- Animation states
 	local swim      = ((not onGround and waterTimer ~= 0) or (smallTail or pose.climb or pose.swim or pose.crawl or pose.elytra or player:getVehicle()) or effects.cF) and not pose.sleep
-	local stand     = largeTail and not isCrawl and groundAnim
-	local crawl     = largeTail and     isCrawl and groundAnim
+	local stand     = largeTail and not sync[isCrawl] and groundAnim
+	local crawl     = largeTail and     sync[isCrawl] and groundAnim
 	local small     = smallTail and not (pose.swim or pose.crawl or pose.elytra)
 	local smallSwim = smallTail and     (pose.swim or pose.crawl or pose.elytra)
-	local mountUp   = largeTail and player:getVehicle() and mountDir
-	local mountDown = largeTail and player:getVehicle() and not mountDir
+	local mountUp   = largeTail and player:getVehicle() and sync[mountDir]
+	local mountDown = largeTail and player:getVehicle() and not sync[mountDir]
 	local sleep     = pose.sleep
 	local ears      = player:isUnderwater()
-	local sing      = isSing and not pose.sleep
+	local sing      = sync[isSing] and not pose.sleep
 	
 	-- Animations
 	anims.swim:playing(swim)
@@ -219,7 +219,7 @@ function events.TICK()
 	anims.sing:playing(sing)
 	
 	-- Spawns notes around head while singing
-	if isSing and world.getTime() % 5 == 0 then
+	if sync[isSing] and world.getTime() % 5 == 0 then
 		notes(parts.group.Head, 1)
 	end
 	
@@ -247,8 +247,8 @@ function events.TICK()
 	local armShouldMove = (not (player:isUnderwater() or player:isInLava()) and not effects.cF) or smallTail or anims.crawl:isPlaying()
 	
 	-- Arms movement targets
-	leftArmLerp.target  = (armsMove or armShouldMove or swingL or usingL or bow) and 0 or -1
-	rightArmLerp.target = (armsMove or armShouldMove or swingR or usingR or bow) and 0 or -1
+	leftArmLerp.target  = (sync[armsMove] or armShouldMove or swingL or usingL or bow) and 0 or -1
+	rightArmLerp.target = (sync[armsMove] or armShouldMove or swingR or usingR or bow) and 0 or -1
 	
 end
 
@@ -317,32 +317,32 @@ end
 -- Shark anim toggle
 function pings.setAnimShark(boolean)
 	
-	isShark = boolean
-	config:save("AnimShark", isShark)
+	sync[isShark] = boolean
+	config:save("AnimShark", sync[isShark])
 	
 end
 
 -- Crawl anim toggle
 function pings.setAnimCrawl(boolean)
 	
-	isCrawl = boolean
-	config:save("AnimCrawl", isCrawl)
+	sync[isCrawl] = boolean
+	config:save("AnimCrawl", sync[isCrawl])
 	
 end
 
 -- Mount direction anim toggle
 function pings.setAnimMountDir()
 	
-	mountDir = not mountDir
-	config:save("AnimMountDir", mountDir)
+	sync[mountDir] = not sync[mountDir]
+	config:save("AnimMountDir", sync[mountDir])
 	
 end
 
 -- Set mount rotation
 function pings.setAnimMountFlip()
 	
-	mountFlip = not mountFlip
-	config:save("AnimMountFlip", mountFlip)
+	sync[mountFlip] = not sync[mountFlip]
+	config:save("AnimMountFlip", sync[mountFlip])
 	
 end
 
@@ -358,60 +358,30 @@ end
 -- Singing anim toggle
 function pings.setAnimSing(boolean)
 	
-	isSing = boolean
+	sync[isSing] = boolean
 	
 end
 
 -- Arm movement toggle
 function pings.setAnimsArmsMove(boolean)
 	
-	armsMove = boolean
-	config:save("ArmsMove", armsMove)
-	
-end
-
--- Sync variables
-function pings.syncAnims(...)
-	
-	isShark, isCrawl, mountDir, mountFlip, isSing, armsMove = ...
+	sync[armsMove] = boolean
+	config:save("ArmsMove", sync[armsMove])
 	
 end
 
 -- Host only instructions
 if not host:isHost() then return end
 
--- Sync on tick
-function events.TICK()
-	
-	if world.getTime() % 200 == 0 then
-		pings.syncAnims(isShark, isCrawl, mountDir, mountFlip, isSing, armsMove)
-	end
-	
-end
+-- Keybinds
+local twirlKeybind = keybinds:newKeybind("Twirl Animation", "key.keyboard.keypad.6")
+	:onPress(pings.animPlayTwirl)
+local singKeybind = keybinds:newKeybind("Singing Animation", "key.keyboard.keypad.7")
+	:onPress(function() pings.setAnimSing(not sync[isSing]) end)
 
--- Twirl keybind
-local twirlBind   = config:load("AnimTwirlKeybind") or "key.keyboard.keypad.6"
-local setTwirlKey = keybinds:newKeybind("Twirl Animation"):onPress(pings.animPlayTwirl):key(twirlBind)
-
--- Sing keybind
-local singBind   = config:load("AnimSingKeybind") or "key.keyboard.keypad.7"
-local setSingKey = keybinds:newKeybind("Singing Animation"):onPress(function() pings.setAnimSing(not isSing) end):key(singBind)
-
--- Keybind updaters
-function events.TICK()
-	
-	local twirlKey = setTwirlKey:getKey()
-	local singKey  = setSingKey:getKey()
-	if twirlKey ~= twirlBind then
-		twirlBind = twirlKey
-		config:save("AnimTwirlKeybind", twirlKey)
-	end
-	if singKey ~= singBind then
-		singBind = singKey
-		config:save("AnimSingKeybind", singKey)
-	end
-	
-end
+-- Sync config keybinds
+sync.keybind(twirlKeybind, "AnimTwirlKeybind")
+sync.keybind(singKeybind, "AnimSingKeybind")
 
 -- Required script
 local s, wheel, c = pcall(require, "scripts.ActionWheel")
@@ -438,13 +408,13 @@ a.sharkAct = animsPage:newAction()
 	:item("dolphin_spawn_egg")
 	:toggleItem("guardian_spawn_egg")
 	:onToggle(pings.setAnimShark)
-	:toggled(isShark)
+	:toggled(sync[isShark])
 
 a.crawlAct = animsPage:newAction()
 	:item("armor_stand")
 	:toggleItem("oak_boat")
 	:onToggle(pings.setAnimCrawl)
-	:toggled(isCrawl)
+	:toggled(sync[isCrawl])
 
 a.mountAct = animsPage:newAction()
 	:item("saddle")
@@ -464,7 +434,7 @@ a.armsAct = animsPage:newAction()
 	:item("red_dye")
 	:toggleItem("rabbit_foot")
 	:onToggle(pings.setAnimsArmsMove)
-	:toggled(armsMove)
+	:toggled(sync[armsMove])
 
 -- Update actions
 function events.RENDER(delta, context)
@@ -502,9 +472,9 @@ function events.RENDER(delta, context)
 					{text = "Set Mount Positioning\n\n", bold = true, color = c.primary},
 					{text = "Left and Right click to set the orientation of your tail while mounted/sitting.\n\n", color = c.secondary},
 					{text = "Current direction: ", bold = true, color = c.secondary},
-					{text = mountDir and "Up" or "Down"},
+					{text = sync[mountDir] and "Up" or "Down"},
 					{text = " & "},
-					{text = mountFlip and "Front" or "Back"}
+					{text = sync[mountFlip] and "Front" or "Back"}
 				}
 			))
 		
@@ -517,7 +487,7 @@ function events.RENDER(delta, context)
 			:title(toJson(
 				{text = "Play Singing animation", bold = true, color = c.primary}
 			))
-			:toggled(isSing)
+			:toggled(sync[isSing])
 		
 		a.armsAct
 			:title(toJson(

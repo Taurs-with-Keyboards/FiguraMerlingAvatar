@@ -1,22 +1,19 @@
 -- Required scripts
 local parts   = require("lib.PartsAPI")
+local sync    = require("lib.LetThatSyncFig")
 local lerp    = require("lib.LerpAPI")
 local ground  = require("lib.GroundCheck")
 local effects = require("scripts.SyncedVariables")
 
--- Config setup
-config:name("Merling")
-local tailType  = config:load("TailType") or 4
-local earsType  = config:load("TailEarsType") or tailType
-local small     = config:load("TailSmall")
-local smallSize = config:load("TailSmallSize") or 0.5
-local dryTimer  = config:load("TailDryTimer") or 400
-local legsForm  = config:load("TailLegsForm") or 0.75
-local gradual   = config:load("TailGradual")
-local fallSound = config:load("TailFallSound")
-if small     == nil then small = true end
-if gradual   == nil then gradual = true end
-if fallSound == nil then fallSound = true end
+-- Synced variables setup
+local tailType = sync.add(config:load("TailType"), 4)
+local earsType = sync.add(config:load("TailEarsType"), sync[tailType])
+local small = sync.add(config:load("TailSmall"), true)
+local smallSize = sync.add(config:load("TailSmallSize"), 0.5)
+local dryTimer = sync.add(config:load("TailDryTimer"), 400)
+local legsForm = sync.add(config:load("TailLegsForm"), 0.75)
+local gradual = sync.add(config:load("TailGradual"), true)
+local fallSound = sync.add(config:load("TailFallSound"), true)
 
 -- Variables setup
 local tailTimer = 0
@@ -25,16 +22,16 @@ local wasInAir  = false
 
 -- Lerp variables
 local scale = {
-	tail = lerp:new(tailType == 5 and 1 or 0),
-	legs = lerp:new(tailType ~= 5 and 1 or 0),
-	ears = lerp:new(earsType == 5 and 1 or 0)
+	tail = lerp:new(sync[tailType] == 5 and 1 or 0),
+	legs = lerp:new(sync[tailType] ~= 5 and 1 or 0),
+	ears = lerp:new(sync[earsType] == 5 and 1 or 0)
 }
 
 -- Data sent to other scripts
 local tailData = {
-	isLarge = tailTimer >  (dryTimer * legsForm),
-	isSmall = tailTimer <= (dryTimer * legsForm) and scale.tail.currTick > 0.01,
-	dry     = dryTimer,
+	isLarge = tailTimer >  (sync[dryTimer] * sync[legsForm]),
+	isSmall = tailTimer <= (sync[dryTimer] * sync[legsForm]) and scale.tail.currTick > 0.01,
+	dry     = sync[dryTimer],
 	scale   = scale.tail.currPos,
 	legs    = scale.legs.currPos
 }
@@ -97,21 +94,21 @@ function events.TICK()
 	local dryRate = player:getItem(1).id == "minecraft:sponge" and 10 or 1
 	
 	-- Timers
-	tailTimer = waterTypes[tailType].check() and dryTimer or waterTypes[tailType].dry and math.clamp(tailTimer - dryRate, 0, dryTimer) or 0
-	earsTimer = waterTypes[earsType].check() and dryTimer or waterTypes[earsType].dry and math.clamp(earsTimer - dryRate, 0, dryTimer) or 0
+	tailTimer = waterTypes[sync[tailType]].check() and sync[dryTimer] or waterTypes[sync[tailType]].dry and math.clamp(tailTimer - dryRate, 0, sync[dryTimer]) or 0
+	earsTimer = waterTypes[sync[earsType]].check() and sync[dryTimer] or waterTypes[sync[earsType]].dry and math.clamp(earsTimer - dryRate, 0, sync[dryTimer]) or 0
 	
 	-- Targets
-	scale.tail.target = gradual and tailTimer / math.max(dryTimer, 1) or tailTimer ~= 0 and 1 or 0
-	scale.ears.target = gradual and earsTimer / math.max(dryTimer, 1) or earsTimer ~= 0 and 1 or 0
-	scale.legs.target = tailTimer <= (dryTimer * legsForm) and 1 or 0
+	scale.tail.target = sync[gradual] and tailTimer / math.max(sync[dryTimer], 1) or tailTimer ~= 0 and 1 or 0
+	scale.ears.target = sync[gradual] and earsTimer / math.max(sync[dryTimer], 1) or earsTimer ~= 0 and 1 or 0
+	scale.legs.target = tailTimer <= (sync[dryTimer] * sync[legsForm]) and 1 or 0
 	
 	-- Modify tail target
-	if small then
-		scale.tail.target = math.map(scale.tail.target, 0, 1, smallSize, 1)
+	if sync[small] then
+		scale.tail.target = math.map(scale.tail.target, 0, 1, sync[smallSize], 1)
 	end
 	
 	-- Play sound if conditions are met
-	if fallSound and wasInAir and ground() and scale.legs.target ~= 1 and not player:getVehicle() and not player:isInWater() and not effects.cF then
+	if sync[fallSound] and wasInAir and ground() and scale.legs.target ~= 1 and not player:getVehicle() and not player:isInWater() and not effects.cF then
 		local vel    = math.abs(-player:getVelocity().y + 1)
 		local dry    = scale.tail.currPos
 		local volume = math.clamp((vel * dry) / 2, 0, 1)
@@ -128,9 +125,9 @@ function events.TICK()
 	end
 	
 	-- Update tail data
-	tailData.isLarge = tailTimer >  (dryTimer * legsForm)
-	tailData.isSmall = tailTimer <= (dryTimer * legsForm) and scale.tail.currTick > 0.01
-	tailData.dry     = dryTimer
+	tailData.isLarge = tailTimer >  (sync[dryTimer] * sync[legsForm])
+	tailData.isSmall = tailTimer <= (sync[dryTimer] * sync[legsForm]) and scale.tail.currTick > 0.01
+	tailData.dry     = sync[dryTimer]
 	
 end
 
@@ -173,121 +170,85 @@ end
 -- Tail sensitivity
 function pings.setTailType(i)
 	
-	tailType = setSensitivity(tailType, i)
-	config:save("TailType", tailType)
+	sync[tailType] = setSensitivity(sync[tailType], i)
+	config:save("TailType", sync[tailType])
 	
 end
 
 -- Ears sensitivity
 function pings.setTailEarsType(i)
 	
-	earsType = setSensitivity(earsType, i)
-	config:save("TailEarsType", earsType)
+	sync[earsType] = setSensitivity(sync[earsType], i)
+	config:save("TailEarsType", sync[earsType])
 	
 end
 
 -- Small toggle
 function pings.setTailSmall(boolean)
 	
-	small = boolean
-	config:save("TailSmall", small)
+	sync[small] = boolean
+	config:save("TailSmall", sync[small])
 	
 end
 
 -- Set small size
 local function setSmallSize(x)
 	
-	smallSize = math.clamp(smallSize + (x * 0.05), 0.25, 1)
-	config:save("TailSmallSize", smallSize)
+	sync[smallSize] = math.clamp(sync[smallSize] + (x * 0.05), 0.25, 1)
+	config:save("TailSmallSize", sync[smallSize])
 	
 end
 
--- Set small size
+-- Set leg form threshold
 local function setLegsForm(x)
 	
-	legsForm = math.clamp(legsForm + (x * 0.05), 0.25, 0.9)
-	config:save("TailLegsForm", legsForm)
+	sync[legsForm] = math.clamp(sync[legsForm] + (x * 0.05), 0.25, 0.9)
+	config:save("TailLegsForm", sync[legsForm])
 	
 end
 
 -- Set timer
 local function setDryTimer(x)
 	
-	dryTimer = math.clamp(dryTimer + (x * 20), 0, 72000)
-	config:save("TailDryTimer", dryTimer)
+	sync[dryTimer] = math.clamp(sync[dryTimer] + (x * 20), 0, 72000)
+	config:save("TailDryTimer", sync[dryTimer])
 	
 end
 
 -- Gradual toggle
 function pings.setTailGradual(boolean)
 	
-	gradual = boolean
-	config:save("TailGradual", gradual)
+	sync[gradual] = boolean
+	config:save("TailGradual", sync[gradual])
 	
 end
 
 -- Sound toggle
 function pings.setTailFallSound(boolean)
 
-	fallSound = boolean
-	config:save("TailFallSound", fallSound)
-	if host:isHost() and player:isLoaded() and fallSound then
+	sync[fallSound] = boolean
+	config:save("TailFallSound", sync[fallSound])
+	if host:isHost() and player:isLoaded() and sync[fallSound] then
 		sounds:playSound("entity.puffer_fish.flop", player:getPos(), 0.35, 0.6)
 	end
-	
-end
-
--- Sync variables
-function pings.syncTail(...)
-	
-	tailType, earsType, small, smallSize, dryTimer, legsForm, gradual, fallSound = ...
 	
 end
 
 -- Host only instructions, return tail data
 if not host:isHost() then return tailData end
 
--- Sync on tick
-function events.TICK()
-	
-	if world.getTime() % 200 == 0 then
-		pings.syncTail(tailType, earsType, small, smallSize, dryTimer, legsForm, gradual, fallSound)
-	end
-	
-end
+-- Keybinds
+local tailKeybind = keybinds:newKeybind("Tail Sensitivity Type", "key.keyboard.keypad.1")
+	:onPress(function() pings.setTailType(1) end)
+local earsKeybind = keybinds:newKeybind("Ears Sensitivity Type", "key.keyboard.keypad.2")
+	:onPress(function() pings.setTailEarsType(1) end)
+local smallKeybind = keybinds:newKeybind("Small Tail Toggle", "key.keyboard.keypad.3")
+	:onPress(function() pings.setTailSmall(not sync[small]) end)
 
--- Tail Keybind
-local tailBind   = config:load("TailTypeKeybind") or "key.keyboard.keypad.1"
-local setTailKey = keybinds:newKeybind("Tail Sensitivity Type"):onPress(function() pings.setTailType(1) end):key(tailBind)
-
--- Ears keybind
-local earsBind   = config:load("TailEarsTypeKeybind") or "key.keyboard.keypad.2"
-local setEarsKey = keybinds:newKeybind("Ears Sensitivity Type"):onPress(function() pings.setTailEarsType(1) end):key(earsBind)
-
--- Small tail keybind
-local smallBind   = config:load("TailSmallKeybind") or "key.keyboard.keypad.3"
-local setSmallKey = keybinds:newKeybind("Small Tail Toggle"):onPress(function() pings.setTailSmall(not small) end):key(smallBind)
-
--- Keybind updaters
-function events.TICK()
-	
-	local tailKey  = setTailKey:getKey()
-	local earsKey  = setEarsKey:getKey()
-	local smallKey = setSmallKey:getKey()
-	if tailKey ~= tailBind then
-		tailBind = tailKey
-		config:save("TailTypeKeybind", tailKey)
-	end
-	if earsKey ~= earsBind then
-		earsBind = earsKey
-		config:save("TailEarsTypeKeybind", earsKey)
-	end
-	if smallKey ~= smallBind then
-		smallBind = smallKey
-		config:save("TailSmallKeybind", smallKey)
-	end
-	
-end
+-- Sync config keybinds
+sync.keybind(tailKeybind, "TailTypeKeybind")
+sync.keybind(earsKeybind, "TailEarsTypeKeybind")
+sync.keybind(smallKeybind, "TailSmallKeybind")
 
 -- Required script
 local s, wheel, c = pcall(require, "scripts.ActionWheel")
@@ -327,7 +288,7 @@ a.dryPageAct = tailPage:newAction()
 
 a.dryAct = dryPage:newAction()
 	:onScroll(setDryTimer)
-	:onLeftClick(function() dryTimer = 400 config:save("TailDryTimer", dryTimer) end)
+	:onLeftClick(function() sync[dryTimer] = 400 config:save("TailDryTimer", sync[dryTimer]) end)
 
 a.legsAct = dryPage:newAction()
 	:item("rabbit_foot")
@@ -342,7 +303,7 @@ a.soundAct = dryPage:newAction()
 	:item("bucket")
 	:toggleItem("water_bucket")
 	:onToggle(pings.setTailFallSound)
-	:toggled(fallSound)
+	:toggled(sync[fallSound])
 
 -- Water context info table
 local waterInfo = {
@@ -395,7 +356,7 @@ function events.RENDER(delta, context)
 				{text = "Tail Settings", bold = true, color = c.primary}
 			))
 		
-		local actionSetup = waterInfo[tailType]
+		local actionSetup = waterInfo[sync[tailType]]
 		a.tailAct
 			:title(toJson(
 				{
@@ -411,7 +372,7 @@ function events.RENDER(delta, context)
 			:color(vectors.hexToRGB(actionSetup.color))
 			:item(actionSetup.item.."{CustomPotionColor:"..tostring(0x0094FF).."}")
 		
-		local actionSetup = waterInfo[earsType]
+		local actionSetup = waterInfo[sync[earsType]]
 		a.earsAct
 			:title(toJson(
 				{
@@ -434,15 +395,15 @@ function events.RENDER(delta, context)
 					{text = "Toggle Small Tail\n\n", bold = true, color = c.primary},
 					{text = "Toggles the appearence of the tail into a smaller tail, only if the tail cannot form.\nScroll to control the size of the small tail.\n\n", color = c.secondary},
 					{text = "Small tail size:\n", bold = true, color = c.secondary},
-					{text = math.round(smallSize * 100).."% Size"}
+					{text = math.round(sync[smallSize] * 100).."% Size"}
 				}
 			))
 			:toggleItem(
-				smallSize > 0.75 and "amethyst_cluster" or
-				smallSize > 0.5 and "large_amethyst_bud" or
+				sync[smallSize] > 0.75 and "amethyst_cluster" or
+				sync[smallSize] > 0.5 and "large_amethyst_bud" or
 				"medium_amethyst_bud"
 			)
-			:toggled(small)
+			:toggled(sync[small])
 		
 		a.dryPageAct
 			:title(toJson(
@@ -451,8 +412,8 @@ function events.RENDER(delta, context)
 		
 		-- Timers
 		local timers = {
-			set  = dryTimer / 20,
-			legs = gradual and math.max(math.ceil((tailTimer - (dryTimer * legsForm)) / 20), 0) or nil,
+			set  = sync[dryTimer] / 20,
+			legs = sync[gradual] and math.max(math.ceil((tailTimer - (sync[dryTimer] * sync[legsForm])) / 20), 0) or nil,
 			tail = math.ceil(tailTimer / 20),
 			ears = math.ceil(earsTimer / 20)
 		}
@@ -489,7 +450,7 @@ function events.RENDER(delta, context)
 					{text = "Set Legs Threshold\n\n", bold = true, color = c.primary},
 					{text = "Scroll to adjust the threshold for when the legs should form.\n\n", color = c.secondary},
 					{text = "Legs threshold:\n", bold = true, color = c.secondary},
-					{text = math.round(legsForm * 100).."% Wet"}
+					{text = math.round(sync[legsForm] * 100).."% Wet"}
 				}
 			))
 		
@@ -501,7 +462,7 @@ function events.RENDER(delta, context)
 					{text = "Toggles the scaling of your tail to be gradual rather than instantly changing size.", color = c.secondary}
 				}
 			))
-			:toggled(gradual)
+			:toggled(sync[gradual])
 		
 		a.soundAct
 			:title(toJson(

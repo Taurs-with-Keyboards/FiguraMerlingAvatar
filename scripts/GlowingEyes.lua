@@ -1,44 +1,44 @@
 -- Required scripts
 local parts   = require("lib.PartsAPI")
+local sync    = require("lib.LetThatSyncFig")
 local lerp    = require("lib.LerpAPI")
 local origins = require("lib.OriginsAPI")
 local effects = require("scripts.SyncedVariables")
 
--- Config setup
-config:name("Merling")
-local toggle      = config:load("EyesToggle") or false
-local power       = config:load("EyesPower") or false
-local nightVision = config:load("EyesNightVision") or false
-local water       = config:load("EyesWater") or false
+-- Synced variables setup
+local toggle = sync.add(config:load("EyesToggle"), false)
+local power = sync.add(config:load("EyesPower"), false)
+local nightVision = sync.add(config:load("EyesNightVision"), false)
+local water = sync.add(config:load("EyesWater"), false)
 
 -- Glowing parts
 local glowingParts = parts:createTable(function(part) return part:getName():find("_[eE]ye[gG]low") end)
 
 -- Lerp eyes table
-local eyes = lerp:new(toggle and 1 or 0)
+local eyes = lerp:new(sync[toggle] and 1 or 0)
 
 function events.TICK()
 	
 	-- Set eyes target
 	-- Toggle check
-	if toggle then
+	if sync[toggle] then
 		
 		eyes.target = 1
 		
 		-- Origins check
-		if power then
+		if sync[power] then
 			eyes.target = origins.getPowerData(player, "origins:water_vision") == 1 and eyes.target or 0
 		end
 		
 		-- Night Vision check
-		if nightVision then
+		if sync[nightVision] then
 			eyes.target = effects.nV and 1 or eyes.target
 			if effects.nV then goto skip end
 		end
 		
 		-- Water check
-		if water then
-			eyes.target = not (water and not player:isUnderwater()) and eyes.target or 0
+		if sync[water] then
+			eyes.target = not (sync[water] and not player:isUnderwater()) and eyes.target or 0
 		end
 		
 		-- Skips water check if night vision confirmed
@@ -67,9 +67,9 @@ end
 -- Glowing eyes toggle
 function pings.setEyesToggle(boolean)
 	
-	toggle = boolean
-	config:save("EyesToggle", toggle)
-	if player:isLoaded() and toggle then
+	sync[toggle] = boolean
+	config:save("EyesToggle", sync[toggle])
+	if player:isLoaded() and sync[toggle] then
 		sounds:playSound("entity.glow_squid.ambient", player:getPos(), 0.75)
 	end
 	
@@ -78,9 +78,9 @@ end
 -- Power toggle
 function pings.setEyesPower(boolean)
 	
-	power = boolean
-	config:save("EyesPower", power)
-	if host:isHost() and player:isLoaded() and power then
+	sync[power] = boolean
+	config:save("EyesPower", sync[power])
+	if host:isHost() and player:isLoaded() and sync[power] then
 		sounds:playSound("entity.puffer_fish.flop", player:getPos(), 0.35)
 	end
 	
@@ -89,9 +89,9 @@ end
 -- Night vision toggle
 function pings.setEyesNightVision(boolean)
 	
-	nightVision = boolean
-	config:save("EyesNightVision", nightVision)
-	if host:isHost() and player:isLoaded() and nightVision then
+	sync[nightVision] = boolean
+	config:save("EyesNightVision", sync[nightVision])
+	if host:isHost() and player:isLoaded() and sync[nightVision] then
 		sounds:playSound("entity.generic.drink", player:getPos(), 0.35)
 	end
 	
@@ -100,47 +100,23 @@ end
 -- Water toggle
 function pings.setEyesWater(boolean)
 	
-	water = boolean
-	config:save("EyesWater", water)
-	if host:isHost() and player:isLoaded() and water then
+	sync[water] = boolean
+	config:save("EyesWater", sync[water])
+	if host:isHost() and player:isLoaded() and sync[water] then
 		sounds:playSound("ambient.underwater.enter", player:getPos(), 0.35)
 	end
-	
-end
-
--- Sync variables
-function pings.syncEyes(...)
-	
-	toggle, power, nightVision, water = ...
 	
 end
 
 -- Host only instructions
 if not host:isHost() then return end
 
--- Sync on tick
-function events.TICK()
-	
-	if world.getTime() % 200 == 0 then
-		pings.syncEyes(toggle, power, nightVision, water)
-	end
-	
-end
+-- Keybinds
+local toggleKeybind = keybinds:newKeybind("Glowing Eyes Toggle", "key.keyboard.keypad.5")
+	:onPress(function() pings.setEyesToggle(not sync[toggle]) end)
 
--- Glow eyes keybind
-local toggleBind   = config:load("EyesToggleKeybind") or "key.keyboard.keypad.5"
-local setToggleKey = keybinds:newKeybind("Glowing Eyes Toggle"):onPress(function() pings.setEyesToggle(not toggle) end):key(toggleBind)
-
--- Keybind updater
-function events.TICK()
-	
-	local key = setToggleKey:getKey()
-	if key ~= toggleBind then
-		toggleBind = key
-		config:save("EyesToggleKeybind", key)
-	end
-	
-end
+-- Sync config keybinds
+sync.keybind(toggleKeybind, "EyesToggleKeybind")
 
 -- Required scripts
 local s, wheel, c = pcall(require, "scripts.ActionWheel")
@@ -168,19 +144,19 @@ a.powerAct = glowEyesPage:newAction()
 	:item("cod")
 	:toggleItem("tropical_fish")
 	:onToggle(pings.setEyesPower)
-	:toggled(power)
+	:toggled(sync[power])
 
 a.nightVisionAct = glowEyesPage:newAction()
 	:item("glass_bottle")
 	:toggleItem("potion{CustomPotionColor:" .. tostring(0x96C54F) .. "}")
 	:onToggle(pings.setEyesNightVision)
-	:toggled(nightVision)
+	:toggled(sync[nightVision])
 
 a.waterAct = glowEyesPage:newAction()
 	:item("bucket")
 	:toggleItem("water_bucket")
 	:onToggle(pings.setEyesWater)
-	:toggled(water)
+	:toggled(sync[water])
 
 -- Update actions
 function events.RENDER(delta, context)
@@ -201,7 +177,7 @@ function events.RENDER(delta, context)
 					{text = "This feature has a tendency to not work correctly.\nDue to the rendering properties of emissives, the eyes may not glow.\nIf it does not work, please reload the avatar. Rinse and Repeat.\nThis is the only fix, I have tried everything.\n\n- Total", color = "red"}
 				}
 			))
-			:toggled(toggle)
+			:toggled(sync[toggle])
 		
 		a.powerAct
 			:title(toJson(

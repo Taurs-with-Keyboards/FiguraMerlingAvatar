@@ -1,11 +1,10 @@
--- Required script
+-- Required scripts
 local parts = require("lib.PartsAPI")
+local sync  = require("lib.LetThatSyncFig")
 
--- Config setup
-config:name("Merling")
-local vanillaSkin = config:load("AvatarVanillaSkin")
-local slim        = config:load("AvatarSlim") or false
-if vanillaSkin == nil then vanillaSkin = true end
+-- Synced variables setup
+local skin = sync.add(config:load("AvatarVanillaSkin"), true)
+local slim = sync.add(config:load("AvatarSlim"), false)
 
 -- Reenabled parts
 parts.group.LeftLeg :visible(true)
@@ -44,7 +43,7 @@ end
 function events.RENDER(delta, context)
 	
 	-- Model shape
-	local slimShape = (vanillaSkin and vanillaAvatarType == "SLIM") or (slim and not vanillaSkin)
+	local slimShape = (sync[skin] and vanillaAvatarType == "SLIM") or (sync[slim] and not sync[skin])
 	for _, part in ipairs(defaultParts) do
 		part:visible(not slimShape)
 	end
@@ -60,13 +59,13 @@ function events.RENDER(delta, context)
 	parts.group.RightArmFP:visible(firstPerson)
 	
 	-- Skin textures
-	local skinType = vanillaSkin and "SKIN" or "PRIMARY"
+	local skinType = sync[skin] and "SKIN" or "PRIMARY"
 	for _, part in ipairs(skinParts) do
 		part:primaryTexture(skinType)
 	end
 	
 	-- Cape textures
-	parts.group.Cape:primaryTexture(vanillaSkin and "CAPE" or "PRIMARY")
+	parts.group.Cape:primaryTexture(sync[skin] and "CAPE" or "PRIMARY")
 	
 	-- Layer toggling
 	for layerType, parts in pairs(layerParts) do
@@ -86,37 +85,21 @@ end
 -- Vanilla skin toggle
 function pings.setAvatarVanillaSkin(boolean)
 	
-	vanillaSkin = boolean
-	config:save("AvatarVanillaSkin", vanillaSkin)
+	sync[skin] = boolean
+	config:save("AvatarVanillaSkin", sync[skin])
 	
 end
 
 -- Model type toggle
 function pings.setAvatarModelType(boolean)
 	
-	slim = boolean
-	config:save("AvatarSlim", slim)
-	
-end
-
--- Sync variables
-function pings.syncPlayer(...)
-	
-	vanillaSkin, slim = ...
+	sync[slim] = boolean
+	config:save("AvatarSlim", sync[slim])
 	
 end
 
 -- Host only instructions
 if not host:isHost() then return end
-
--- Sync on tick
-function events.TICK()
-	
-	if world.getTime() % 200 == 0 then
-		pings.syncPlayer(vanillaSkin, slim)
-	end
-	
-end
 
 -- Required script
 local s, wheel, c = pcall(require, "scripts.ActionWheel")
@@ -137,13 +120,13 @@ a.pageAct = parentPage:newAction()
 a.vanillaSkinAct = playerPage:newAction()
 	:item("player_head{SkullOwner:"..avatar:getEntityName().."}")
 	:onToggle(pings.setAvatarVanillaSkin)
-	:toggled(vanillaSkin)
+	:toggled(sync[skin])
 
 a.modelAct = playerPage:newAction()
 	:item("player_head")
 	:toggleItem("player_head{SkullOwner:MHF_Alex}")
 	:onToggle(pings.setAvatarModelType)
-	:toggled(slim)
+	:toggled(sync[slim])
 
 -- Update actions
 function events.RENDER(delta, context)

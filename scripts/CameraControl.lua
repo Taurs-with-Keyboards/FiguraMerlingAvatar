@@ -1,19 +1,18 @@
 -- Required scripts
 local parts = require("lib.PartsAPI")
+local sync  = require("lib.LetThatSyncFig")
 local pose  = require("scripts.Posing")
 
--- Config setup
-config:name("Merling")
-local camPos       = config:load("CameraPos") or false
-local savedServers = config:load("CameraServers") or {}
+-- Synced variables setup
+local camPos = sync.add(config:load("CameraPos"), false)
 
--- Get server id
+-- Get server data
 local serverData = client:getServerData()
-local serverId   = serverData.ip and serverData.ip or serverData.name or "none"
+local serverId = serverData.ip or serverData.name or "none"
 
--- Establish server, and set eyePos to server
-savedServers[serverId] = savedServers[serverId] or false
-local eyePos = savedServers[serverId]
+-- Set eyePos to server
+local savedServers = config:load("CameraServers") or {}
+local eyePos = sync.add(savedServers[serverId], false)
 
 -- Variable setup
 local head = parts.group.Head
@@ -132,8 +131,8 @@ function events.RENDER(delta, context)
 		
 		-- Renders offset
 		renderer
-			:offsetCameraPivot(camPos and not obstructed and posOffset or 0)
-			:eyeOffset(eyePos and camPos and not obstructed and posOffset or 0)
+			:offsetCameraPivot(sync[camPos] and not obstructed and posOffset or 0)
+			:eyeOffset(sync[eyePos] and sync[camPos] and not obstructed and posOffset or 0)
 		
 		-- Nameplate placement
 		nameplate.ENTITY
@@ -149,38 +148,22 @@ end
 -- Camera pos toggle
 function pings.setCameraPos(boolean)
 	
-	camPos = boolean
-	config:save("CameraPos", camPos)
+	sync[camPos] = boolean
+	config:save("CameraPos", sync[camPos])
 	
 end
 
 -- Eye pos toggle
 function pings.setCameraEye(boolean)
 	
-	eyePos = boolean
+	sync[eyePos] = boolean
 	savedServers[serverId] = boolean
 	config:save("CameraServers", savedServers)
 	
 end
 
--- Sync variables
-function pings.syncCamera(...)
-	
-	camPos, eyePos = ...
-	
-end
-
 -- Host only instructions
 if not host:isHost() then return end
-
--- Sync on tick
-function events.TICK()
-	
-	if world.getTime() % 200 == 0 then
-		pings.syncCamera(camPos, eyePos)
-	end
-	
-end
 
 -- Required scripts
 local s, wheel, c = pcall(require, "scripts.ActionWheel")
@@ -203,13 +186,13 @@ a.posAct = cameraPage:newAction()
 	:item("skeleton_skull")
 	:toggleItem("player_head{SkullOwner:"..avatar:getEntityName().."}")
 	:onToggle(pings.setCameraPos)
-	:toggled(camPos)
+	:toggled(sync[camPos])
 
 a.eyeAct = cameraPage:newAction()
 	:item("ender_pearl")
 	:toggleItem("ender_eye")
 	:onToggle(pings.setCameraEye)
-	:toggled(eyePos)
+	:toggled(sync[eyePos])
 
 -- Update actions
 function events.RENDER(delta, context)
