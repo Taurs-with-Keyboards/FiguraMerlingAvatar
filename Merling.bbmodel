@@ -1,9 +1,11 @@
 {
 	"meta": {
 		"format_version": "5.0",
-		"model_format": "figura",
+		"model_format": "free",
 		"box_uv": false
 	},
+	"name": "Merling",
+	"model_identifier": "",
 	"visible_box": [1, 1, 0],
 	"variable_placeholders": "v.strength = slider(\"Strength\", 0.05, 1,  2)\nv.pitch    = slider(\"Pitch\",    0.5, -20, 20)\nv.yaw      = slider(\"Yaw\",      1,   -45, 45)\nv.roll     = slider(\"Roll\",     0.5, -20, 20)\nv.headY    = slider(\"HeadY\",    1,   -50, 50)\nv.shark    = toggle(\"Shark\")\nv.tail     = toggle(\"Tail\")\nv.legs     = toggle(\"Legs\")",
 	"multi_file_ruleset": "",
