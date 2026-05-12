@@ -224,10 +224,13 @@ function events.TICK()
 	end
 	
 	-- Determins when to stop twirl animaton
-	canTwirl = (waterTimer ~= 0 or effects.cF) and not (onGround or pose.sleep)
+	canTwirl = not ((largeTail and onGround) or pose.sleep)
 	if not canTwirl then
 		anims.twirl:stop()
 	end
+	
+	-- Twirl speed
+	anims.twirl:speed(waterTimer == 0 and 1 or 0.75)
 	
 	-- Arm variables
 	local handedness = player:isLeftHanded()

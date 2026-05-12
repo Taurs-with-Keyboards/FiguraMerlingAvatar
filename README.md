@@ -9,6 +9,7 @@ This Figura avatar is a template designed around giving the user a customizable 
 
 ### Credits:
 - Snqwblind
+- Irri
 - Dragonearuss
 - Jimmy
 - PoolloverNathan
