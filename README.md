@@ -17,7 +17,7 @@ This Figura avatar is a template designed around giving the user a customizable 
 ### Libraries:
 - Grandpa Scout (GSAnimBlend, GSCarrier)
 - Squishy (SquAPI)
-- Katt (OriginsAPI, KattArmor, DynamicCrosshair)
+- Katt (OriginsAPI, KattArmor)
 - 4P5 (GroundCheck)
 - Manuel (Molang Conversions)
 - Auria (Molang Conversions)
