@@ -5,10 +5,10 @@ local lerp  = require("lib.LerpAPI")
 local tail  = require("scripts.Tail")
 
 -- Synced variables setup
-local toggle  = sync.add(config:load("GlowToggle"), true)
-local dynamic = sync.add(config:load("GlowDynamic"), false)
-local water   = sync.add(config:load("GlowWater"), false)
-local unique  = sync.add(config:load("GlowUnique"), false)
+local toggle  = sync.new("GlowToggle", true):config()
+local dynamic = sync.new("GlowDynamic", false):config()
+local water   = sync.new("GlowWater", false):config()
+local unique  = sync.new("GlowUnique", false):config()
 
 -- Glowing parts
 local glowingParts = parts:createTable(function(part) return part:getName():find("_[gG]low") end)
@@ -19,7 +19,7 @@ for i, part in ipairs(glowingParts) do
 		part   = part,
 		splash = false,
 		timer  = 0,
-		glow   = lerp:new(sync[toggle] and 1 or 0)
+		glow   = lerp.new(toggle.curr and 1 or 0)
 	}
 	
 end
@@ -62,16 +62,16 @@ function events.TICK()
 	-- Toggle check
 	for _, index in ipairs(glowingParts) do
 		
-		if sync[toggle] and index.part:getVisible() then
+		if toggle.curr and index.part:getVisible() then
 			
 			-- Init apply
 			index.glow.target = 1
 			
 			-- Get pos
-			local pos = sync[unique] and index.part:getParent():partToWorldMatrix():apply() or player:getPos()
+			local pos = unique.curr and index.part:getParent():partToWorldMatrix():apply() or player:getPos()
 			
 			-- Light level check
-			if sync[dynamic] then
+			if dynamic.curr then
 				
 				-- Variable
 				local light = math.map(world.getLightLevel(pos), 0, 15, 1, 0)
@@ -82,12 +82,12 @@ function events.TICK()
 			end
 			
 			-- Water check
-			if sync[water] then
+			if water.curr then
 				
 				-- Variables
 				local wet = false
 				
-				if sync[unique] then
+				if unique.curr then
 					
 					-- Check fluid tags
 					local block = world.getBlockState(pos)
@@ -155,56 +155,38 @@ function events.RENDER(delta, context)
 	
 end
 
--- Glow toggle
-function pings.setGlowToggle(boolean)
-	
-	sync[toggle] = boolean
-	config:save("GlowToggle", sync[toggle])
-	if player:isLoaded() and sync[toggle] then
+-- Apply sound function
+toggle:applyFunc(function()
+	if player:isLoaded() and toggle.curr then
 		sounds:playSound("entity.glow_squid.ambient", player:getPos(), 0.75)
 	end
-	
-end
-
--- Dynamic toggle
-function pings.setGlowDynamic(boolean)
-	
-	sync[dynamic] = boolean
-	config:save("GlowDynamic", sync[dynamic])
-	if host:isHost() and player:isLoaded() and sync[dynamic] then
-		sounds:playSound("entity.generic.drink", player:getPos(), 0.35)
-	end
-	
-end
-
--- Water toggle
-function pings.setGlowWater(boolean)
-	
-	sync[water] = boolean
-	config:save("GlowWater", sync[water])
-	if host:isHost() and player:isLoaded() and sync[water] then
-		sounds:playSound("ambient.underwater.enter", player:getPos(), 0.35)
-	end
-	
-end
-
--- Unique toggle
-function pings.setGlowUnique(boolean)
-	
-	sync[unique] = boolean
-	config:save("GlowUnique", sync[unique])
-	
-end
+end)
 
 -- Host only instructions
 if not host:isHost() then return end
 
--- Keybinds
-local toggleKeybind = keybinds:newKeybind("Glow Toggle", "key.keyboard.keypad.4")
-	:onPress(function() pings.setGlowToggle(not sync[toggle]) end)
+-- Apply sound functions
+dynamic:applyFunc(function()
+	if player:isLoaded() and dynamic.curr then
+		sounds:playSound("entity.generic.drink", player:getPos(), 0.35)
+	end
+end)
+water:applyFunc(function()
+	if player:isLoaded() and water.curr then
+		sounds:playSound("ambient.underwater.enter", player:getPos(), 0.35)
+	end
+end)
 
--- Sync config keybinds
-sync.keybind(toggleKeybind, "GlowToggleKeybind")
+-- Required script
+local keybound = require("lib.Keybound")
+
+-- Setup keybind
+local toggleKeybind = keybound.new(
+	keybinds
+		:newKeybind("Glow Toggle", "key.keyboard.keypad.4")
+		:onPress(function() toggle:update(not toggle.curr) end),
+	"GlowToggleKeybind"
+)
 
 -- Required script
 local s, wheel, c = pcall(require, "scripts.ActionWheel")
@@ -225,24 +207,32 @@ a.pageAct = parentPage:newAction()
 a.toggleAct = glowPage:newAction()
 	:item("ink_sac")
 	:toggleItem("glow_ink_sac")
-	:onToggle(pings.setGlowToggle)
+	:onToggle(function(bool)
+		toggle:update(bool)
+	end)
 
 a.dynamicAct = glowPage:newAction()
 	:item("light")
-	:onToggle(pings.setGlowDynamic)
-	:toggled(sync[dynamic])
+	:onToggle(function(bool)
+		dynamic:update(bool)
+	end)
+	:toggled(dynamic.curr)
 
 a.waterAct = glowPage:newAction()
 	:item("bucket")
 	:toggleItem("water_bucket")
-	:onToggle(pings.setGlowWater)
-	:toggled(sync[water])
+	:onToggle(function(bool)
+		water:update(bool)
+	end)
+	:toggled(water.curr)
 
 a.uniqueAct = glowPage:newAction()
 	:item("prismarine_shard")
 	:toggleItem("prismarine_crystals")
-	:onToggle(pings.setGlowUnique)
-	:toggled(sync[unique])
+	:onToggle(function(bool)
+		unique:update(bool)
+	end)
+	:toggled(unique.curr)
 
 -- Update actions
 function events.RENDER(delta, context)
@@ -263,7 +253,7 @@ function events.RENDER(delta, context)
 					{text = "This feature has a tendency to not work correctly.\nDue to the rendering properties of emissives, the tail may not glow.\nIf it does not work, please reload the avatar. Rinse and Repeat.\nThis is the only fix, I have tried everything.\n\n- Total", color = "red"}
 				}
 			))
-			:toggled(sync[toggle])
+			:toggled(toggle.curr)
 		
 		a.dynamicAct
 			:title(toJson(
