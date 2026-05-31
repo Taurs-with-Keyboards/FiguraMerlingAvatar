@@ -19,7 +19,7 @@ This Figura avatar is a template designed around giving the user a customizable 
 - Squishy (SquAPI)
 - Katt (OriginsAPI, KattArmor)
 - 4P5 (GroundCheck)
-- Manuel (Molang Conversions)
+- Manuel (Molang Conversions, OriginsAPI)
 - Auria (Molang Conversions)
 
 ## Features

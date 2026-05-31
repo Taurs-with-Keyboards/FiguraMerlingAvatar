@@ -1,66 +1,75 @@
----v1.0.1
+---v1.1.0
+---Author: kitcat962
+---Maintainers: manuel_2867
 
 local originsAPI = {}
----@alias Origin {Origin:string,Layer:string}
----@alias OriginPower {Type:string,Sources:string[],Data:OriginPowerData}
 ---@alias OriginPowerData unknown
 
 ---Checks if the given player has the given origin.
----@param playr PlayerAPI The Player to check
+---@param playr Player The Player to check
 ---@param origin string The originID to check
 ---@param originLayer? string Optionally, only return true if the origin is from this layer
 ---@return boolean
 function originsAPI.hasOrigin(playr, origin, originLayer)
   local nbt=playr:getNbt()
-  local origins = nbt.cardinal_components and nbt.cardinal_components["origins:origin"] and
-      nbt.cardinal_components["origins:origin"].OriginLayers --[[@as Origin[] ]]
+  local origins = nbt.cardinal_components and nbt.cardinal_components["origins:origin"] and nbt.cardinal_components["origins:origin"].OriginLayers -- fabric
+    or nbt.ForgeCaps and nbt.ForgeCaps["origins:origins"] and nbt.ForgeCaps["origins:origins"].Origins -- forge
+    or nbt["neoforge:attachments"] and nbt["neoforge:attachments"]["origins:entity_origin"] and nbt["neoforge:attachments"]["origins:entity_origin"].origins -- neoforge
   if not origins then return false end
-  for _, _origin in ipairs(origins) do
-    if _origin.Origin == origin and (_origin.Layer == originLayer or originLayer == nil) then
+  for layer, _origin in pairs(origins) do
+    if type(_origin) == "string" then -- forge, neoforge
+      if _origin == origin and (layer == originLayer or originLayer == nil) then
+        return true
+      end
+    elseif _origin.Origin == origin and (_origin.Layer == originLayer or originLayer == nil) then -- fabric
       return true
     end
   end
   return false
 end
 
----Checks if the given player has the given power.
----@param playr PlayerAPI The Player to check
----@param power string The powerID to check
----@param powerSource? string Optionally, only return true if the power has this source
----@return boolean
-function originsAPI.hasPower(playr, power, powerSource)
+---Gets the power data for all powers of this player.
+---Uses a good amount of instructions, so make sure to only call this function once (per tick) and then lookup any information you need from the table it returns.
+---@param playr Player The Player to get the power data from
+---@param powerSource? string Optionally, only get the power data if the power has this source
+---@return table<string,OriginPowerData> Returns a table with the power names as the keys and the power data as the values. Power data format can vary between modloader versions. I recommend using printTable to figure out the format of a certain power.
+function originsAPI.getPowerData(playr, powerSource)
   local nbt=playr:getNbt()
-  local powers = nbt.cardinal_components and nbt.cardinal_components["apoli:powers"] and
-      nbt.cardinal_components["apoli:powers"].Powers --[[@as OriginPower[] ]]
-  if not powers then return false end
-  for _, _power in ipairs(powers) do
-    if _power.Type == power then
-      if not powerSource then return true end
-      for _, _source in ipairs(_power.Sources) do
-        if _source == powerSource then
-          return true
+  local powers = nbt.cardinal_components and nbt.cardinal_components["apoli:powers"] and nbt.cardinal_components["apoli:powers"].Powers -- fabric
+    or nbt.ForgeCaps and nbt.ForgeCaps["apoli:powers"] and nbt.ForgeCaps["apoli:powers"].Powers -- forge
+    or nbt["neoforge:attachments"] and nbt["neoforge:attachments"]["origins:entity_origin"] and nbt["neoforge:attachments"]["origins:entity_origin"].powers -- neoforge
+  if not powers then return {} end
+  local lookup = {}
+  if client:getClientBrand() == "neoforge" then
+    -- neoforge
+    local components = nbt["neoforge:attachments"]["origins:entity_origin"].components
+    if components then
+      for source, _powers in pairs(powers) do
+        if powerSource == nil or powerSource == source then
+          for _, power in ipairs(_powers) do
+            lookup[power] = components[power]
+          end
         end
       end
     end
-  end
-  return false
-end
-
----Gets the resource data from the given power.
----@param playr PlayerAPI The Player to get the resource data from
----@param power string The power to get the power data from
----@param powerSource? string Optionally, only get the power data if the power has this source
----@return OriginPowerData?
-function originsAPI.getPowerData(playr, power, powerSource)
-  if not originsAPI.hasPower(playr, power, powerSource) then return end
-  local nbt=playr:getNbt()
-  local powers = nbt.cardinal_components and nbt.cardinal_components["apoli:powers"] and
-      nbt.cardinal_components["apoli:powers"].Powers --[[@as OriginPower[] ]]
-  for _, _power in ipairs(powers) do
-    if _power.Type == power then
-      return _power.Data
+  else
+    -- forge, fabric
+    for _, power in ipairs(powers) do
+      local allowed = powerSource == nil
+      if not allowed then
+        for _, source in ipairs(power.Sources) do
+          if source == powerSource then
+            allowed = true
+            break
+          end
+        end
+      end
+      if allowed then
+        lookup[power.Type] = power.Data
+      end
     end
   end
+  return lookup
 end
 
 return originsAPI
