@@ -27,7 +27,7 @@ function events.TICK()
 		
 		-- Origins check
 		if power.curr then
-			eyes.target = origins.getPowerData(player, "origins:water_vision") == 1 and eyes.target or 0
+			eyes.target = origins.getPowerData(player)["origins:water_vision"] == 1 and eyes.target or 0
 		end
 		
 		-- Night Vision check
