@@ -4,7 +4,7 @@ local effects = require("scripts.SyncedVariables")
 local pose    = require("scripts.Posing")
 
 -- Synced variable setup
-local bubbles = sync.add(config:load("WhirlpoolState"), 2)
+local bubbles = sync.new("WhirlpoolState", 2):config()
 
 -- Bubble state table
 --[[
@@ -35,25 +35,21 @@ function events.TICK()
 	if avatar:getPermissionLevel() ~= "MAX" and world.getTime() % 2 == 0 then return end
 	
 	-- Spawn bubbles
-	if bubbleTypes[sync[bubbles]]() and pose.swim and player:isInWater() then
+	if bubbleTypes[bubbles.curr]() and pose.swim and player:isInWater() then
 		spawnBubbles()
-	end
-	
-end
-
--- Set Bubbles type
-function pings.setWhirlpoolBubbles(i)
-	
-	sync[bubbles] = ((sync[bubbles] + i - 1) % #bubbleTypes) + 1
-	config:save("WhirlpoolState", sync[bubbles])
-	if host:isHost() and player:isLoaded() and sync[bubbles] ~= 1 then
-		sounds:playSound(sync[bubbles] == 2 and "entity.dolphin.ambient" or "block.bubble_column.upwards_inside", player:getPos(), 0.35)
 	end
 	
 end
 
 -- Host only instructions
 if not host:isHost() then return end
+
+-- Apply sound function
+bubbles:applyFunc(function()
+	if player:isLoaded() and bubbles.curr ~= 1 then
+		sounds:playSound(bubbles.curr == 2 and "entity.dolphin.ambient" or "block.bubble_column.upwards_inside", player:getPos(), 0.35)
+	end
+end)
 
 -- Required scripts
 local s, wheel, c = pcall(require, "scripts.ActionWheel")
@@ -66,11 +62,16 @@ local parentPage = action_wheel:getPage("Tail") or action_wheel:getPage("Main")
 -- Actions table setup
 local a = {}
 
+-- Set tail type
+local function setWhirlpoolBubbles(x)
+	return ((bubbles.curr + x - 1) % #bubbleTypes) + 1
+end
+
 -- Action
 a.bubbleAct = parentPage:newAction()
-	:onLeftClick(function() pings.setWhirlpoolBubbles(1) end)
-	:onRightClick(function() pings.setWhirlpoolBubbles(-1) end)
-	:onScroll(pings.setWhirlpoolBubbles)
+	:onLeftClick(function() bubbles:update(setWhirlpoolBubbles(1)) end)
+	:onRightClick(function() bubbles:update(setWhirlpoolBubbles(-1)) end)
+	:onScroll(function(x) bubbles:update(setWhirlpoolBubbles(x), 20) end)
 
 -- Water context info table
 local BubbleInfo = {
@@ -94,7 +95,7 @@ function events.RENDER(delta, context)
 	
 	if action_wheel:isEnabled() then
 		
-		local actionSetup = BubbleInfo[sync[bubbles]]
+		local actionSetup = BubbleInfo[bubbles.curr]
 		a.bubbleAct
 			:title(toJson(
 				{
