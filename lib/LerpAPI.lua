@@ -8,7 +8,7 @@
 --         \ \__\ \ \_______\   \ \__\ \ \__\ \__\ \_______\
 --          \|__|  \|_______|    \|__|  \|__|\|__|\|_______|
 --
--- Version: 1.2.6
+-- Version: 1.2.8
 
 -- Create API
 local lerpAPI = {}
@@ -25,6 +25,11 @@ local lerpMeta = {
 	__type = "LerpObject"
 }
 
+-- Mass checker that errors if mass is 0
+local function massCheck(val)
+	return val == 0 and error("\n\n§6Mass cannot be 0.\n§c", 3) or val
+end
+
 -- Create a lerp object
 function lerpAPI.new(pos, stiff, damp, mass)
 	
@@ -36,17 +41,14 @@ function lerpAPI.new(pos, stiff, damp, mass)
 			currTick = pos,
 			target   = pos,
 			currPos  = pos,
-			vel      = 0,
+			vel      = type(pos) ~= "number" and pos:copy():reset() or 0,
 			stiff    = stiff or 0.2,
 			damp     = damp or 1,
-			mass     = mass or 1,
+			mass     = massCheck(mass) or 1,
 			enabled  = true
 		},
 		lerpMeta
 	)
-	
-	-- Checks if mass is set to 0
-	if mass == 0 then error("\n\n§6Mass cannot be 0.\n§c", 2) end
 	
 	-- Add object to list
 	lerps[obj] = obj
@@ -58,33 +60,37 @@ end
 
 -- Iterate through the lerps to set the next tick of each lerp
 events.TICK:register(function()
-	for _, obj in pairs(lerps) do
-		if obj.enabled then
-			
-			-- Reset ticks
-			obj.prevTick = obj.currTick
-			
-			-- Calc
-			local fSpring = -obj.stiff * (obj.currTick - obj.target)
-			local fDamp   = -obj.damp * obj.vel
-			local acc     = (fSpring + fDamp) / obj.mass
-			
-			-- Apply
-			obj.vel = obj.vel + acc
-			obj.currTick = obj.currTick + obj.vel
-			
+	if not client:isPaused() then
+		for _, obj in pairs(lerps) do
+			if obj.enabled then
+				
+				-- Reset ticks
+				obj.prevTick = obj.currTick
+				
+				-- Calc
+				local fSpring = -obj.stiff * (obj.currTick - obj.target)
+				local fDamp   = -obj.damp * obj.vel
+				local acc     = (fSpring + fDamp) / obj.mass
+				
+				-- Apply
+				obj.vel = obj.vel + acc
+				obj.currTick = obj.currTick + obj.vel
+				
+			end
 		end
 	end
 end, "lerpTick")
 
 -- Iterate through the lerps to smooth the lerp each frame
 events.RENDER:register(function(delta, context)
-	for _, obj in pairs(lerps) do
-		if obj.enabled then
-			
-			-- Apply
-			obj.currPos = math.lerp(obj.prevTick, obj.currTick, delta)
-			
+	if not client:isPaused() then
+		for _, obj in pairs(lerps) do
+			if obj.enabled then
+				
+				-- Apply
+				obj.currPos = math.lerp(obj.prevTick, obj.currTick, delta)
+				
+			end
 		end
 	end
 end, "lerpRender")
@@ -170,8 +176,7 @@ function lerpInternal:setMass(val)
 		Cannot have a mass of 0, otherwise divide by 0 errors will occur
 		You can *still* do 0 by changing it in field, but ur asking for issues at that point
 	--]] 
-	if val == 0 then error("\n\n§6Mass cannot be 0.\n§c", 2) end
-	self.mass = val
+	self.mass = massCheck(val)
 	
 	-- Return object
 	return self
