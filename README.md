@@ -1,5 +1,5 @@
 # [Merling Avatar](https://github.com/Taurs-with-Keyboards/FiguraMerlingAvatar)
-### Version: 3.9.0
+### Version: 3.10.0
 This Figura avatar is a template designed around giving the user a customizable merfolk tail.
 
 ### Authors:

@@ -2,24 +2,31 @@
 local parts = require("lib.PartsAPI")
 
 -- Variable setup
-local head = parts.group.Head
-
--- Offsets
--- The overall height of the nameplate pivot from the player pos is 2.3
--- 0.89282 was chosen because its the exact offset of the nameplate above the pivot point of the players head in world
-local headOffset = vec(0, 0.89282, 0)
-local offset = vec(0, 0, 0)
+local nameGroup = parts.group.Nameplate
+local namePivot = parts.group.NameplatePivot
+if not nameGroup then return end
 
 -- Head midRender event
 function events.ENTITY_INIT()
-	function head.midRender(delta)
+	function nameGroup.midRender(delta)
 		
-		-- Get positions
-		local mat = head:partToWorldMatrix()
+		-- Variables
 		local pos = player:getPos(delta)
+		local groupPos = nameGroup:partToWorldMatrix():apply()
+		local offset = (groupPos - pos) - (vanilla_model.HEAD:getOriginPos() / 32)
 		
 		-- Apply
-		nameplate.ENTITY:pivot((mat:apply() - pos) + headOffset + offset)
+		nameplate.ENTITY:pivot(offset)
+		
+		-- Kill function early if the namePivot isnt found
+		if not namePivot then return end
+		
+		-- Get pose
+		local pose = player:getPose()
+		
+		-- If any pose that rotates, rotate the pivot to match, and slightly raise pivot
+		namePivot:offsetRot((pose ~= "STANDING" and pose ~= "CROUCHING") and player:getRot(delta).x__ + vec(90 * (pose == "SLEEPING" and -1 or 1), 0, 0) or nil)
+		nameplate.ENTITY:pivot(nameplate.ENTITY:getPivot() + ((pose ~= "STANDING" and pose ~= "CROUCHING") and vec(0, 0.1, 0) or 0))
 		
 	end
 end
