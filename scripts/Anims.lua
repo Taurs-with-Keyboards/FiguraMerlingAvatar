@@ -37,6 +37,8 @@ v.legs = 1
 
 -- Variables
 local waterTimer = 0
+local groundTimer = 0
+local jump     = 0.0
 local canTwirl = false
 
 -- Arms setup
@@ -105,25 +107,65 @@ function events.TICK()
 	local bodyYaw = player:getBodyYaw()
 	local dir = vec(math.sin(math.rad(-bodyYaw)), 0, math.cos(math.rad(-bodyYaw)))
 	local onGround = ground()
-	
+	if not (player:isInWater() or player:isInLava()) then
+		-- Not sure when misfires player:isOnGround() under water. Otherwise, it's likely to be true when the entity cannot fall down
+		onGround = onGround or player:isOnGround()
+	end
+
+	local isRidingChainConveyor = false
+	if player.isRidingChainConveyor ~= nil then
+		isRidingChainConveyor = player:isRidingChainConveyor()
+	end
+
 	-- Timer settings
 	if player:isInWater() or player:isInLava() then
 		waterTimer = 20
 	else
 		waterTimer = math.max(waterTimer - 1, 0)
 	end
-	
+
+	if onGround then
+		jump = 0.0
+		groundTimer = 12
+	else
+		if groundTimer == 12 then
+			jump = vel.y
+		end
+		groundTimer = math.max(groundTimer - 1, 0)
+		-- Transition to mid-air 'swim' animation
+		-- 0.52 is value that avoid firing by pushing up by vanilla piston
+		if vel.y > 0.52 or (jump <= 0.0 and vel.y < -0.08) or (jump > 0.0 and vel.y < -jump * 0.8) then
+			if vel.y > 0.0 then
+				if groundTimer > 1 then
+					groundTimer = isCrawl and 0 or 1
+				end
+			elseif groundTimer > 3 then
+				groundTimer = 3
+			end
+		end
+	end
+
 	-- Animation variables
-	local largeTail = tail.isLarge
-	local smallTail = tail.isSmall
-	local groundAnim = (onGround or waterTimer == 0) and not (pose.swim or pose.elytra or pose.crawl or pose.climb or pose.spin or pose.sleep or player:getVehicle() or effects.cF)
-	
+	local largeTail  = tail.isLarge
+	local smallTail  = tail.isSmall
+	local groundAnim = (onGround or waterTimer == 0) and not (pose.swim or pose.elytra or pose.crawl or pose.climb or pose.spin or pose.sleep or player:getVehicle() or effects.cF or isRidingChainConveyor or groundTimer == 0)
+
 	-- Directional velocity
 	local fbVel = vel:dot((dir.x_z):normalized())
 	local lrVel = vel:crossed(dir.x_z:normalized()).y
 	local udVel = vel.y
 	local diagCancel = math.abs(lrVel) - math.abs(fbVel)
-	
+
+	-- Motion velocity (for walking on ground or entity)
+	local mot = player:getNbt().Motion
+	local motX = mot[1]
+	local motZ = mot[3]
+	local motXZ = vectors.vec3(motX, 0.0, motZ):scale(1.8316) -- Motion value returns 0.11785 bpt max on walking on normal blocks, scale to 0.21585 bpt (4.317 m/s)
+	--printTable({player:getVelocity(), motX, motZ, motXZ})
+	local fbVelW = motXZ:dot((dir.x_z):normalize())
+	local lrVelW = motXZ:cross(dir.x_z:normalize()).y
+	velW = vectors.vec2(fbVelW, lrVelW)
+
 	-- Static yaw
 	staticYaw = math.clamp(staticYaw, bodyYaw - 45, bodyYaw + 45)
 	staticYaw = math.lerp(staticYaw, bodyYaw, onGround and math.clamp(vel:length(), 0, 1) or 0.25)
@@ -131,8 +173,8 @@ function events.TICK()
 	
 	-- Speed control
 	local speed     = player:getVehicle() and 1 or math.min(vel:length() * 3, 3) + 1
-	local landSpeed = math.clamp(fbVel * 6 + (fbVel < -0.05 and -0.5 or 0.5), -6, 6)
-	
+	local landSpeed = math.clamp(fbVelW < -0.05 and math.min(fbVelW, math.abs(lrVelW)) * 6 - 0.5 or math.max(fbVelW, math.abs(lrVelW)) * 6 + 0.5, -6, 6)
+
 	-- Animation speeds
 	anims.swim:speed(speed)
 	anims.stand:speed(landSpeed)
@@ -141,8 +183,8 @@ function events.TICK()
 	anims.ears:speed(speed)
 	
 	-- Strength control
-	strength.target = player:getVehicle() and 1 or math.clamp((groundAnim and vel.xz or vel):length() * 2 + 1, 1, 2)
-	
+	strength.target = player:getVehicle() and 1 or math.clamp((groundAnim and velW or vel):length() * 2 + 1, 1, 2)
+
 	-- Axis controls
 	-- X axis control
 	if pose.elytra then
@@ -155,7 +197,7 @@ function events.TICK()
 		-- Assumed climbing
 		pitch.target = 0
 		
-	elseif (pose.swim or waterTimer == 0) and not effects.cF then
+	elseif (pose.swim or waterTimer == 0 and groundTimer > 0) and not (effects.cF or isRidingChainConveyor) then
 		
 		-- While "swimming" or outside of water
 		pitch.target = math.clamp(-udVel * 40 * -(math.abs(player:getLookDir().y * 2) - 1), -20, 20)
@@ -195,7 +237,7 @@ function events.TICK()
 	mountFlipLerp.target = mountFlip.curr and 1 or -1
 	
 	-- Animation states
-	local swim      = ((not onGround and waterTimer ~= 0) or (smallTail or pose.climb or pose.swim or pose.crawl or pose.elytra or player:getVehicle()) or effects.cF) and not pose.sleep
+	local swim      = ((not onGround and waterTimer ~= 0) or (smallTail or pose.climb or pose.swim or pose.crawl or pose.elytra or player:getVehicle()) or effects.cF or isRidingChainConveyor or groundTimer == 0) and not pose.sleep
 	local stand     = largeTail and not isCrawl.curr and groundAnim
 	local crawl     = largeTail and     isCrawl.curr and groundAnim
 	local small     = smallTail and not (pose.swim or pose.crawl or pose.elytra)
@@ -224,7 +266,7 @@ function events.TICK()
 	end
 	
 	-- Determins when to stop twirl animaton
-	canTwirl = not ((largeTail and onGround) or pose.sleep)
+	canTwirl = isRidingChainConveyor or not ((largeTail and onGround) or pose.sleep or groundTimer > 0)
 	if not canTwirl then
 		anims.twirl:stop()
 	end
