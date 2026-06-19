@@ -45,9 +45,7 @@ local rightArmLerp = lerp.new(armsMove.curr and 1 or 0, 0.5)
 
 -- Gets the origin rotation of a part, clamped
 local function getOriginRot(part, delta)
-	
 	return (vanilla_model[part]:getOriginRot(delta) + 180) % 360 - 180
-	
 end
 
 -- Parrot pivots
