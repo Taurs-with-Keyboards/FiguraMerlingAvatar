@@ -62,7 +62,9 @@ local function cameraReset()
 		:crosshairOffset(nil)
 	
 	-- Show head
-	parts.group.Head:visible(true)
+	parts.group.Head
+		:visible(true)
+		:opacity(1)
 	
 end
 
@@ -117,7 +119,11 @@ function events.RENDER(delta, context)
 				:crosshairOffset(not allowEye.curr and crossLerp.currPos or nil)
 			
 			-- Hide head
-			parts.group.Head:visible(not (renderer:isFirstPerson() and (context == "OTHER" or context == "RENDER")))
+			local headVisible = not (renderer:isFirstPerson() and (context == "OTHER" or context == "RENDER"))
+			local shader = client:hasShaderPack()
+			parts.group.Head
+				:visible(shader or headVisible)
+				:opacity(shader and (headVisible and 1 or 0) or 1)
 			
 		else
 			
