@@ -29,6 +29,7 @@ local scale = {
 
 -- Data sent to other scripts
 local tailData = {
+	type    = tailType,
 	isLarge = tailTimer >  (dryTimer.curr * legsForm.curr),
 	isSmall = tailTimer <= (dryTimer.curr * legsForm.curr) and scale.tail.currTick > 0.01,
 	dry     = dryTimer.curr,
@@ -181,7 +182,7 @@ local keybound = require("lib.Keybound")
 local tailKeybind = keybound.new(
 	keybinds
 		:newKeybind("Tail Sensitivity Type", "key.keyboard.keypad.1")
-		:onPress(function() tailType:update((tailType.curr % #waterTypes) + 1) end),
+		:onPress(function() if not tailData.locked then tailType:update((tailType.curr % #waterTypes) + 1) end end),
 	"TailTypeKeybind"
 )
 local earsKeybind = keybound.new(
@@ -217,9 +218,9 @@ acts.tailPage = parentPage:newAction()
 	:onLeftClick(function() pageNav.descend(tailPage) end)
 
 acts.tailStyle = tailPage:newAction()
-	:onLeftClick(function() tailType:update(setSensitivityType(tailType.curr, 1)) end)
-	:onRightClick(function() tailType:update(setSensitivityType(tailType.curr, -1)) end)
-	:onScroll(function(x) tailType:update(setSensitivityType(tailType.curr, x), 20) end)
+	:onLeftClick(function() if not tailData.locked then tailType:update(setSensitivityType(tailType.curr, 1)) end end)
+	:onRightClick(function() if not tailData.locked then tailType:update(setSensitivityType(tailType.curr, -1)) end end)
+	:onScroll(function(x) if not tailData.locked then tailType:update(setSensitivityType(tailType.curr, x), 20) end end)
 
 acts.earsStyle = tailPage:newAction()
 	:onLeftClick(function() earsType:update(setSensitivityType(earsType.curr, 1)) end)
@@ -293,7 +294,12 @@ local waterInfo = {
 		title = {label = {text = "Max", color = "blue"}, text = "Always active."},
 		item  = "dragon_breath",
 		color = "5555FF"
-	}
+	},
+	{
+		title = {label = {text = "Locked!", color = "gold"}, text = "Currently overwritten by: "},
+		item  = "experience_bottle",
+		color = "FFAA00"
+	},
 }
 
 -- Creates a clock string
@@ -319,7 +325,7 @@ function events.RENDER(delta, context)
 			))
 			:hoverColor(colors.hover)
 		
-		local actionSetup = waterInfo[tailType.curr]
+		local actionSetup = waterInfo[tailData.locked and 6 or tailType.curr]
 		acts.tailStyle
 			:title(toJson(
 				{
@@ -329,7 +335,7 @@ function events.RENDER(delta, context)
 					{text = "Current configuration: ", bold = true, color = colors.secondary},
 					{text = actionSetup.title.label.text, color = actionSetup.title.label.color},
 					{text = " | "},
-					{text = actionSetup.title.text, color = colors.secondary}
+					{text = actionSetup.title.text..(tailData.locked or ""), color = colors.secondary}
 				}
 			))
 			:color(vectors.hexToRGB(actionSetup.color))
